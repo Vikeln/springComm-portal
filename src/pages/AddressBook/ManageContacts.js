@@ -1,5 +1,6 @@
 /* global $ */
 
+
 import React, { Component } from 'react';
 
 
@@ -7,17 +8,17 @@ import {
     Link
 } from "react-router-dom";
 
+import Notification from '../../components/notifications/Notifications';
 
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
-
+// import Modal from 'react-modal';
+import ReactModal from 'react-modal';
 import Loader from '../../components/loaders/Loader';
 
 import Badge from '../../components/notifications/Badge';
 
 import AddressBookService from '../../services/addressbook.service';
-
-
 export default class ManageContacts extends Component {
 
     constructor(props) {
@@ -25,14 +26,107 @@ export default class ManageContacts extends Component {
         super(props);
 
         this.state = {
+            showModal: false,
             viewUsers: true,
             value: this.props.value,
             users: [],
+            formData: {
+                id: null
+            },
             emailSuccessful: "",
             loading: false
 
         }
+        this.handleChange = this.handleChange.bind(this);
+        this.handleMessageSubmission = this.handleMessageSubmission.bind(this);
+        this.toggleView = this.toggleView.bind(this);
 
+    }
+
+    toggleView(event) {
+
+        $(".toggleMenu button").removeClass("active");
+        $(event.target).addClass("active");
+
+        this.setState({
+
+            defaultView: event.target.dataset.target,
+
+        }, () => {
+
+            if (this.state.defaultView == "createContacts") {
+
+
+
+                $(".createContact").parsley();
+            }
+
+        });
+
+        $(".view").hide();
+        $(".view." + event.target.dataset.target).show();
+
+
+    }
+    handleMessageSubmission(event) {
+
+        event.preventDefault();
+        const { formData } = this.state;
+
+        if ($(".createContact").parsley().isValid()) {
+
+            console.log(formData);
+            AddressBookService.createContact(formData).then(response => {
+                console.log(response.data);
+                if (response.data.status != "success") {
+                    confirmAlert({
+                        title: 'Error occurred',
+                        message: response.data.message,
+                        buttons: [
+                            {
+                                label: 'ok',
+                            }
+                        ]
+                    });
+                } else {
+                    confirmAlert({
+                        title: 'Contact creation Success!',
+                        message: 'Your contacts have been created succesfully.',
+                        buttons: [
+                            {
+                                label: 'Yes',
+                                onClick: () => window.location.href = "/dashboard/addressBook"
+                            }
+                        ]
+                    });
+
+                }
+
+            }).catch(error => {
+
+                confirmAlert({
+                    title: 'Error occurred',
+                    message: error.message,
+                    buttons: [
+                        {
+                            label: 'ok',
+                        }
+                    ]
+                });
+            });
+        }
+
+
+    }
+
+    handleChange(el) {
+        let inputName = el.target.name;
+        let inputValue = el.target.value;
+        let options = el.target.options;
+        let stateCopy = Object.assign({}, this.state);
+
+        stateCopy.formData[inputName] = inputValue;
+        this.setState(stateCopy);
     }
 
     async componentDidMount() {
@@ -41,6 +135,8 @@ export default class ManageContacts extends Component {
 
         //$("body").on("click",".enableUser",this.enableUser);
 
+        $(".view").hide();
+        $(".view:first").show();
 
     }
 
@@ -104,9 +200,11 @@ export default class ManageContacts extends Component {
 
     }
 
+
+
     render() {
 
-        const { users, viewUsers, loading } = this.state;
+        const { successfulSubmission, users, networkError, submissionMessage, products, loading } = this.state;
 
         return (
 
@@ -117,16 +215,30 @@ export default class ManageContacts extends Component {
 
                         <div className="page-title padding pb-0 ">
 
-                            <h2 className="text-md mb-0">Address Book</h2>
+                            <h2 className="text-md mb-0">My Contacts</h2>
 
                         </div>
 
 
-                        {viewUsers &&
-                            <div className="padding">
+                        <div className="padding">
 
+                            <div className="toggleMenu">
+                                <button
+                                    className="btn-primary"
+                                    onClick={this.toggleView}
+                                    data-target="viewall">View Contacts</button>
+                                <button
+                                    className="btn-primary"
+                                    onClick={this.toggleView}
+                                    data-target="createContacts">Add New Contact</button>
 
+                            </div>
 
+                            <div className="view viewall">
+
+                                <div id="toolbar">
+                                    <button id="trash" className="btn btn-icon btn-white i-con-h-a mr-1"><i className="i-con i-con-trash text-muted"><i></i></i></button>
+                                </div>
 
                                 <table
                                     className="table table-theme v-middle table-row"
@@ -195,14 +307,110 @@ export default class ManageContacts extends Component {
 
 
 
+                                {loading &&
+                                    <Loader type="circle" />
+                                }
                             </div>
-                        }{!viewUsers &&
-                            <div><p>You do not have permission to view this resource</p></div>
-                        }
 
-                        {loading &&
-                            <Loader type="circle" />
-                        }
+                            <div className="view createContacts">
+                                <form
+
+                                    className="createContact"
+                                    onSubmit={this.handleMessageSubmission}>
+                                    <div
+                                        className="row">
+                                        <div
+                                            className="col-12">
+                                            <div className="col-4">
+
+                                                <label>Contact</label>
+                                                <input
+                                                    type="text"
+                                                    name="phone"
+                                                    id="phone"
+                                                    className="form-control"
+                                                    data-parsley-required="true"
+                                                    data-parsley-minlength="12"
+                                                    data-parsley-maxlength="12"
+                                                    onChange={this.handleChange}
+                                                />
+
+                                            </div>
+                                            <div className="col-4">
+
+                                                <label>Contact Name</label>
+                                                <input
+                                                    type="text"
+                                                    name="name"
+                                                    id="name"
+                                                    className="form-control"
+                                                    data-parsley-required="true"
+                                                    onChange={this.handleChange}
+                                                />
+
+                                            </div>
+                                            <div className="col-4">
+
+                                                <label>Contact Email</label>
+                                                <input
+                                                    type="text"
+                                                    name="email"
+                                                    id="email"
+                                                    className="form-control"
+                                                    data-parsley-required="true"
+                                                    onChange={this.handleChange}
+                                                />
+
+                                            </div>
+                                            <div className="col-4">
+
+                                                <label>Contact Grouping</label>
+                                                <input
+                                                    type="text"
+                                                    name="group"
+                                                    id="group"
+                                                    className="form-control"
+                                                    data-parsley-required="true"
+                                                    onChange={this.handleChange}
+                                                />
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="row">
+
+                                        <div className="col-12 mr-auto">
+
+                                            <button
+                                                className="btn-primary"
+                                                type="submit">Save</button>
+
+                                            <button className="btn-primary" type="reset">Cancel</button>
+
+                                        </div>
+
+
+                                    </div>
+                                </form>
+
+                            </div>
+                            {successfulSubmission &&
+                                <Notification
+                                    type="success"
+                                    description={submissionMessage} />
+                            }
+
+                            {networkError &&
+                                <Notification
+                                    type="network"
+                                    description="Network Connection Issue, please check your internet connection and try again"
+                                />
+                            }
+
+
+
+                        </div>
+
 
 
                     </div>

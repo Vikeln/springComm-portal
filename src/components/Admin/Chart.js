@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { Bar } from 'react-chartjs-2';
 
-export default class ChartSummary extends Component {
+export default class Chart extends Component {
 
     constructor(props) {
 
@@ -60,7 +60,10 @@ export default class ChartSummary extends Component {
             default:
                 return (
                     <Bar data={chartData}
+                        width={50}
+                        height={50}
                         options={{
+                            maintainAspectRatio: false,
                             legend: {
                                 display: false
                             },
@@ -94,9 +97,9 @@ export default class ChartSummary extends Component {
 
             <>
                 {/* Summary Chart  */}
-                <div className="card summaryChart">
+                <div className="row">
 
-                    <div className="card-body">
+                    <div className="mx-auto col-sm-8">
 
                         <h4>{title}</h4>
 

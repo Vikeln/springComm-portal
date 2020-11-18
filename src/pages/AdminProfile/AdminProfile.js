@@ -22,6 +22,7 @@ import SummaryIcon from '../../components/Admin/SummaryIcon';
 import Badge from '../../components/notifications/Badge';
 
 import Loader from '../../components/loaders/Loader';
+import Chart from '../../components/Admin/Chart';
 
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
@@ -42,6 +43,7 @@ export default class AdminProfile extends Component {
             users: [],
             loading: true,
             sentSms: "",
+            chartdata: "",
             scheduledSms: "",
             smsBalance: "",
             sentScheduledSms: "",
@@ -137,6 +139,75 @@ export default class AdminProfile extends Component {
             });
 
         });
+
+
+        CommunicationsService.getDashboardGraphData().then(response => {
+
+            if (response.data.status != "error") {
+
+                const data = {
+                    labels: ['Today', 'This Week', 'This Month', 'This Year'],
+                    datasets: [
+                        {
+                            label: 'SMS Usage',
+                            backgroundColor: '#ff901f',
+                            borderColor: '#AFD9FF',
+                            borderWidth: 1,
+                            hoverBackgroundColor: '#AFD9FF',
+                            hoverBorderColor: '#AFD9FF',
+                            data: [response.data.data.today, response.data.data.week, response.data.data.month, response.data.data.year]
+                        }
+                    ]
+                };
+
+
+
+                this.setState({
+                    chartdata: data,
+                    loading: false,
+                });
+
+                $('.table').bootstrapTable();
+
+
+            } else {
+
+                confirmAlert({
+                    title: 'Error occurred',
+                    message: response.data.message,
+                    buttons: [
+                        {
+                            label: 'ok',
+                        }
+                    ]
+                });
+
+                this.setState({
+                    loading: false,
+                });
+
+            }
+
+
+        }).catch(error => {
+
+            confirmAlert({
+                title: 'Error occurred',
+                message: error.message,
+                buttons: [
+                    {
+                        label: 'ok',
+                    }
+                ]
+            });
+
+            this.setState({
+                loading: false,
+            });
+
+        });
+
+
 
 
     }
@@ -325,7 +396,7 @@ export default class AdminProfile extends Component {
                                                     {sentScheduledSms != "" && <SummaryIcon
                                                         amount={utils.formatNumber(sentScheduledSms)}
                                                         title="Sent Scheduled SMS   "
-                                                        icon={faHourglass   }
+                                                        icon={faHourglass}
                                                     />}
                                                     {/* End Summary Icon*/}
                                                 </div>
@@ -342,9 +413,23 @@ export default class AdminProfile extends Component {
                                         {/* End Tab Content  */}
                                     </div>
                                 </div>
+                                {this.state.chartdata != "" &&
+                                    <div className="row">
+
+                                        <div className="col-sm-12 col-lg-12">
+                                            <Chart
+                                                title="My SMS Usage"
+                                                charttype="bar"
+                                                chartdata={this.state.chartdata}
+                                                secondaryTitle="Sent SMS graph" />
+
+                                        </div>
+                                    </div>
+                                }
 
 
                             </div>
+
                             {/* End Admin Summary */}
 
                         </div>

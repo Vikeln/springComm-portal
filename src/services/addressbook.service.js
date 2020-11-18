@@ -9,20 +9,27 @@ const baseUrl = "http://localhost:8080/";
 
 class AddressBookService {
 
-  
+
     getCustomerUploadFile() {
         return axiosInstance.get(bookUrl + "address-book/getContactsExcelTemplate");
 
     }
-     /*Create Contact upload method*/
-     createUploadContacts(formData) {
+
+
+    createContact(formData) {
+        return axiosInstance.post(bookUrl + "address-book", formData);
+    }
+
+
+    /*Create Contact upload method*/
+    createUploadContacts(formData) {
 
         return axiosInstance.post(bookUrl + "address-book/uploadContactsExcelFile", formData);
 
 
     }
-     /*Create Contact uploads*/
-     createContacts(formData) {
+    /*Create Contact uploads*/
+    createContacts(formData) {
 
         return axiosInstance.post(bookUrl + "address-book/batch", formData);
 

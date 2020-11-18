@@ -139,15 +139,29 @@ export default class SendMessages extends Component {
 
 
             } else {
-                confirmAlert({
-                    title: 'Error fetching your sources',
-                    message: response.data.message,
-                    buttons: [
-                        {
-                            label: 'ok',
-                        }
-                    ]
-                });
+                if (response.data.message == "No records found") {
+                    confirmAlert({
+                        title: 'Sadly You have no Sender registered yet.',
+                        message: "Click OK to go register one now",
+                        buttons: [
+                            {
+                                label: 'ok',
+                                onClick: () => window.location.href="/dashboard/mysenderIds"
+                            }
+                        ]
+                    });
+                }else{
+                    confirmAlert({
+                        title: 'Error fetching your sources',
+                        message: response.data.message,
+                        buttons: [
+                            {
+                                label: 'ok',
+                            }
+                        ]
+                    });
+                }
+                
             }
 
 

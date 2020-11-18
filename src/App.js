@@ -32,6 +32,7 @@ import SingleRole from './pages/Users/SingleRole';
 
 // Authentication Views
 import Login from './pages/Login/Login';
+import Register from './pages/Login/Register';
 import Logout from './pages/Login/Logout';
 import ResetPassword from './pages/ResetPassword/ResetPassword';
 import ForgotPassword from './pages/ResetPassword/ForgotPassword';
@@ -313,6 +314,10 @@ function Authentication() {
 
         <Route path='/auth/forgotpassword'>
           <ForgotPassword />
+        </Route>
+
+        <Route path='/auth/register'>
+          <Register />
         </Route>
 
         <Route>

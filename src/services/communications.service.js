@@ -16,10 +16,16 @@ class CommunicationsService {
         return axiosInstance.get(communicationUrl + "/sent-sms?start=" + date1 + "&end=" + date2);
 
     }
+    
     getDashboardData() {
 
-
         return axiosInstance.get(communicationUrl + "/sent-sms/my-smsdetails");
+
+    }
+
+    getDashboardGraphData() {
+
+        return axiosInstance.get(communicationUrl + "/sent-sms/my-sms-graph");
 
     }
 
