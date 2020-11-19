@@ -17,6 +17,7 @@ pipeline {
         }
         stage ('Build Jar File') {
             steps {
+              sh 'rm -r ./build'
               sh 'npm i'
               sh 'npm run build'
             }

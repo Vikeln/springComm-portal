@@ -1,10 +1,10 @@
 import { axiosInstance } from '../API';
 
 
-// const userUrl = "https://lb.mfs.co.ke:30334/users";
-const bookUrl = "http://localhost:8080/bridge/";
-// const baseUrl = "https://lb.mfs.co.ke:30334/";
-const baseUrl = "http://localhost:8080/";
+// const bookUrl = "http://localhost:8080/bridge/";
+const bookUrl = "http://10.38.83.54:30555/bridge/";
+// const baseUrl = "http://localhost:8080/";
+const baseUrl = "http://10.38.83.54:30555/";
 
 
 class AddressBookService {

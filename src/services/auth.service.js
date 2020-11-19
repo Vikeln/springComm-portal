@@ -3,7 +3,8 @@ import axios from 'axios';
 import jwt_decode from "jwt-decode";
 
 // const authUrl = "https://lb.mfs.co.ke:30334/auth";
-const authUrl = "http://localhost:8080/auth";
+// const authUrl = "http://localhost:8080/auth";
+const authUrl = "http://10.38.83.54:30555/auth";
 
 class AuthService {
 
