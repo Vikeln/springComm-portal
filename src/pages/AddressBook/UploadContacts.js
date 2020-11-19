@@ -291,7 +291,7 @@ export default class UploadContacts extends Component {
                                             </i>
                                         </span>Download Template</button> */}
 
-<a id="upload-download" href="http://localhost:8080/bridge/address-book/getContactsExcelTemplate" download="contactsUploadTemplate">
+<a id="upload-download" href="http://10.38.83.54:30555/bridge/address-book/getContactsExcelTemplate" download="contactsUploadTemplate">
 
 <button
                                                         className="btn-primary" id="uploadButtons"

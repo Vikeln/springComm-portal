@@ -622,6 +622,7 @@ export default class SendMessages extends Component {
                                             </select>
 
                                         </div>
+
                                         {selectFromAddressBook == "AddressBook" && <div className="col-8">
 
                                             <label>Recipients <em>*Use ctr on Windows / Command on Mac to select multiple</em></label>
@@ -680,7 +681,7 @@ export default class SendMessages extends Component {
                                                         className="btn-primary" id="uploadButtons"
                                                         onClick={this.downloadTemplate}
                                                     >
-                                                        <a id="upload-download" href="http://localhost:8080/bridge/address-book/getContactsExcelTemplate" download="contactsUploadTemplate">
+                                                        <a id="upload-download" href="http://10.38.83.54:30555/bridge/address-book/getContactsExcelTemplate" download="contactsUploadTemplate">
 
                                                             Download Template
                                                     </a>
