@@ -1,0 +1,43 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: mobiconnect-portal
+  name: mobiconnect-portal-deployment
+  namespace: mobiconnect
+spec:
+  selector:
+    matchLabels:
+      app: mobiconnect-portal
+  replicas: 1
+  minReadySeconds: 30
+  template:
+    metadata:
+      labels:
+        app: mobiconnect-portal
+    spec:
+      containers:
+        - name: mobiconnect-portal
+          image: ImageName
+          ports:
+            - containerPort: 80
+          imagePullPolicy: IfNotPresent
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mobiconnect-portal-service
+  namespace: mobiconnect
+  labels:
+    run: mobiconnect-portal-service
+spec:
+  type: NodePort
+  ports:
+    - name: mobiconnect-portal-port
+      port: 80
+      protocol: TCP
+      nodePort: 30556
+  selector:
+    app: mobiconnect-portal

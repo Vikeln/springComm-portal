@@ -281,7 +281,7 @@ export default class UploadContacts extends Component {
 
                                 <div className="col-7 secondaryActions">
 
-                                    <button
+                                    {/* <button
                                         className="btn-rounded upload-download"
                                     >
 
@@ -289,8 +289,19 @@ export default class UploadContacts extends Component {
                                             <i className="i-con i-con-download">
                                                 <i></i>
                                             </i>
-                                        </span>Download Template</button>
+                                        </span>Download Template</button> */}
 
+<a id="upload-download" href="http://localhost:8080/bridge/address-book/getContactsExcelTemplate" download="contactsUploadTemplate">
+
+<button
+                                                        className="btn-primary" id="uploadButtons"
+                                                        onClick={this.downloadTemplate}
+                                                    >
+                                                        
+Download Template
+                                                    </button>
+</a>
+  
                                     <button className="btn-rounded upload">
 
                                         <span className="">
