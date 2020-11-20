@@ -267,9 +267,9 @@ export default class EditRole extends Component {
                                                         <div
                                                             className="col-4 roleItem" key={index}>
                                                             <input
-                                                                checked={formData.permissions.includes(permission.id)}
+                                                                checked={formData.permissions.includes(permission.name)}
                                                                 type="checkbox" id={permission.name} name={permission.name}
-                                                                value={permission.id}
+                                                                value={permission.name}
                                                                 onChange={e => {
 
                                                                     const inputName = e.target.name;
@@ -286,14 +286,14 @@ export default class EditRole extends Component {
                                                                         //stateCopy.formData.permissions[inputName] = true;
                                                                         //permissions.push(parseInt(inputValue));
 
-                                                                        stateCopy.formData.permissions.push(parseInt(inputValue));
+                                                                        stateCopy.formData.permissions.push(inputValue);
 
                                                                     } else {
 
                                                                         //delete stateCopy.formData.permissions[inputName];
-                                                                        permissions.pop(parseInt(inputValue));
+                                                                        permissions.pop(inputValue);
 
-                                                                        stateCopy.formData.permissions.pop(parseInt(inputValue))
+                                                                        stateCopy.formData.permissions.pop(inputValue)
 
                                                                         //stateCopy.formData.permissions = permissions;
 

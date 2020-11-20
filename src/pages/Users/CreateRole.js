@@ -1,6 +1,6 @@
 /* global $ */
 
-import React,{Component} from 'react';
+import React, { Component } from 'react';
 import UserService from '../../services/user.service';
 
 import { confirmAlert } from 'react-confirm-alert';
@@ -9,22 +9,22 @@ import 'react-confirm-alert/src/react-confirm-alert.css';
 import Loader from '../../components/loaders/Loader';
 
 
-export default class CreateRole extends Component{
+export default class CreateRole extends Component {
 
-    constructor(props){
+    constructor(props) {
 
         super(props);
 
-        this.state ={
+        this.state = {
 
-            value:this.props.value,
-            formData:{
-                id:null,
-                permissions:[]
+            value: this.props.value,
+            formData: {
+                id: null,
+                permissions: []
             },
-            permissions:[],
-            permissionsReceived:false,
-            loading:false,
+            permissions: [],
+            permissionsReceived: false,
+            loading: false,
 
 
         }
@@ -35,14 +35,14 @@ export default class CreateRole extends Component{
 
     }
 
-    componentDidMount(){
+    componentDidMount() {
 
         $(".createUser").parsley();
         this.getPermissions();
 
     }
 
-    componentDidUnMount(){
+    componentDidUnMount() {
 
     }
 
@@ -63,44 +63,44 @@ export default class CreateRole extends Component{
 
     }
 
-    getPermissions(){
+    getPermissions() {
 
-        UserService.getAllPermissions().then( response => {
+        UserService.getAllPermissions().then(response => {
 
-            
 
-            if(response.data.status != "error"){
+
+            if (response.data.status != "error") {
 
                 this.setState({
-                    permissions:response.data.data,
-                    permissionsReceived:true
+                    permissions: response.data.data,
+                    permissionsReceived: true
                 });
 
-            }else{
+            } else {
 
                 confirmAlert({
-                  title: 'Error occurred',
-                  message: response.data.message,
-                  buttons: [
-                    {
-                      label: 'ok',
-                    }
-                  ]
+                    title: 'Error occurred',
+                    message: response.data.message,
+                    buttons: [
+                        {
+                            label: 'ok',
+                        }
+                    ]
                 });
 
             }
 
 
-        }).catch(error =>{
+        }).catch(error => {
 
             confirmAlert({
-              title: 'Error occurred',
-              message: error.message,
-              buttons: [
-                {
-                  label: 'ok',
-                }
-              ]
+                title: 'Error occurred',
+                message: error.message,
+                buttons: [
+                    {
+                        label: 'ok',
+                    }
+                ]
             });
 
         });
@@ -111,51 +111,51 @@ export default class CreateRole extends Component{
 
     handleRoleSubmission(event) {
 
-        const {formData} = this.state;
+        const { formData } = this.state;
 
         event.preventDefault();
 
-        if( $(".createUser").parsley().isValid() && formData.permissions
-.length > 0 ){
+        if ($(".createUser").parsley().isValid() && formData.permissions
+            .length > 0) {
 
             $('input[type="submit"],button[type="submit"]').hide();
 
             this.setState({
-                loading:true,
+                loading: true,
             });
 
             UserService.createUserRoles(formData).then(response => {
 
-                if(response.data.status == "success"){
+                if (response.data.status == "success") {
                     this.setState({
-                        loading:false,
+                        loading: false,
                     });
 
                     confirmAlert({
-                      title: 'Succesfully Added Role ',
-                      message: 'Please proceed.',
-                      buttons: [
-                        {
-                          label: 'Yes',
-                          onClick: () => window.location.href ="/dashboard/viewroles"
-                        }
-                      ]
+                        title: 'Succesfully Added Role ',
+                        message: 'Please proceed.',
+                        buttons: [
+                            {
+                                label: 'Yes',
+                                onClick: () => window.location.href = "/dashboard/viewroles"
+                            }
+                        ]
                     });
 
-                }else{
+                } else {
 
                     this.setState({
-                        loading:false,
+                        loading: false,
                     });
 
                     confirmAlert({
-                      title: 'Error occurred',
-                      message: response.data.message,
-                      buttons: [
-                        {
-                          label: 'ok',
-                        }
-                      ]
+                        title: 'Error occurred',
+                        message: response.data.message,
+                        buttons: [
+                            {
+                                label: 'ok',
+                            }
+                        ]
                     });
 
                     $('input[type="submit"],button[type="submit"]').show();
@@ -165,35 +165,35 @@ export default class CreateRole extends Component{
             }).catch(error => {
 
                 this.setState({
-                    networkError:true,
-                    loading:false
+                    networkError: true,
+                    loading: false
 
                 });
 
                 confirmAlert({
-                  title: 'Error occurred',
-                  message: error.message,
-                  buttons: [
-                    {
-                      label: 'ok',
-                    }
-                  ]
+                    title: 'Error occurred',
+                    message: error.message,
+                    buttons: [
+                        {
+                            label: 'ok',
+                        }
+                    ]
                 });
 
                 $('input[type="submit"],button[type="submit"]').show();
 
             });
 
-        }else{
+        } else {
 
             confirmAlert({
-              title: 'Select Permission',
-              message: 'Please select at least one permission',
-              buttons: [
-                {
-                  label: 'ok',
-                }
-              ]
+                title: 'Select Permission',
+                message: 'Please select at least one permission',
+                buttons: [
+                    {
+                        label: 'ok',
+                    }
+                ]
             });
 
         }
@@ -202,11 +202,11 @@ export default class CreateRole extends Component{
 
     }
 
-    render(){
+    render() {
 
-        const {permissions,permissionsReceived} = this.state;
+        const { permissions, permissionsReceived } = this.state;
 
-        return(
+        return (
 
             <>
                 <div id="content" className="flex ">
@@ -231,7 +231,7 @@ export default class CreateRole extends Component{
                                         id="name"
                                         className="form-control"
                                         data-parsley-required="true"
-                                        onChange={this.handleChange}/>
+                                        onChange={this.handleChange} />
                                 </div>
 
 
@@ -239,62 +239,62 @@ export default class CreateRole extends Component{
                                 {permissionsReceived != "" &&
 
                                     <>
-                                    <div className="col-12">
+                                        <div className="col-12">
 
-                                        <div className="row">
+                                            <div className="row">
 
-                                        {permissions != "" &&
+                                                {permissions != "" &&
 
-                                            permissions.map((permission,index) => (
+                                                    permissions.map((permission, index) => (
 
-                                                <div
-                                                    className="col-3 roleItem" key={index}>
-                                                    <input
+                                                        <div
+                                                            className="col-3 roleItem" key={index}>
+                                                            <input
 
-                                                        type="checkbox" id={permission.name} name={permission.name}
-                                                         value={permission.id}
-                                                         onChange={e => {
+                                                                type="checkbox" id={permission.name} name={permission.name}
+                                                                value={permission.name}
+                                                                onChange={e => {
 
-                                                             const inputName = e.target.name;
-                                                             const inputChecked = e.target.checked;
-                                                             const inputValue = e.target.value;
-                                                             //let permissions = [];
-
-                                                             
-
-                                                             let stateCopy = Object.assign({}, this.state);
-
-                                                             if(inputChecked){
-
-                                                                stateCopy.formData.permissions.push(parseInt(inputValue));
-
-                                                            }else{
-
-                                                                //delete stateCopy.formData.permissions[inputName];
-                                                                permissions.pop(parseInt(inputValue));
-
-                                                                stateCopy.formData.permissions.pop(parseInt(inputValue))
-
-                                                                //stateCopy.formData.permissions = permissions;
-
-                                                            }
+                                                                    const inputName = e.target.name;
+                                                                    const inputChecked = e.target.checked;
+                                                                    const inputValue = e.target.value;
+                                                                    //let permissions = [];
 
 
-                                                             this.setState(stateCopy);
 
-                                                             
-                                                         }}
-                                                        />
-                                                    <label htmlFor={permission.name}>{permission.name}</label>
-                                                </div>
+                                                                    let stateCopy = Object.assign({}, this.state);
 
-                                            ))
-                                        }
+                                                                    if (inputChecked) {
+
+                                                                        stateCopy.formData.permissions.push(inputValue);
+
+                                                                    } else {
+
+                                                                        //delete stateCopy.formData.permissions[inputName];
+                                                                        permissions.pop(parseInt(inputValue));
+
+                                                                        stateCopy.formData.permissions.pop(inputValue)
+
+                                                                        //stateCopy.formData.permissions = permissions;
+
+                                                                    }
+
+
+                                                                    this.setState(stateCopy);
+
+
+                                                                }}
+                                                            />
+                                                            <label htmlFor={permission.name}>{permission.name}</label>
+                                                        </div>
+
+                                                    ))
+                                                }
+                                            </div>
+
+
+
                                         </div>
-
-
-
-                                    </div>
                                     </>
                                 }
 
