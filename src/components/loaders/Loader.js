@@ -33,7 +33,7 @@ export default class Loaders extends Component{
             case 'circle':
 
                 return(
-                    <div className="loader">
+                    <div className="loader mr-auto">
                         <Loader
                              type="Oval"
                              color="#ff931e"

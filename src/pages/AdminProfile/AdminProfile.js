@@ -375,6 +375,10 @@ export default class AdminProfile extends Component {
                                                         icon={faHandHoldingUsd}
                                                     />}
 
+                                                    {(smsBalance == "" && sentSms == "" && scheduledSms == "" && sentScheduledSms == "") &&
+                                                        <div className="row"><div className="mr-auto col-4"><Loader type="circle" /></div>
+                                                        </div>}
+
                                                     {/* Summary Icon */}
                                                     {sentSms != "" && <SummaryIcon
                                                         amount={utils.formatNumber(sentSms)}
