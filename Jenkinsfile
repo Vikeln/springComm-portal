@@ -26,7 +26,7 @@ pipeline {
             
             steps {
                 sh ''' echo "RUNNING CODE ANALYSIS" '''
-                sh '/opt/sonar-cli/bin/sonar-scanner -Dsonar.projectKey=mobiconnect-portal -Dsonar.sources=. -Dsonar.host.url=http://10.38.83.165:9000 -Dsonar.login=1649b36304f0542c70b0ba49b859a07601b42048'
+                sh '/opt/sonar-cli/bin/sonar-scanner -Dsonar.projectKey=mobiconnect-portal -Dsonar.sources=. -Dsonar.host.url=http://10.38.83.165:9000 -Dsonar.login=43fa108a90ff22212472e18a23d806a119679483'
             }
         }
         stage('Build Docker Image'){
