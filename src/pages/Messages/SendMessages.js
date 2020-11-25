@@ -799,7 +799,9 @@ export default class SendMessages extends Component {
 
                                             <div className="col-4">
 
-                                                <label>Time to Send</label>
+                                                <label>Time to Send
+                                                    <small>(yyyy-mm-dd Hh:mm:ss)</small>
+                                                </label>
                                                 <div
                                                     className="row messageFilter">
 
@@ -884,7 +886,8 @@ export default class SendMessages extends Component {
 
                                             <div className="col-4">
 
-                                                <label>Time to Send</label>
+                                                <label>Time to Send
+                                                    <small>(yyyy-mm-dd Hh:mm:ss)</small></label>
                                                 <div
                                                     className="row messageFilter">
 
