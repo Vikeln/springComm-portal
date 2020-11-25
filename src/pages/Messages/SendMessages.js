@@ -146,11 +146,11 @@ export default class SendMessages extends Component {
                         buttons: [
                             {
                                 label: 'ok',
-                                onClick: () => window.location.href="/dashboard/mysenderIds"
+                                onClick: () => window.location.href = "/dashboard/mysenderIds"
                             }
                         ]
                     });
-                }else{
+                } else {
                     confirmAlert({
                         title: 'Error fetching your sources',
                         message: response.data.message,
@@ -161,7 +161,7 @@ export default class SendMessages extends Component {
                         ]
                     });
                 }
-                
+
             }
 
 
@@ -246,7 +246,7 @@ export default class SendMessages extends Component {
     // On file upload (click the upload button)
     onFileUpload() {
 
-        if (this.state.selectedFile != "") {    
+        if (this.state.selectedFile != "") {
 
             this.setState({
                 uploading: true
@@ -466,7 +466,7 @@ export default class SendMessages extends Component {
         }
         if (formData.recipient.length < 1) {
 
-                alert("Please set a recipient list");
+            alert("Please set a recipient list");
         }
 
 
@@ -476,7 +476,11 @@ export default class SendMessages extends Component {
             CommunicationsService.createMessage(formData).then(response => {
 
                 if (response.data.status != "error") {
-                    window.location.href = "/dashboard/messages";
+                    if (this.state.formData.sendOnce == "true") {
+                        window.location.href = "/dashboard/messages";
+                    } else {
+                        window.location.href = "/dashboard/scheduled-messages";
+                    }
 
                 } else {
                     confirmAlert({
@@ -725,31 +729,31 @@ export default class SendMessages extends Component {
                                         }
                                     </div>
 
-                                        {this.state.formData.sendFromTemplate == "true" && 
-                                    <div
-                                        className="col-12"><label>Message</label><textarea
-                                            name="message"
-                                            id="message"
-                                            value={message}
-                                            data-parsley-required="true"
-                                            data-parsley-trigger="keyup" data-parsley-minlength="20" data-parsley-maxlength="100"
-                                            onChange={this.handleChange}
-                                            cols=""
-                                            rows="">
-                                        </textarea>
-                                    </div>}
-                                        {this.state.formData.sendFromTemplate == "false" &&  
-                                    <div
-                                        className="col-12">                                       <label>Message</label><textarea
-                                            name="message"
-                                            id="message"
-                                            data-parsley-required="true"
-                                            data-parsley-trigger="keyup" data-parsley-minlength="20" data-parsley-maxlength="100"
-                                            onChange={this.handleChange}
-                                            cols=""
-                                            rows="">
-                                        </textarea>
-                                    </div>}
+                                    {this.state.formData.sendFromTemplate == "true" &&
+                                        <div
+                                            className="col-12"><label>Message</label><textarea
+                                                name="message"
+                                                id="message"
+                                                value={message}
+                                                data-parsley-required="true"
+                                                data-parsley-trigger="keyup" data-parsley-minlength="20" data-parsley-maxlength="100"
+                                                onChange={this.handleChange}
+                                                cols=""
+                                                rows="">
+                                            </textarea>
+                                        </div>}
+                                    {this.state.formData.sendFromTemplate == "false" &&
+                                        <div
+                                            className="col-12">                                       <label>Message</label><textarea
+                                                name="message"
+                                                id="message"
+                                                data-parsley-required="true"
+                                                data-parsley-trigger="keyup" data-parsley-minlength="20" data-parsley-maxlength="100"
+                                                onChange={this.handleChange}
+                                                cols=""
+                                                rows="">
+                                            </textarea>
+                                        </div>}
 
 
                                     <div className="col-4">

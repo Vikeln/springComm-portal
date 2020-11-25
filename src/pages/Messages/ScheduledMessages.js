@@ -296,6 +296,8 @@ export default class Messages extends Component {
                                         <th>Name</th>
                                         <th>Message</th>
                                         <th>Scheduled For</th>
+                                        <th>Schedule Frequency</th>
+                                        <th>Count</th>
                                         <th>Status </th>
                                     </tr>
                                 </thead>
@@ -325,6 +327,14 @@ export default class Messages extends Component {
 
                                                     <td>
                                                         <span className="text-muted">{utils.formatDateString(mes.scheduledDate)}</span>
+                                                    </td>
+
+                                                    <td>
+                                                        <span className="text-muted">{mes.frequency}</span>
+                                                    </td>
+
+                                                    <td>
+                                                        <span className="text-muted">{mes.freqCount}</span>
                                                     </td>
 
                                                     <td>
