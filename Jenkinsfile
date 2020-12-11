@@ -15,7 +15,7 @@ pipeline {
                 checkout scm
             }
         }
-        stage ('Build Jar File') {
+        stage ('Build Production Files') {
             steps {
               sh 'rm -r ./build'
               sh 'npm i'
