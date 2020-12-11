@@ -99,7 +99,7 @@ export default class Register extends Component {
             }
             if (response.data.status != "error") {
                 this.setState({
-                    credentialsError: "Your account has been setup successfully! We have sent you a link on your email to verufy your data.",
+                    credentialsError: "Your account has been setup successfully! We have sent you a link on your email to verify your data.",
                     loading: false,
                 });
             } else {

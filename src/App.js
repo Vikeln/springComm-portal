@@ -22,6 +22,7 @@ import ManageContacts from './pages/AddressBook/ManageContacts';
 
 
 import ManageSenders from './pages/Senders/ManageSenders';
+import Units from './pages/Unit/Units';
 
 
 // Role Management Views
@@ -229,7 +230,10 @@ function Dashboard(props) {
 
           {viewRole == true && <Route exact path="/dashboard/singlerole/:id" component={SingleRole}></Route>}
 
-
+          <Route exact path="/dashboard/transactions">
+              <Units />
+            </Route>
+ 
         
 
           {viewUsers == true ?

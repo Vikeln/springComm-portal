@@ -41,7 +41,7 @@ export default class AdminProfile extends Component {
 
         this.state = {
             users: [],
-            loading: true,
+            loading: false,
             sentSms: "",
             chartdata: "",
             scheduledSms: "",
@@ -99,10 +99,6 @@ export default class AdminProfile extends Component {
                     sentScheduledSms: response.data.data.sentScheduledSms,
                     loading: false,
                 });
-
-                $('.table').bootstrapTable();
-
-
             } else {
 
                 confirmAlert({
@@ -139,6 +135,7 @@ export default class AdminProfile extends Component {
             });
 
         });
+
 
 
         CommunicationsService.getDashboardGraphData().then(response => {
@@ -208,7 +205,9 @@ export default class AdminProfile extends Component {
         });
 
 
-
+        this.setState({
+            loading: false,
+        });
 
     }
 
@@ -406,7 +405,7 @@ export default class AdminProfile extends Component {
                                                 </div>
                                                 {/* 
                                                 <h3>Latest Loan Requests</h3> */}
-                                                {loading &&
+                                                {loading == true &&
                                                     <Loader type="circle" />
                                                 }
 

@@ -6,7 +6,7 @@ import {
 import authService from '../../services/auth.service';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUserCircle, faCommentDots, faPaperPlane, faTasks, faUser, faBook } from '@fortawesome/free-solid-svg-icons';
+import { faUserCircle, faCommentDots, faExchangeAlt, faPaperPlane, faTasks, faUser, faBook } from '@fortawesome/free-solid-svg-icons';
 
 
 export default class SideBar extends Component {
@@ -65,39 +65,47 @@ export default class SideBar extends Component {
 
                         <div className="flex scrollable hover">
                             <div className="nav-border b-primary" data-nav>
-<br></br>
+                                <br></br>
                                 {/* Sidebar Navigation */}
                                 <ul className="nav bg">
 
-                                    {viewLoan == true &&  viewUsers == true ?
+                                    {viewLoan == true && viewUsers == true ?
                                         <>
-                                        {/* <li className="nav-header hidden-folded">
+                                            {/* <li className="nav-header hidden-folded">
                                             <span>Main</span>
                                         </li> */}
 
-                                        <li className="nav-item">
-                                            <Link to="/dashboard/adminprofile">
+                                            <li className="nav-item">
+                                                <Link to="/dashboard/adminprofile">
 
-                                                <FontAwesomeIcon icon={faUserCircle} className="sidebarIcon" />
+                                                    <FontAwesomeIcon icon={faUserCircle} className="sidebarIcon" />
 
-                                                <span className="nav-text">Admin Profile</span>
-                                            </Link>
-                                        </li>
+                                                    <span className="nav-text">Admin Profile</span>
+                                                </Link>
+                                            </li>
 
-                                        <li className="nav-item">
-                                            <Link to="/dashboard/mysenderIds">
+                                            <li className="nav-item">
+                                                <Link to="/dashboard/mysenderIds">
 
-                                                <FontAwesomeIcon icon={faPaperPlane} className="sidebarIcon" />
+                                                    <FontAwesomeIcon icon={faPaperPlane} className="sidebarIcon" />
 
-                                                <span className="nav-text">My Senders</span>
-                                            </Link>
-                                        </li>
+                                                    <span className="nav-text">My Senders</span>
+                                                </Link>
+                                            </li>
                                         </>
-                                    :
+                                        :
 
-                                    ""}
+                                        ""}
+                                        <li className="nav-item">
+                                            <Link to="/dashboard/transactions">
 
-                                     {/* {viewOutbox == true || viewMessageTemplates == true  ?
+                                                <FontAwesomeIcon icon={faExchangeAlt} className="sidebarIcon" />
+
+                                                <span className="nav-text">Transactions</span>
+                                            </Link>
+                                        </li>
+
+                                    {/* {viewOutbox == true || viewMessageTemplates == true  ?
                                     <li className="nav-header hidden-folded">
                                         <span>Messages</span>
                                     </li>
@@ -158,103 +166,103 @@ export default class SideBar extends Component {
 
                                             </ul>
                                         </li>}
-                                        
-                                        
 
-                                {viewUsers &&
-                                    <>
-                                        {/* <li className="nav-header hidden-folded">
+
+
+                                    {viewUsers &&
+                                        <>
+                                            {/* <li className="nav-header hidden-folded">
                                             <span>Address Book</span>
                                         </li> */}
-                                    <li className="accordion">
-                                    <a href="#" className="i-con-h-a">
+                                            <li className="accordion">
+                                                <a href="#" className="i-con-h-a">
 
-                                        <FontAwesomeIcon icon={faBook} className="sidebarIcon" />
+                                                    <FontAwesomeIcon icon={faBook} className="sidebarIcon" />
 
-                                        <span className="nav-text">Address Book</span>
-                                        <span className="nav-caret"></span>
-                                    </a>
+                                                    <span className="nav-text">Address Book</span>
+                                                    <span className="nav-caret"></span>
+                                                </a>
 
-                                    <ul className="nav-sub">
+                                                <ul className="nav-sub">
 
 
 
-                                        {viewUsers &&
-                                            <li className="nav-item">
-                                                <Link to="/dashboard/addressBook/upload">
-                                                    <FontAwesomeIcon icon={faUser} className="sidebarIcon" />
-                                                    <span className="nav-text">Upload Contacts</span>
-                                                </Link>
-                                            </li>}
+                                                    {viewUsers &&
+                                                        <li className="nav-item">
+                                                            <Link to="/dashboard/addressBook/upload">
+                                                                <FontAwesomeIcon icon={faUser} className="sidebarIcon" />
+                                                                <span className="nav-text">Upload Contacts</span>
+                                                            </Link>
+                                                        </li>}
 
-                                        {createUsers &&
-                                            <li className="nav-item">
-                                                <Link to="/dashboard/addressBook">
-                                                    <FontAwesomeIcon icon={faUser} className="sidebarIcon" />
-                                                    <span className="nav-text">Manage Contacts</span>
-                                                </Link>
+                                                    {createUsers &&
+                                                        <li className="nav-item">
+                                                            <Link to="/dashboard/addressBook">
+                                                                <FontAwesomeIcon icon={faUser} className="sidebarIcon" />
+                                                                <span className="nav-text">Manage Contacts</span>
+                                                            </Link>
+                                                        </li>
+                                                    }
+                                                </ul>
                                             </li>
-                                        }
-                                    </ul>
-                                </li>
-                                </>
-                                }
+                                        </>
+                                    }
 
-                                {viewUsers &&
-                                    <>
-                                    {/* <li className="nav-header hidden-folded">
+                                    {viewUsers &&
+                                        <>
+                                            {/* <li className="nav-header hidden-folded">
                                         <span>Users</span>
                                     </li> */}
-                                    <li className="accordion">
-                                    <a href="#" className="i-con-h-a">
+                                            <li className="accordion">
+                                                <a href="#" className="i-con-h-a">
 
-                                        <FontAwesomeIcon icon={faUser} className="sidebarIcon" />
-
-                                        <span className="nav-text">Users</span>
-                                        <span className="nav-caret"></span>
-                                    </a>
-
-                                    <ul className="nav-sub">
-
-
-
-                                        {viewUsers &&
-                                            <li className="nav-item">
-                                                <Link to="/dashboard/users">
                                                     <FontAwesomeIcon icon={faUser} className="sidebarIcon" />
-                                                    <span className="nav-text">All Users</span>
-                                                </Link>
-                                            </li>}
 
-                                        {createUsers &&
-                                            <li className="nav-item">
-                                                <Link to="/dashboard/addusers">
-                                                    <FontAwesomeIcon icon={faUser} className="sidebarIcon" />
-                                                    <span className="nav-text">Add Users</span>
-                                                </Link>
+                                                    <span className="nav-text">Users</span>
+                                                    <span className="nav-caret"></span>
+                                                </a>
+
+                                                <ul className="nav-sub">
+
+
+
+                                                    {viewUsers &&
+                                                        <li className="nav-item">
+                                                            <Link to="/dashboard/users">
+                                                                <FontAwesomeIcon icon={faUser} className="sidebarIcon" />
+                                                                <span className="nav-text">All Users</span>
+                                                            </Link>
+                                                        </li>}
+
+                                                    {createUsers &&
+                                                        <li className="nav-item">
+                                                            <Link to="/dashboard/addusers">
+                                                                <FontAwesomeIcon icon={faUser} className="sidebarIcon" />
+                                                                <span className="nav-text">Add Users</span>
+                                                            </Link>
+                                                        </li>
+                                                    }
+
+                                                    {viewRoles &&
+                                                        <li className="nav-item">
+                                                            <Link to="/dashboard/viewroles">
+                                                                <FontAwesomeIcon icon={faUser} className="sidebarIcon" />
+                                                                <span className="nav-text">View Roles</span>
+                                                            </Link>
+                                                        </li>}
+
+                                                    {createRoles &&
+                                                        <li className="nav-item">
+                                                            <Link to="/dashboard/addroles">
+                                                                <FontAwesomeIcon icon={faUser} className="sidebarIcon" />
+                                                                <span className="nav-text">Add Roles</span>
+                                                            </Link>
+                                                        </li>}
+
+                                                </ul>
                                             </li>
-                                        }
-
-                                        {viewRoles &&
-                                            <li className="nav-item">
-                                                <Link to="/dashboard/viewroles">
-                                                    <FontAwesomeIcon icon={faUser} className="sidebarIcon" />
-                                                    <span className="nav-text">View Roles</span>
-                                                </Link>
-                                            </li>}
-
-                                        {createRoles &&
-                                            <li className="nav-item">
-                                                <Link to="/dashboard/addroles">
-                                                    <FontAwesomeIcon icon={faUser} className="sidebarIcon" />
-                                                    <span className="nav-text">Add Roles</span>
-                                                </Link>
-                                            </li>}
-
-                                    </ul>
-                                </li>
-                                </>
-                                }
+                                        </>
+                                    }
 
                                 </ul>
                                 {/* End Sidebar Navigation*/}
