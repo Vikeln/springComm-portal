@@ -6,7 +6,7 @@ import {
 import authService from '../../services/auth.service';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUserCircle, faCommentDots, faExchangeAlt, faPaperPlane, faTasks, faUser, faBook } from '@fortawesome/free-solid-svg-icons';
+import { faUserCircle, faCommentDots,faShareAlt, faExchangeAlt, faPaperPlane, faTasks, faUser, faBook } from '@fortawesome/free-solid-svg-icons';
 
 
 export default class SideBar extends Component {
@@ -102,6 +102,14 @@ export default class SideBar extends Component {
                                                 <FontAwesomeIcon icon={faExchangeAlt} className="sidebarIcon" />
 
                                                 <span className="nav-text">Transactions</span>
+                                            </Link>
+                                        </li>
+                                        <li className="nav-item">
+                                            <Link to="/dashboard/integration">
+
+                                                <FontAwesomeIcon icon={faShareAlt} className="sidebarIcon" />
+
+                                                <span className="nav-text">API Integration</span>
                                             </Link>
                                         </li>
 

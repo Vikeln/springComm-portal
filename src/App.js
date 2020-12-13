@@ -23,6 +23,7 @@ import ManageContacts from './pages/AddressBook/ManageContacts';
 
 import ManageSenders from './pages/Senders/ManageSenders';
 import Units from './pages/Unit/Units';
+import Integration from './pages/Unit/Integration';
 
 
 // Role Management Views
@@ -232,6 +233,10 @@ function Dashboard(props) {
 
           <Route exact path="/dashboard/transactions">
               <Units />
+            </Route>
+
+          <Route exact path="/dashboard/integration">
+              <Integration />
             </Route>
  
         
