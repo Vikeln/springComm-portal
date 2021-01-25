@@ -1,12 +1,9 @@
 import { axiosInstance } from '../API';
 
 
-const userUrl = "http://10.38.83.54:30555/users";
-const baseUrl = "http://10.38.83.54:30555/";
 
-
-// const userUrl = "http://localhost:8080/users";
-// const baseUrl = "http://localhost:8080/";
+const userUrl = "http://localhost:8080/users";
+const baseUrl = "http://localhost:8080/";
 
 
 class UserService {

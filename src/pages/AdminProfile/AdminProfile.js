@@ -42,11 +42,11 @@ export default class AdminProfile extends Component {
         this.state = {
             users: [],
             loading: false,
-            sentSms: "",
+            sentSms: 0,
             chartdata: "",
-            scheduledSms: "",
-            smsBalance: "",
-            sentScheduledSms: "",
+            scheduledSms: 0,
+            smsBalance: 0,
+            sentScheduledSms: 0,
             headers: [
                 { name: "Name", value: "firstName" },
                 { name: "Email", value: "email" },
@@ -372,15 +372,11 @@ export default class AdminProfile extends Component {
                                                         amount={"KES " + utils.formatNumber(smsBalance)}
                                                         title="SMS Balance"
                                                         icon={faHandHoldingUsd}
-                                                    />}
-
-                                                    {(smsBalance == "" && sentSms == "" && scheduledSms == "" && sentScheduledSms == "") &&
-                                                        <div className="row"><div className="mr-auto col-4"><Loader type="circle" /></div>
-                                                        </div>}
+                                                    />} 
 
                                                     {/* Summary Icon */}
                                                     {sentSms != "" && <SummaryIcon
-                                                        amount={utils.formatNumber(sentSms)}
+                                                        amount={sentSms}
                                                         title="Total SMS Sent"
                                                         icon={faCalculator}
                                                     />}
@@ -389,7 +385,7 @@ export default class AdminProfile extends Component {
 
                                                     {/* Summary Icon */}
                                                     {scheduledSms != "" && <SummaryIcon
-                                                        amount={utils.formatNumber(scheduledSms)}
+                                                        amount={scheduledSms}
                                                         title="Scheduled SMS"
                                                         icon={faTimesCircle}
                                                     />}
@@ -397,7 +393,7 @@ export default class AdminProfile extends Component {
 
                                                     {/* Summary Icon */}
                                                     {sentScheduledSms != "" && <SummaryIcon
-                                                        amount={utils.formatNumber(sentScheduledSms)}
+                                                        amount={sentScheduledSms    }
                                                         title="Sent Scheduled SMS   "
                                                         icon={faHourglass}
                                                     />}

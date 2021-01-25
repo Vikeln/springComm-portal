@@ -2,8 +2,7 @@
 import { axiosInstance } from '../API';
 
 
-// const communicationUrl = "http://localhost:8080";
-const communicationUrl = "http://10.38.83.54:30555";
+const communicationUrl = "http://localhost:8080";
 
 class TenantService {
 

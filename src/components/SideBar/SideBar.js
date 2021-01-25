@@ -97,14 +97,6 @@ export default class SideBar extends Component {
 
                                         ""}
                                         <li className="nav-item">
-                                            <Link to="/dashboard/transactions">
-
-                                                <FontAwesomeIcon icon={faExchangeAlt} className="sidebarIcon" />
-
-                                                <span className="nav-text">Transactions</span>
-                                            </Link>
-                                        </li>
-                                        <li className="nav-item">
                                             <Link to="/dashboard/integration">
 
                                                 <FontAwesomeIcon icon={faShareAlt} className="sidebarIcon" />
@@ -168,6 +160,12 @@ export default class SideBar extends Component {
                                                     <Link to="/dashboard/sendmessages">
                                                         <FontAwesomeIcon icon={faCommentDots} className="sidebarIcon" />
                                                         <span className="nav-text">New Message</span>
+                                                    </Link>
+                                                </li>
+                                                <li className="nav-item">
+                                                    <Link to="/dashboard/custommessages">
+                                                        <FontAwesomeIcon icon={faCommentDots} className="sidebarIcon" />
+                                                        <span className="nav-text">Custom Message</span>
                                                     </Link>
                                                 </li>
 

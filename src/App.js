@@ -22,7 +22,6 @@ import ManageContacts from './pages/AddressBook/ManageContacts';
 
 
 import ManageSenders from './pages/Senders/ManageSenders';
-import Units from './pages/Unit/Units';
 import Integration from './pages/Unit/Integration';
 
 
@@ -53,6 +52,7 @@ import MessageTemplates from './pages/Templates/MessageTemplates';
 import ViewMessageTemplate from './pages/Templates/ViewMessageTemplate';
 import EditMessageTemplate from './pages/Templates/EditMessageTemplate';
 import SendMessages from './pages/Messages/SendMessages';
+import SendCustomMessages from './pages/Messages/SendCustomMessages';
 
 
 import Header from './components/Header/Header';
@@ -231,10 +231,6 @@ function Dashboard(props) {
 
           {viewRole == true && <Route exact path="/dashboard/singlerole/:id" component={SingleRole}></Route>}
 
-          <Route exact path="/dashboard/transactions">
-              <Units />
-            </Route>
-
           <Route exact path="/dashboard/integration">
               <Integration />
             </Route>
@@ -279,6 +275,11 @@ function Dashboard(props) {
           {viewOutbox == true &&
             <Route exact path="/dashboard/sendmessages">
               <SendMessages />
+            </Route>
+          }
+          {viewOutbox == true &&
+            <Route exact path="/dashboard/custommessages">
+              <SendCustomMessages />
             </Route>
           }
 

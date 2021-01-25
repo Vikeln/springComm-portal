@@ -273,34 +273,19 @@ export default class UploadContacts extends Component {
 
 
                             <div className="row advancedSearchOptions ">
-                                <div className="col-5 searchToggle">
-
-
-
-                                </div>
+                                
 
                                 <div className="col-7 secondaryActions">
+<a
+                                    className="btn-rounded upload-download"
+                                    href="/assets/files/ContactsUploadTemplate.xlsx"
+                                    download>
 
-                                    {/* <button
-                                        className="btn-rounded upload-download"
-                                    >
-
-                                        <span className="">
-                                            <i className="i-con i-con-download">
-                                                <i></i>
-                                            </i>
-                                        </span>Download Template</button> */}
-
-<a id="upload-download" href="http://10.38.83.54:30555/bridge/address-book/getContactsExcelTemplate" download="contactsUploadTemplate">
-
-<button
-                                                        className="btn-primary" id="uploadButtons"
-                                                        onClick={this.downloadTemplate}
-                                                    >
-                                                        
-Download Template
-                                                    </button>
-</a>
+                                    <span className="">
+                                        <i className="i-con i-con-download">
+                                            <i></i>
+                                        </i>
+                                    </span>Download Template</a>
   
                                     <button className="btn-rounded upload">
 

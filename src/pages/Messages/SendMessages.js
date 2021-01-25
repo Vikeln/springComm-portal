@@ -541,7 +541,7 @@ export default class SendMessages extends Component {
 
                                     <div
                                         className="col-12 row">
-                                        <div className="col-4">
+                                        {this.state.messageTemplates.length > 0 && <div className="col-4">
 
                                             <label>Use Existing Template</label>
                                             <select
@@ -556,9 +556,7 @@ export default class SendMessages extends Component {
                                                 <option value="false">No</option>
 
                                             </select>
-
-
-                                        </div>
+                                        </div>}
                                         {this.state.formData.sendFromTemplate == "true" && <div
                                             className="col-4">
 
@@ -619,9 +617,8 @@ export default class SendMessages extends Component {
                                                 id="selectFromAddressBook"
                                                 name="selectFromAddressBook">
                                                 <option></option>
-                                                <option value="AddressBook">My AddressBook</option>
+                                                {this.state.contacts.length > 0 && <option value="AddressBook">My AddressBook</option>}
                                                 <option value="Manually">Enter Manually</option>
-                                                <option value="File">Upload File</option>
 
                                             </select>
 
@@ -743,6 +740,19 @@ export default class SendMessages extends Component {
                                             </textarea>
                                         </div>}
                                     {this.state.formData.sendFromTemplate == "false" &&
+                                        <div
+                                            className="col-12">                                       <label>Message</label><textarea
+                                                name="message"
+                                                id="message"
+                                                data-parsley-required="true"
+                                                data-parsley-trigger="keyup" data-parsley-minlength="20" data-parsley-maxlength="100"
+                                                onChange={this.handleChange}
+                                                cols=""
+                                                rows="">
+                                            </textarea>
+                                        </div>}
+
+                                    {this.state.messageTemplates.length < 1 &&
                                         <div
                                             className="col-12">                                       <label>Message</label><textarea
                                                 name="message"
