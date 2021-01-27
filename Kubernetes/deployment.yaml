@@ -3,22 +3,22 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: mobiconnect-portal
-  name: mobiconnect-portal-deployment
+    app: mobiconnect-total-portal
+  name: mobiconnect-total-portal-deployment
   namespace: mobiconnect
 spec:
   selector:
     matchLabels:
-      app: mobiconnect-portal
+      app: mobiconnect-total-portal
   replicas: 1
   minReadySeconds: 30
   template:
     metadata:
       labels:
-        app: mobiconnect-portal
+        app: mobiconnect-total-portal
     spec:
       containers:
-        - name: mobiconnect-portal
+        - name: mobiconnect-total-portal
           image: ImageName
           ports:
             - containerPort: 80
@@ -28,16 +28,16 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: mobiconnect-portal-service
+  name: mobiconnect-total-portal-service
   namespace: mobiconnect
   labels:
-    run: mobiconnect-portal-service
+    run: mobiconnect-total-portal-service
 spec:
   type: NodePort
   ports:
-    - name: mobiconnect-portal-port
+    - name: mobiconnect-total-portal-port
       port: 80
       protocol: TCP
-      nodePort: 30556
+      nodePort: 30561
   selector:
-    app: mobiconnect-portal
+    app: mobiconnect-total-portal
