@@ -242,11 +242,7 @@ export default class Login extends Component{
 
                                         </div>
 
-                                        <div className="my-3 text-left">
-
-                                            <Link to="/auth/register" className="text-muted">Create New Account</Link>
-
-                                        </div>
+                                     
                                     </div>
 
                                     {/*
