@@ -1,8 +1,8 @@
 import { axiosInstance } from '../API';
 
 
-const bookUrl = "http://localhost:8080/bridge/";
-const baseUrl = "http://localhost:8080/";
+const bookUrl = "http://10.38.83.54:30560/bridge/";
+const baseUrl = "http://10.38.83.54:30560/";
 
 
 class AddressBookService {

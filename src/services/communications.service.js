@@ -2,8 +2,8 @@
 import { axiosInstance } from '../API';
 
 
-const communicationUrl = "http://localhost:8080/bridge";
-const communicationUrls = "http://localhost:8080";
+const communicationUrl = "http://10.38.83.54:30560/bridge";
+const communicationUrls = "http://10.38.83.54:30560";
 
 class CommunicationsService {
 
