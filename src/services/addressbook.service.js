@@ -39,6 +39,18 @@ class AddressBookService {
 
 
     }
+    getAllGroupContacts(group) {
+
+        return axiosInstance.get(bookUrl + "address-book?contgroup=" + group);
+
+
+    }
+    getAllContactGroups() {
+
+        return axiosInstance.get(bookUrl + "address-book/groups");
+
+
+    }
 
 }
 

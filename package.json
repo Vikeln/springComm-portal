@@ -25,6 +25,7 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.0",
     "react-validation": "^3.0.7",
+    "read-excel-file": "^5.0.0",
     "validator": "^13.1.1",
     "web-vitals": "^0.2.4"
   },

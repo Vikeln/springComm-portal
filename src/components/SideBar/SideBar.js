@@ -126,6 +126,18 @@ export default class SideBar extends Component {
 
                                             <ul className="nav-sub">
 
+                                                <li className="nav-item">
+                                                    <Link to="/dashboard/sendmessages">
+                                                        <FontAwesomeIcon icon={faCommentDots} className="sidebarIcon" />
+                                                        <span className="nav-text">New Message</span>
+                                                    </Link>
+                                                </li>
+                                                <li className="nav-item">
+                                                    <Link to="/dashboard/custommessages">
+                                                        <FontAwesomeIcon icon={faCommentDots} className="sidebarIcon" />
+                                                        <span className="nav-text">Custom Message</span>
+                                                    </Link>
+                                                </li>
                                                 {viewOutbox &&
                                                     <li className="nav-item">
                                                         <Link to="/dashboard/messages">
@@ -156,18 +168,6 @@ export default class SideBar extends Component {
                                                         </Link>
                                                     </li>}
 
-                                                <li className="nav-item">
-                                                    <Link to="/dashboard/sendmessages">
-                                                        <FontAwesomeIcon icon={faCommentDots} className="sidebarIcon" />
-                                                        <span className="nav-text">New Message</span>
-                                                    </Link>
-                                                </li>
-                                                <li className="nav-item">
-                                                    <Link to="/dashboard/custommessages">
-                                                        <FontAwesomeIcon icon={faCommentDots} className="sidebarIcon" />
-                                                        <span className="nav-text">Custom Message</span>
-                                                    </Link>
-                                                </li>
 
 
                                             </ul>

@@ -21,6 +21,7 @@ export default class SendMessages extends Component {
             value: this.props.value,
             messageTemplates: [],
             sources: [],
+            contactGroups: [],
             uploads: [],
             selectedFile: "",
             contacts: [],
@@ -49,6 +50,7 @@ export default class SendMessages extends Component {
         this.fetchMessageTemplates = this.fetchMessageTemplates.bind(this);
         this.fetchContacts = this.fetchContacts.bind(this);
         this.fetchSources = this.fetchSources.bind(this);
+        this.getAllGroupContacts = this.getAllGroupContacts.bind(this);
 
         this.onFileChange = this.onFileChange.bind(this);
         this.onFileUpload = this.onFileUpload.bind(this);
@@ -177,6 +179,43 @@ export default class SendMessages extends Component {
             });
         });
     }
+    getAllGroupContacts(group) {
+        AddressBookService.getAllGroupContacts(group).then(response => {
+
+            if (response.data.status != "error") {
+
+
+                this.setState({
+                    contacts: response.data.data != null ? response.data.data : [],
+                });
+
+
+            } else {
+                confirmAlert({
+                    title: 'Error fetching your address book',
+                    message: response.data.message,
+                    buttons: [
+                        {
+                            label: 'ok',
+                        }
+                    ]
+                });
+            }
+
+
+        }).catch(error => {
+            confirmAlert({
+                title: 'Error occurred',
+                message: error.message,
+                buttons: [
+                    {
+                        label: 'ok',
+                    }
+                ]
+            });
+        });
+    
+    }
     async fetchContacts() {
 
 
@@ -200,6 +239,31 @@ export default class SendMessages extends Component {
                         }
                     ]
                 });
+            }
+
+
+        }).catch(error => {
+            confirmAlert({
+                title: 'Error occurred',
+                message: error.message,
+                buttons: [
+                    {
+                        label: 'ok',
+                    }
+                ]
+            });
+        });
+
+        AddressBookService.getAllContactGroups().then(response => {
+
+            if (response.data.status != "error") {
+
+
+                this.setState({
+                    contactGroups: response.data.data != null ? response.data.data : [],
+                });
+
+
             }
 
 
@@ -410,6 +474,13 @@ export default class SendMessages extends Component {
         } else if (inputName === "sendTime") {
             stateCopy.formData.sendTime = inputValue;
 
+        } else if (inputName === "filterContacts") {
+            stateCopy.filterContacts = inputValue;
+
+        }else if (inputName === "contactGroup") {
+            stateCopy.formData.contactGroup = inputValue;
+            this.getAllGroupContacts(inputValue);
+
         } else if (inputName === "selectFromAddressBook") {
 
             stateCopy.selectFromAddressBook = inputValue;
@@ -514,7 +585,7 @@ export default class SendMessages extends Component {
 
     render() {
 
-        const { messageTemplates, uploading, sources, sendOnce, sendTime, sendFromTemplate, selectFromAddressBook, contacts, message, successfulSubmission, networkError, submissionMessage } = this.state;
+        const { filterContacts,contactGroups,messageTemplates, uploading, sources, sendOnce, sendTime, sendFromTemplate, selectFromAddressBook, contacts, message, successfulSubmission, networkError, submissionMessage } = this.state;
 
         return (
 
@@ -623,30 +694,72 @@ export default class SendMessages extends Component {
                                             </select>
 
                                         </div>
+                                        {selectFromAddressBook == "AddressBook" && <div className="col-4">
 
-                                        {selectFromAddressBook == "AddressBook" && <div className="col-8">
-
-                                            <label>Recipients <em>*Use ctr on Windows / Command on Mac to select multiple</em></label>
-
+                                            <label>Filter Contacts by Group? </label>
                                             <select
                                                 className="form-control"
-                                                name="recipient"
-                                                id="recipient"
-                                                multiple
+                                                onChange={this.handleChange}
                                                 data-parsley-required="true"
-                                                onChange={this.handleChange}>
-                                                <option value=""></option>
-                                                {contacts != "" &&
+                                                id="filterContacts"
+                                                name="filterContacts">
+                                                <option></option>
+                                                <option value="Yes">Yes</option>
+                                                <option value="No">No</option>
 
-                                                    contacts.map((contact, index) => (
-                                                        <option key={contact.id} value={contact.phone}>{contact.name} - {contact.phone}</option>
-                                                    ))
-                                                }
                                             </select>
 
-                                        </div>
+                                        </div>}
+                                        {filterContacts == "Yes" &&
+                                            <div className="col-4">
+
+                                                <label>Contact Groups</label>
+
+                                                <select
+                                                    className="form-control"
+                                                    name="contactGroup"
+                                                    id="contactGroup"
+
+                                                    data-parsley-required="true"
+                                                    onChange={this.handleChange}>
+                                                    <option value=""></option>
+                                                    {contactGroups != "" &&
+
+                                                        contactGroups.map((contact, index) => (
+                                                            <option key={contact} value={contact}>{contact}</option>
+                                                        ))
+                                                    }
+                                                </select>
+
+                                            </div>
 
                                         }
+                                        {selectFromAddressBook == "AddressBook" &&
+                                            <div className="col-8">
+
+                                                <label>Recipients <em>*Use ctr on Windows / Command on Mac to select multiple</em></label>
+
+                                                <select
+                                                    className="form-control"
+                                                    name="recipient"
+                                                    id="recipient"
+                                                    multiple
+                                                    data-parsley-required="true"
+                                                    onChange={this.handleChange}>
+                                                    <option value=""></option>
+                                                    {contacts != "" &&
+
+                                                        contacts.map((contact, index) => (
+                                                            <option key={contact.id} value={contact.phone}>{contact.name} - {contact.phone}</option>
+                                                        ))
+                                                    }
+                                                </select>
+
+                                            </div>
+
+                                        }
+
+
                                         {selectFromAddressBook == "Manually" &&
                                             <div
                                                 className="col-8">

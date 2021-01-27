@@ -7,19 +7,22 @@ import CommunicationsService from '../../services/communications.service';
 import AddressBookService from '../../services/addressbook.service';
 import SourceService from '../../services/source.service';
 import Notification from '../../components/notifications/Notifications';
+import readXlsxFile from 'read-excel-file'
+
 
 import Loader from '../../components/loaders/Loader';
 
 export default class SendCustomMessages extends Component {
-
     constructor(props) {
 
         super(props);
 
         this.state = {
-
+            dataObjects: [],
+            columnNames: [],
             value: this.props.value,
             messageTemplates: [],
+            sentMessages: [],
             sources: [],
             uploads: [],
             selectedFile: "",
@@ -49,13 +52,18 @@ export default class SendCustomMessages extends Component {
         this.fetchSources = this.fetchSources.bind(this);
 
         this.onFileChange = this.onFileChange.bind(this);
+        this.moveNext = this.moveNext.bind(this);
+        this.startsWith = this.startsWith.bind(this);
+        this.complete = this.complete.bind(this);
         this.onFileUpload = this.onFileUpload.bind(this);
 
 
     }
 
     componentDidMount() {
-        this.fetchSources();
+        this.setupWizard();
+        this.indexTabContainers();
+        // this.fetchSources();
 
         $(".startdate").datepicker({
             format: 'mm/dd/yyyy',
@@ -179,14 +187,54 @@ export default class SendCustomMessages extends Component {
             );
 
             // Details of the uploaded file
-            console.log(this.state.selectedFile);
+            // console.log(this.state.selectedFile);
 
+            readXlsxFile(this.state.selectedFile).then((rows) => {
 
+                const objects = [];
 
+                this.setState({
+                    columnNames: rows.shift()
+                });
+                if (!this.state.columnNames.includes("Phone")) {
 
+                    this.setState({
+                        uploading: false
+                    });
+                    confirmAlert({
 
+                        title: 'Upload File Failed',
+                        message: 'The file you uploaded does not have column "Phone"',
+                        buttons: [
+                            {
+                                label: 'ok',
+                            }
+                        ]
+                    });
+                } else {
+                    // each row being an array of cells.
+                    rows.forEach((row) => {
+                        const obj = {};
+                        row.forEach((cell, i) => {
+                            obj[this.state.columnNames[i]] = cell;
+                        });
+                        objects.push(obj);
+                    });
+                    console.log(objects);
+                    this.setState({
+                        uploading: false,
+                        dataObjects: objects
+                    });
+                    this.moveNext();
+
+                }
+
+            });
 
         } else {
+            this.setState({
+                uploading: false
+            });
 
             confirmAlert({
 
@@ -204,7 +252,44 @@ export default class SendCustomMessages extends Component {
 
 
     }
+    moveNext() {
+        $('#rootwizard').bootstrapWizard('next');
+    }
 
+    complete(strComplete) {
+        var val = document.getElementById("message").value.substring(0, document.getElementById("message").value.indexOf('@')) + "{{" + strComplete + "}} ";
+        document.getElementById("message").value = val;
+    }
+
+    setupWizard() {
+
+        $('#rootwizard').bootstrapWizard({
+            tabClass: '',
+            // nextSelector: '.button-next',
+            previousSelector: '.button-previous',
+            firstSelector: '.button-first',
+            lastSelector: '.button-last',
+            onTabClick: function (tab, navigation, index) {
+                // return false;
+            }
+        });
+
+    }
+
+    indexTabContainers() {
+
+        $(".tab-content .tab-pane").each(function (index, value) {
+
+            $(this).attr("data-index", index);
+
+            $(this).find("input,select").attr("data-parsley-group", "group-" + index);
+
+
+        });
+
+        $('#form').parsley();
+
+    }
 
 
     downloadTemplate() {
@@ -224,92 +309,85 @@ export default class SendCustomMessages extends Component {
             });
         })
     }
-
+    startsWith(str, word) {
+        return str.lastIndexOf(word, 0) === 0;
+    }
     handleChange(el) {
         let inputName = el.target.name;
         let inputValue = el.target.value;
         let options = el.target.options;
+        var strSuggestionsDivId = "suggestions";
         let userGroups = [];
         let stateCopy = Object.assign({}, this.state);
         if (inputName == "message") {
 
             var templateString = inputValue;
-            var params = templateString.match(/{{(.*?)}}/g);
+            var lastString = templateString.substr(templateString.lastIndexOf(" "));
+            if (this.startsWith(lastString, " @")) {
+                var val = lastString.substr(2);
+                console.log("finding suggestions for " + val);
 
+                var objList = document.createElement("ul");
+                if (val.length > 1) {
+                    var found = false;
+                    for (var i = 0; i < this.state.columnNames.length; i++) {
+                        var word = this.state.columnNames[i];
+                        var wordPart = word.substring(0, val.length)
+                        if ((word.length > val.length && wordPart === val)) { // check if the words are matching
+                            // if they do create a list entry
+                            found = true;
+                            var objListEntity = document.createElement("li");
+                            objListEntity.onclick = this.complete(word);
+                            objListEntity.innerHTML = word;
+                            objList.appendChild(objListEntity);
+                        }
+                    }
+                    if (found != true) {
+                        console.log("not found any matching word")
+                        for (var i = 0; i < this.state.columnNames.length; i++) {
+                            var word = this.state.columnNames[i]
+                            var objListEntity = document.createElement("li");
+                            objListEntity.onclick = this.complete(word);
+                            objListEntity.innerHTML = word;
+                            objList.appendChild(objListEntity);
+                        }
+                    }
+                } else {
+                    console.log("not found any matching word")
+                    for (var i = 0; i < this.state.columnNames.length; i++) {
+                        var word = this.state.columnNames[i]
+                        var objListEntity = document.createElement("li");
+                        // objListEntity.setAttribute("onclick", "complete('" + word + "', '" + strSuggestionsDivId + "');");
+                        objListEntity.onclick = function () { this.complete(word); }.bind(this);
 
-
-            if (params != null && params.length > 0) {
-
-                var paramsText = params.toString();
-                var paramsWithoutBraces = paramsText.replace(/{{|}}/gi, "");
-
-                stateCopy.formData.parameterValues = paramsWithoutBraces.split(",");
-                stateCopy.formData[inputName] = inputValue;
-                stateCopy.message = inputValue;
-
-                //this.setMessageParams(params);
+                        objListEntity.innerHTML = word;
+                        objList.appendChild(objListEntity);
+                    }
+                    // show the suggestionList
+                }
+                // show the suggestionList
 
             } else {
-                stateCopy.formData.message = inputValue;
+                var params = templateString.match(/{{(.*?)}}/g);
+                if (params != null && params.length > 0) {
+
+                    var paramsText = params.toString();
+                    var paramsWithoutBraces = paramsText.replace(/{{|}}/gi, "");
+
+                    stateCopy.formData.parameterValues = paramsWithoutBraces.split(",");
+                    stateCopy.formData[inputName] = inputValue;
+                    stateCopy.message = inputValue;
+
+                    //this.setMessageParams(params);
+
+                } else {
+                    stateCopy.formData.message = inputValue;
+                }
             }
+
 
             this.setState(stateCopy);
 
-
-        } else if (inputName === "recipients") {
-            let userGroups = inputValue.split(",");
-            stateCopy.formData.recipient = userGroups;
-
-        } else if (inputName === "recipient") {
-
-            for (var i = 0, l = options.length; i < l; i++) {
-
-                if (options[i].selected) {
-                    userGroups.push(parseInt(options[i].value));
-                }
-
-            }
-
-            stateCopy.formData[inputName] = userGroups;
-        } else if (inputName === "source") {
-            stateCopy.formData.source = parseInt(inputValue);
-
-        } else if (inputName === "sendOnce") {
-            stateCopy.formData.sendOnce = inputValue;
-        } else if (inputName === "sendTime") {
-            stateCopy.formData.sendTime = inputValue;
-
-        } else if (inputName === "selectFromAddressBook") {
-
-            stateCopy.selectFromAddressBook = inputValue;
-            stateCopy.formData.recipient = [];
-            stateCopy.uploads = [];
-
-
-        } else if (inputName === "sendFromTemplate") {
-            if (inputValue != "true") {
-                stateCopy.formData.template = "";
-                stateCopy.message = "";
-                stateCopy.formData.message = "";
-                stateCopy.formData.parameters = [];
-                stateCopy.formData.parameterValues = [];
-            }
-            stateCopy.formData.sendFromTemplate = inputValue;
-
-        } else if (inputName === "template") {
-
-            var templ = this.state.messageTemplates.find(x => x.id === parseInt(inputValue));
-
-            stateCopy.template = templ;
-
-            var tem = templ.template;
-
-            stateCopy.message = tem;
-
-
-            stateCopy.formData.parameters = tem.match(/{{(.*?)}}/g).toString().replace(/{{|}}/gi, "").split(",");
-
-            stateCopy.formData[inputName] = parseInt(inputValue);
 
         } else {
 
@@ -322,34 +400,66 @@ export default class SendCustomMessages extends Component {
 
     handleMessageSubmission(event) {
 
+        let stateCopy = Object.assign({}, this.state);
+
         event.preventDefault();
-        const { formData } = this.state;
+        const { formData, dataObjects } = this.state;
 
-        if (formData.sendFromTemplate == "true") {
+        if (formData.parameterValues.length < 1) {
 
-            if (formData.parameterValues.length < 1) {
+            alert("Please set the value of the parameter you want to send");
 
-                alert("Please set the value of the parameter you want to send");
+        }
+        var values = [];
+        for (var i = 0; i < formData.parameterValues.length; i++) {
 
+            var paramValues = [];
+            for (var m = 0; m < dataObjects.length; m++) {
+                var data = dataObjects[m];
+                Object.keys(data).map(key => {
+                    if (data.hasOwnProperty(key)) {
+                        if (key == formData.parameterValues[i])
+                            paramValues.push(data[key])
+                    }
+                });
             }
+            var obj = {
+                parameter: formData.parameterValues[i],
+                values: paramValues
+            };
+            values.push(obj);
         }
-        if (formData.recipient.length < 1) {
+        stateCopy.formData.parameters = values;
 
-            alert("Please set a recipient list");
+        var numbers = [];
+        for (var m = 0; m < dataObjects.length; m++) {
+            var data = dataObjects[m];
+            Object.keys(data).map(key => {
+                if (data.hasOwnProperty(key)) {
+                    if (key == "Phone")
+                    numbers.push(data[key])
+                }
+            });
         }
+        stateCopy.formData.recepients = numbers;
 
+        this.setState(stateCopy);
 
-        if ($(".sendMessage").parsley().isValid()) {
-            console.log(JSON.stringify(formData));
+            console.log("formData => "+JSON.stringify(this.state.formData));
 
-            CommunicationsService.createMessage(formData).then(response => {
+        // if ($(".sendMessage").parsley().isValid()) {
+        //     console.log(JSON.stringify(formData));
+
+            CommunicationsService.createCustomMessage(formData).then(response => {
+                console.log(response.data.data);
 
                 if (response.data.status != "error") {
-                    if (this.state.formData.sendOnce == "true") {
-                        window.location.href = "/dashboard/messages";
-                    } else {
-                        window.location.href = "/dashboard/scheduled-messages";
-                    }
+                    
+                this.setState({
+                    sentMessages: response.data.data != null ? response.data.data : [],
+                });
+                    
+                    this.moveNext();
 
                 } else {
                     confirmAlert({
@@ -374,7 +484,7 @@ export default class SendCustomMessages extends Component {
                     ]
                 });
             });
-        }
+        // }
 
 
 
@@ -383,7 +493,7 @@ export default class SendCustomMessages extends Component {
 
     render() {
 
-        const { messageTemplates, uploading, sources, sendOnce, sendTime, sendFromTemplate, selectFromAddressBook, contacts, message, successfulSubmission, networkError, submissionMessage } = this.state;
+        const { columnNames, uploading, sentMessages, sendOnce, sendTime, sendFromTemplate, selectFromAddressBook, contacts, message, successfulSubmission, networkError, submissionMessage } = this.state;
 
 
         return (
@@ -420,10 +530,6 @@ export default class SendCustomMessages extends Component {
 
                                 {/* Form Container */}
                                 <div className="card-body">
-
-
-
-
                                     {/* Multi Step Wizard */}
                                     <div id="rootwizard" className="multistep">
 
@@ -478,60 +584,154 @@ export default class SendCustomMessages extends Component {
                                                     id="createCustomMessageForm"
                                                     className="createCustomMessage"> */}
 
-                                                    <div className="row advancedSearchOptions ">
+                                                <div className="row advancedSearchOptions ">
 
-                                                        <div className="col-7 secondaryActions">
+                                                    <div className="col-7 secondaryActions">
 
-                                                            <button className="btn-rounded upload">
+                                                        <button className="btn-rounded upload">
 
-                                                                <span className="">
-                                                                    <i className="i-con i-con-upload">
-                                                                        <i></i>
-                                                                    </i>
-                                                                </span>Upload Contacts
+                                                            <span className="">
+                                                                <i className="i-con i-con-upload">
+                                                                    <i></i>
+                                                                </i>
+                                                            </span>Upload Contacts
     </button>
 
 
 
-                                                        </div>
-
                                                     </div>
 
+                                                </div>
 
-                                                    <div className=" padding pt-0 pb-0">
 
-                                                        <div className="uploadFile">
-                                                            <input type="file"
-                                                                name="fileUpload"
-                                                                id="fileUpload"
-                                                                className="fileUpload"
-                                                                placeholder="Upload Custom Template"
-                                                                onChange={this.onFileChange}
-                                                                accept=".xls,.xlsx" />
+                                                <div className=" padding pt-0 pb-0">
 
-                                                            <label htmlFor="fileUpload" className="uploadLabel">Choose File To Upload as xls(excel)</label>
+                                                    <div className="uploadFile">
+                                                        <input type="file"
+                                                            name="fileUpload"
+                                                            id="fileUpload"
+                                                            className="fileUpload"
+                                                            placeholder="Upload Custom Template"
+                                                            onChange={this.onFileChange}
+                                                            accept=".xls,.xlsx" />
 
-                                                            <button
-                                                                className="btn-primary"
-                                                                onClick={this.onFileUpload}>
-                                                                Upload!
+                                                        <label htmlFor="fileUpload" className="uploadLabel">Choose File To Upload as xls(excel)</label>
+
+                                                        <button
+                                                            className="btn-primary"
+                                                            onClick={this.onFileUpload}>
+                                                            Upload!
 </button>
 
-                                                            {uploading &&
-                                                                <Loader type="circle" />
-                                                            }
-
-                                                        </div>
+                                                        {uploading &&
+                                                            <Loader type="circle" />
+                                                        }
 
                                                     </div>
+
+                                                </div>
                                                 {/* </form> */}
                                             </div>
                                             <div className="tab-pane" id="tab2">
 
-                                                Tab 2
+                                                <div className=" padding pt-0 pb-0">
+                                                    <p>The fields we have gotten on your document include:
+                                                {columnNames != "" && columnNames.map((column, index) => (
+                                                        <span key={index}><strong>{column},</strong></span>
+                                                    ))
+                                                        }.
+                                                        </p>
+                                                    <form>
+                                                        <div className="col-12 row">
+                                                            <div
+                                                                className="col-12">
+                                                                <label>Message</label>
+                                                                <textarea
+                                                                    name="message"
+                                                                    id="message"
+                                                                    // onChange={this.findSuggestions('message', 'suggestions')}
+                                                                    data-parsley-required="true"
+                                                                    data-parsley-trigger="keyup" data-parsley-minlength="20" data-parsley-maxlength="100"
+                                                                    onChange={this.handleChange}
+                                                                    cols=""
+                                                                    rows="">
+                                                                </textarea>
+
+                                                                <button type="submit" className="btn-primary" onClick={this.handleMessageSubmission}>Submit</button>
+
+                                                            </div>
+                                                        </div>
+                                                    </form>
+
+
                                                 </div>
+                                            </div>
                                             <div className="tab-pane" id="tab3">
-                                                Tab 3
+                                                
+                            <table
+                                className="table table-theme v-middle table-row"
+                                id="table"
+                                data-toolbar="#toolbar"
+                                data-search="true"
+                                data-search-align="left"
+                                data-show-columns="true"
+                                data-show-export="true"
+                                data-detail-view="true"
+                                data-mobile-responsive="true"
+                                data-pagination="true"
+                                data-page-list="[10, 25, 50, 100, ALL]"
+                            >
+
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Recepient</th>
+                                        <th>Message</th>
+                                        <th>Priority </th>
+                                        <th>Response Status </th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+
+                                    {sentMessages != "" &&
+                                        sentMessages.map((mes, index) => {
+
+                                            return (
+
+
+                                                <tr className=" " key={index} >
+
+
+                                                    <td>
+                                                        <span className="text-muted">{mes.id}</span>
+                                                    </td>
+
+                                                    <td>
+                                                        <span className="text-muted">{mes.recipient}</span>
+                                                    </td>
+
+                                                    <td>
+                                                        <span className="text-muted">{mes.message}</span>
+                                                    </td>
+
+                                                    <td>
+                                                        <span className="text-muted">{mes.priority}</span>
+                                                    </td>
+
+                                                    <td>
+                                                        <span className="text-muted">{mes.sentResponseStatus}</span>
+                                                    </td>
+                                                </tr>
+
+                                            );
+
+                                        })
+                                    }
+
+                                </tbody>
+
+                            </table>
 
                                                 </div>
                                         </div>
@@ -539,6 +739,15 @@ export default class SendCustomMessages extends Component {
 
                                     </div>
                                     {/* End Multi Step Wizard */}
+                                    {/* <div className="row py-3">
+                                        <div className="col-6">
+
+                                            <a href="#" className="btn btn-primary button-previous">Previous</a>
+
+                                            <a href="#" className="btn btn-primary button-next i-con-h-a">Next</a>
+                                        </div>
+
+                                    </div> */}
 
                                 </div>
                                 {/* End Form Container */}

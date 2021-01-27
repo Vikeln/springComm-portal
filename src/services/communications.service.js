@@ -102,6 +102,13 @@ class CommunicationsService {
 
     }
 
+    /*Create Custom Message*/
+    createCustomMessage(formData) {
+
+        return axiosInstance.post(communicationUrls + "/communications/sms/send-custom", formData);
+
+    }
+
     /*Update single message template*/
     updateMessageType(messageTypeId, formData) {
 

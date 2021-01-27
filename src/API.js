@@ -19,7 +19,7 @@ if (AuthService.getCurrentUserAccessToken()) {
 }
 
 export const axiosInstance = axios.create({
-  baseURL: 'https://lb.mfs.co.ke:30334/',
+  baseURL: 'https://localhost:8080/',
   headers: headers,
   timeout: 20000,
 });
