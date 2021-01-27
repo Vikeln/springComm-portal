@@ -151,7 +151,7 @@ button {
 }
 
 .btn-primary {
-  background: #FF911E;
+  background: #DA0021;
   color: #ffffff;
   padding-left: 20px;
   padding-right: 20px;
@@ -173,7 +173,7 @@ button {
 }
 
 .btn-primary:hover, .btn-primary.active, .btn-primary.disabled {
-  background: #4D4D4D !important;
+  background: #2A85C9 !important;
   color: #ffffff;
   border: none;
   border: 1px solid #ffffff;
@@ -368,7 +368,7 @@ form textarea {
 }
 
 .authenticationBackground {
-  background: #ff931e url("../img/login/background_patter.png") left top no-repeat;
+  background: #DA0021 url("../img/login/background_patter.png") left top no-repeat;
   height: 100vh;
   background-size: 70%;
 }
@@ -376,7 +376,7 @@ form textarea {
 /***** END Authentication  *******/
 /***** HEADER STYLING *******/
 #header .navbar-brand {
-  max-width: 200px;
+  max-width: 100px;
 }
 #header .navbar-brand img {
   width: 100%;
@@ -411,8 +411,8 @@ form textarea {
 }
 
 .nav-border .nav > li.active {
-  border-left: 2px solid #ff931e;
-  background-color: rgba(251, 144, 32, 0.22);
+  border-left: 2px solid #da0021;
+  background-color: rgba(218, 0, 33, 0.2);
 }
 
 /***** END Sidebar *******/
@@ -426,7 +426,7 @@ form textarea {
 }
 
 .summaryIcon {
-  width: 31%;
+  width: 25%;
   margin-right: 2%;
   padding: 20px 0.5%;
   position: relative;
@@ -462,6 +462,15 @@ form textarea {
   margin-right: 2%;
 }
 .summaryChart h4 {
+  border-bottom: 1px solid #efefef;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+}
+
+.chart {
+  width: 100%;
+}
+.chart h4 {
   border-bottom: 1px solid #efefef;
   padding-bottom: 10px;
   margin-bottom: 10px;

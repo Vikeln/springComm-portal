@@ -225,7 +225,7 @@ button{
 .btn-primary{
 
 
-    background:#FF911E;
+    background:#DA0021;
     color: #ffffff;
     padding-left: 20px;
     padding-right: 20px;
@@ -243,7 +243,7 @@ button{
 }
 
 .btn-primary:hover, .btn-primary.active,.btn-primary.disabled{
-    background: #4D4D4D !important;
+    background: #2A85C9 !important;
     color: #ffffff;
     border: none;
     border:1px solid #ffffff;
@@ -263,6 +263,7 @@ button{
 .badge-warning{
 
     background:#ff931e;
+
 
 }
 
@@ -498,7 +499,7 @@ form{
 }
 .authenticationBackground{
 
-    background:#ff931e url('../img/login/background_patter.png') left top no-repeat;
+    background:#DA0021 url('../img/login/background_patter.png') left top no-repeat;
     height: 100vh;
     background-size:70%;
 }
@@ -511,7 +512,9 @@ form{
 #header{
     .navbar-brand{
 
-        max-width: 200px;
+        max-width: 100px;
+        
+
 
         img{
             width: 100%;
@@ -594,8 +597,8 @@ form{
 
     .nav > li.active{
 
-        border-left:2px solid #ff931e;
-        background-color: rgb(251 144 32 / 22%);
+        border-left:2px solid #da0021;
+        background-color: rgb(218 0 33 / 20%);
 
     }
 
