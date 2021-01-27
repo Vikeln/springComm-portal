@@ -17,7 +17,6 @@ pipeline {
         }
         stage ('Build Production Files') {
             steps {
-            //   sh 'rm -r ./build'
               sh 'npm i'
               sh 'npm run build'
             }
