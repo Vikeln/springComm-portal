@@ -78,6 +78,16 @@ export default class MessageTemplates extends Component {
                 $('.table').bootstrapTable();
 
 
+            }else{confirmAlert({
+                title: 'Error',
+                message: response.data.message,
+                buttons: [
+                  {
+                    label: 'ok',
+                  }
+                ]
+              });
+
             }
 
 
@@ -97,6 +107,9 @@ export default class MessageTemplates extends Component {
                 ]
               });
 
+        });
+        this.setState({
+            loading:false
         });
 
     }

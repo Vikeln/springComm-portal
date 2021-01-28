@@ -69,7 +69,7 @@ export default class SideBar extends Component {
                                 {/* Sidebar Navigation */}
                                 <ul className="nav bg">
 
-                                    {viewLoan == true && viewUsers == true ?
+                                    {viewUsers == true ?
                                         <>
                                             {/* <li className="nav-header hidden-folded">
                                             <span>Main</span>

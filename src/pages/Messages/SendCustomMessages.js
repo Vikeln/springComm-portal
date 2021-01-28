@@ -524,8 +524,7 @@ export default class SendCustomMessages extends Component {
                                     <br />
                                     <small>Sample: If the excel column headers are number,name and balance, then you will type the message as:
                                     Dear @name, you balance is @balance. This message will be sent to all the [numbers]
-</small><br /><small>
-                                        For more information on how to use custom messages, please click here..</small>
+</small><br />
                                 </div>
 
                                 {/* Form Container */}
