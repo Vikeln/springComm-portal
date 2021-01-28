@@ -525,14 +525,14 @@ form textarea {
 }
 
 .page-header .bg-mobiloan {
-  background-color: #ff931e !important;
+  background-color: #da0021 !important;
 }
 
 /***** END Bootstrap Table *******/
 /***** Advanced Search *******/
 .uploadFile {
   width: 100%;
-  border: 2px dashed #ff9320;
+  border: 2px dashed #da0021;
   height: 70px;
   border-radius: 5px;
   -o-border-radius: 5px;
@@ -573,7 +573,7 @@ form textarea {
   display: flex;
 }
 .advancedSearchOptions button, .advancedSearchOptions a {
-  border: 1px solid #da0021;
+  border: 1px solid #2A85C9;
   display: inline-block;
   padding-top: 10px;
   padding-bottom: 10px;

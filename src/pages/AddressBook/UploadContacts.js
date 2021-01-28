@@ -46,7 +46,7 @@ export default class UploadContacts extends Component {
 
         $(".advancedSearchButton").click(this.openAdvancedSearch);
         $(".upload").click(this.openFileUploader);
-        $(".upload-download").click(this.downloadTemplate);
+        // $(".upload-download").click(this.downloadTemplate);
 
 
     }

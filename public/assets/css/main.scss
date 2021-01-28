@@ -781,7 +781,7 @@ form{
 
 .page-header{
     .bg-mobiloan {
-        background-color: #ff931e !important;
+        background-color: #da0021 !important;
     }
 }
 
@@ -793,7 +793,7 @@ form{
 .uploadFile{
 
     width: 100%;
-    border:2px dashed #ff9320;
+    border:2px dashed #da0021;
     height: 70px;
     @include borderRadius(5px);
     margin-top: 10px;
@@ -818,6 +818,7 @@ form{
         color: #4D4D4D;
     }
 
+
     button{
         position: absolute;
         left: 50%;
@@ -840,7 +841,7 @@ form{
     display: flex;
 
     button,a{
-        border:1px solid #da0021;
+        border:1px solid #2A85C9;
         display: inline-block;
         padding-top: 10px;
         padding-bottom: 10px;
