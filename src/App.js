@@ -71,7 +71,7 @@ export default class App extends Component {
     this.state = {
       viewUsers: AuthService.checkIfRoleExists("CAN_VIEW_USERS"),
       createUsers: AuthService.checkIfRoleExists("CAN_CREATE_USERS"),
-      viewUserDetails: AuthService.checkIfRoleExists("CAN_VIEW_USER_DETAILS"),
+      viewUserDetails: AuthService.checkIfRoleExists("CAN_VIEW_USERS"),
       editUser: AuthService.checkIfRoleExists("CAN_EDIT_USERS"),
 
       editRoles: AuthService.checkIfRoleExists("CAN_EDIT_ROLES"),
@@ -215,9 +215,7 @@ function Dashboard(props) {
 
           {editUser == true && <Route exact path="/dashboard/edituser/:id" component={EditUser} ></Route>}
 
-          {viewUserDetails == true && <Route exact path="/dashboard/viewuser/:id" component={ViewUser}>
-
-          </Route>}
+          {viewUserDetails == true && <Route exact path="/dashboard/viewuser/:id" component={ViewUser}/>}
 
           {createRoles == true && <Route exact path="/dashboard/addroles">
             <CreateRole />
