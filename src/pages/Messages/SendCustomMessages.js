@@ -270,7 +270,7 @@ export default class SendCustomMessages extends Component {
             firstSelector: '.button-first',
             lastSelector: '.button-last',
             onTabClick: function (tab, navigation, index) {
-                // return false;
+                return false;
             }
         });
 
@@ -437,7 +437,7 @@ export default class SendCustomMessages extends Component {
             Object.keys(data).map(key => {
                 if (data.hasOwnProperty(key)) {
                     if (key == "Phone")
-                    numbers.push(data[key])
+                        numbers.push(data[key])
                 }
             });
         }
@@ -445,45 +445,45 @@ export default class SendCustomMessages extends Component {
 
         this.setState(stateCopy);
 
-            console.log("formData => "+JSON.stringify(this.state.formData));
+        console.log("formData => " + JSON.stringify(this.state.formData));
 
         // if ($(".sendMessage").parsley().isValid()) {
         //     console.log(JSON.stringify(formData));
 
-            CommunicationsService.createCustomMessage(formData).then(response => {
-                console.log(response.data.data);
+        CommunicationsService.createCustomMessage(formData).then(response => {
+            console.log(response.data.data);
 
-                if (response.data.status != "error") {
-                    
+            if (response.data.status != "error") {
+
                 this.setState({
                     sentMessages: response.data.data != null ? response.data.data : [],
                 });
-                    
-                    this.moveNext();
 
-                } else {
-                    confirmAlert({
-                        title: 'Error sending messages',
-                        message: response.data.message,
-                        buttons: [
-                            {
-                                label: 'ok',
-                            }
-                        ]
-                    });
-                }
+                this.moveNext();
 
-            }).catch(error => {
+            } else {
                 confirmAlert({
-                    title: 'Error occurred',
-                    message: error.message,
+                    title: 'Error sending messages',
+                    message: response.data.message,
                     buttons: [
                         {
                             label: 'ok',
                         }
                     ]
                 });
+            }
+
+        }).catch(error => {
+            confirmAlert({
+                title: 'Error occurred',
+                message: error.message,
+                buttons: [
+                    {
+                        label: 'ok',
+                    }
+                ]
             });
+        });
         // }
 
 
@@ -666,73 +666,73 @@ export default class SendCustomMessages extends Component {
                                                 </div>
                                             </div>
                                             <div className="tab-pane" id="tab3">
-                                                
-                            <table
-                                className="table table-theme v-middle table-row"
-                                id="table"
-                                data-toolbar="#toolbar"
-                                data-search="true"
-                                data-search-align="left"
-                                data-show-columns="true"
-                                data-show-export="true"
-                                data-detail-view="true"
-                                data-mobile-responsive="true"
-                                data-pagination="true"
-                                data-page-list="[10, 25, 50, 100, ALL]"
-                            >
 
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Recepient</th>
-                                        <th>Message</th>
-                                        <th>Priority </th>
-                                        <th>Response Status </th>
-                                    </tr>
-                                </thead>
+                                                <table
+                                                    className="table table-theme v-middle table-row"
+                                                    id="table"
+                                                    data-toolbar="#toolbar"
+                                                    data-search="true"
+                                                    data-search-align="left"
+                                                    data-show-columns="true"
+                                                    data-show-export="true"
+                                                    data-detail-view="true"
+                                                    data-mobile-responsive="true"
+                                                    data-pagination="true"
+                                                    data-page-list="[10, 25, 50, 100, ALL]"
+                                                >
 
-                                <tbody>
+                                                    <thead>
+                                                        <tr>
+                                                            <th>ID</th>
+                                                            <th>Recepient</th>
+                                                            <th>Message</th>
+                                                            <th>Priority </th>
+                                                            <th>Response Status </th>
+                                                        </tr>
+                                                    </thead>
 
-                                    {sentMessages != "" &&
-                                        sentMessages.map((mes, index) => {
+                                                    <tbody>
 
-                                            return (
+                                                        {sentMessages != "" &&
+                                                            sentMessages.map((mes, index) => {
 
-
-                                                <tr className=" " key={index} >
+                                                                return (
 
 
-                                                    <td>
-                                                        <span className="text-muted">{mes.id}</span>
-                                                    </td>
+                                                                    <tr className=" " key={index} >
 
-                                                    <td>
-                                                        <span className="text-muted">{mes.recipient}</span>
-                                                    </td>
 
-                                                    <td>
-                                                        <span className="text-muted">{mes.message}</span>
-                                                    </td>
+                                                                        <td>
+                                                                            <span className="text-muted">{mes.id}</span>
+                                                                        </td>
 
-                                                    <td>
-                                                        <span className="text-muted">{mes.priority}</span>
-                                                    </td>
+                                                                        <td>
+                                                                            <span className="text-muted">{mes.recipient}</span>
+                                                                        </td>
 
-                                                    <td>
-                                                        <span className="text-muted">{mes.sentResponseStatus}</span>
-                                                    </td>
-                                                </tr>
+                                                                        <td>
+                                                                            <span className="text-muted">{mes.message}</span>
+                                                                        </td>
 
-                                            );
+                                                                        <td>
+                                                                            <span className="text-muted">{mes.priority}</span>
+                                                                        </td>
 
-                                        })
-                                    }
+                                                                        <td>
+                                                                            <span className="text-muted">{mes.sentResponseStatus}</span>
+                                                                        </td>
+                                                                    </tr>
 
-                                </tbody>
+                                                                );
 
-                            </table>
+                                                            })
+                                                        }
 
-                                                </div>
+                                                    </tbody>
+
+                                                </table>
+
+                                            </div>
                                         </div>
 
 

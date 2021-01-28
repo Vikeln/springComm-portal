@@ -215,7 +215,7 @@ button {
 }
 
 .active > .active-bg-success {
-  background-color: #FF911E !important;
+  background-color: #da0021 !important;
 }
 
 form .col-6, form .col-4, form .col-12 {
@@ -573,7 +573,7 @@ form textarea {
   display: flex;
 }
 .advancedSearchOptions button, .advancedSearchOptions a {
-  border: 1px solid #FF911E;
+  border: 1px solid #da0021;
   display: inline-block;
   padding-top: 10px;
   padding-bottom: 10px;

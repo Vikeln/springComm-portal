@@ -29,8 +29,9 @@ export default class SendMessages extends Component {
             message: "",
             uploading: false,
             formData: {
-                parameters: "",
-                parameterValues: ""
+                parameters: [],
+                parameterValues: [],
+                sendFromTemplate:"false"
 
             }, errors: "",
             parameters: "",
@@ -547,7 +548,7 @@ export default class SendMessages extends Component {
             CommunicationsService.createMessage(formData).then(response => {
 
                 if (response.data.status != "error") {
-                    if (this.state.formData.sendOnce == "true") {
+                    if (this.state.formData.sendTime == "now") {
                         window.location.href = "/dashboard/messages";
                     } else {
                         window.location.href = "/dashboard/scheduled-messages";
@@ -853,19 +854,6 @@ export default class SendMessages extends Component {
                                             </textarea>
                                         </div>}
                                     {this.state.formData.sendFromTemplate == "false" &&
-                                        <div
-                                            className="col-12">                                       <label>Message</label><textarea
-                                                name="message"
-                                                id="message"
-                                                data-parsley-required="true"
-                                                data-parsley-trigger="keyup" data-parsley-minlength="20" data-parsley-maxlength="100"
-                                                onChange={this.handleChange}
-                                                cols=""
-                                                rows="">
-                                            </textarea>
-                                        </div>}
-
-                                    {this.state.messageTemplates.length < 1 &&
                                         <div
                                             className="col-12">                                       <label>Message</label><textarea
                                                 name="message"

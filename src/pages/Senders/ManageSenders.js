@@ -281,7 +281,7 @@ export default class ManageSenders extends Component {
                                                             <span className="text-muted">{mes.status}</span>
                                                         </td>
 
-                                                        <td>
+                                                        {/* <td>
                                                             <div className="item-action dropdown">
                                                                 <a href="#" data-toggle="dropdown" className="text-muted"><i className="i-con i-con-more"><i></i></i></a>
 
@@ -294,7 +294,7 @@ export default class ManageSenders extends Component {
                                                                 </div>
 
                                                             </div>
-                                                        </td>
+                                                        </td> */}
 
 
                                                     </tr>

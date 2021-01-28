@@ -323,7 +323,7 @@ export default class ManageContacts extends Component {
                                             className="col-12">
                                             <div className="col-4">
 
-                                                <label>Contact</label>
+                                                <label>Phone Number</label>
                                                 <input
                                                     type="text"
                                                     name="phone"
