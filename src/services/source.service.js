@@ -2,7 +2,7 @@
 import { axiosInstance } from '../API';
 
 
-const communicationUrl = "http://10.38.83.54:30560/bridge";
+const communicationUrl = "https://lbtotal.mfs.co.ke/bridge";
 
 class SourceService {
 
