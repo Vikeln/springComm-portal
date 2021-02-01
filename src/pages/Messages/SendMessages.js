@@ -30,8 +30,9 @@ export default class SendMessages extends Component {
             uploading: false,
             formData: {
                 parameters: [],
+                recipient: [],
                 parameterValues: [],
-                sendFromTemplate:"false"
+                sendFromTemplate: "false"
 
             }, errors: "",
             parameters: "",
@@ -54,9 +55,8 @@ export default class SendMessages extends Component {
         this.getAllGroupContacts = this.getAllGroupContacts.bind(this);
 
         this.onFileChange = this.onFileChange.bind(this);
-        this.onFileUpload = this.onFileUpload.bind(this);
-
-
+        this.setCharAt = this.setCharAt.bind(this);
+        this.complete = this.complete.bind(this);
     }
 
     componentDidMount() {
@@ -80,6 +80,7 @@ export default class SendMessages extends Component {
         this.fetchSources();
         $(".uploader").click(this.openFileUploader);
         $(".upload-download").click(this.downloadTemplate);
+        // $("#recipients").change(this.complete);
 
 
 
@@ -215,7 +216,7 @@ export default class SendMessages extends Component {
                 ]
             });
         });
-    
+
     }
     async fetchContacts() {
 
@@ -421,6 +422,20 @@ export default class SendMessages extends Component {
         })
     }
 
+    setCharAt(str, index, chr) {
+        if (index > str.length - 1) return str;
+        return str.substring(0, index) + chr + str.substring(index + 1);
+    }
+
+    complete(vals) {
+
+        if (vals.startsWith("0")) {
+            return "254" + vals.substring(1);
+        } else {
+            return vals;
+        }
+    }
+
     handleChange(el) {
         let inputName = el.target.name;
         let inputValue = el.target.value;
@@ -454,15 +469,21 @@ export default class SendMessages extends Component {
 
         } else if (inputName === "recipients") {
             let userGroups = inputValue.split(",");
-            stateCopy.formData.recipient = userGroups;
+            // for (var i = 0, l = userGroups.length; i < l; i++) {
 
+            //     if  (userGroups[i].startsWith("0"))
+            //     userGroups[i] = this.setCharAt(userGroups[i],1,"0");
+            // }
+            stateCopy.formData.recipient = userGroups;
         } else if (inputName === "recipient") {
 
             for (var i = 0, l = options.length; i < l; i++) {
 
+
                 if (options[i].selected) {
                     userGroups.push(parseInt(options[i].value));
                 }
+
 
             }
 
@@ -478,7 +499,7 @@ export default class SendMessages extends Component {
         } else if (inputName === "filterContacts") {
             stateCopy.filterContacts = inputValue;
 
-        }else if (inputName === "contactGroup") {
+        } else if (inputName === "contactGroup") {
             stateCopy.formData.contactGroup = inputValue;
             this.getAllGroupContacts(inputValue);
 
@@ -539,11 +560,21 @@ export default class SendMessages extends Component {
         if (formData.recipient.length < 1) {
 
             alert("Please set a recipient list");
+        } else {
+
         }
 
 
         if ($(".sendMessage").parsley().isValid()) {
-            console.log(JSON.stringify(formData));
+            let vals = [];
+            for (var i=0; i < formData.recipient.length; i++) {
+
+                vals.push(this.complete(formData.recipient[i]));
+            }
+            formData.recipient=vals;
+            // console.log(JSON.stringify(vals));
+            // console.log(JSON.stringify(formData));
+            // console.log(JSON.stringify(formData));
 
             CommunicationsService.createMessage(formData).then(response => {
 
@@ -586,7 +617,7 @@ export default class SendMessages extends Component {
 
     render() {
 
-        const { filterContacts,contactGroups,messageTemplates, uploading, sources, sendOnce, sendTime, sendFromTemplate, selectFromAddressBook, contacts, message, successfulSubmission, networkError, submissionMessage } = this.state;
+        const { filterContacts, contactGroups, messageTemplates, uploading, sources, sendOnce, sendTime, sendFromTemplate, selectFromAddressBook, contacts, message, successfulSubmission, networkError, submissionMessage } = this.state;
 
         return (
 
@@ -765,7 +796,7 @@ export default class SendMessages extends Component {
                                             <div
                                                 className="col-8">
 
-                                                <label>Recipients<small>(comma separated)</small></label>
+                                                <label>Recipients<small>(comma separated 254...)</small></label>
 
                                                 <input
                                                     type="text"

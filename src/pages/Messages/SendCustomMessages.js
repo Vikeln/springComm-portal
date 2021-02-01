@@ -441,7 +441,13 @@ export default class SendCustomMessages extends Component {
                 }
             });
         }
-        stateCopy.formData.recepients = numbers;
+        
+        let vals = [];
+        for (var i=0; i < numbers.length; i++) {
+
+            vals.push(this.complete(numbers[i]));
+        }
+        stateCopy.formData.recepients = vals;
 
         this.setState(stateCopy);
 

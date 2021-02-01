@@ -278,7 +278,7 @@ export default class UploadContacts extends Component {
                                 <div className="col-7 secondaryActions">
 <a
                                     className="btn-rounded upload-download"
-                                    href="/assets/files/ContactsUploadTemplate.xlsx"
+                                    href="/assets/files/ContactsUploadTemplate.xls"
                                     download>
 
                                     <span className="">
