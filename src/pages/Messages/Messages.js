@@ -115,7 +115,7 @@ export default class Messages extends Component {
 
                 if (response.data.status != "error") {
 
-                    if (response.data.data.length < 1) {
+                    if ((response.data.data==null || response.data.data==undefined)) {
                         confirmAlert({
                             title: 'No records',
                             message: "No messages found",

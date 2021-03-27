@@ -30,10 +30,12 @@ export default class MessageTemplates extends Component {
             }, errors: "",
             rolesReceived: "",
             groupReceived: "",
+            name: "{{name}}",
+            balance: "{{balance}}",
             networkError: false,
             successfulSubmission: false,
             submissionMessage: "",
-            loading:false
+            loading: false
 
         }
 
@@ -62,7 +64,7 @@ export default class MessageTemplates extends Component {
     async fetchMessageTemplates() {
 
         this.setState({
-            loading:true
+            loading: true
         });
 
         CommunicationsService.getAllMessageTemplates().then(response => {
@@ -72,21 +74,22 @@ export default class MessageTemplates extends Component {
 
                 this.setState({
                     messageTemplates: response.data.data != null ? response.data.data : [],
-                    loading:false
+                    loading: false
                 });
 
                 $('.table').bootstrapTable();
 
 
-            }else{confirmAlert({
-                title: 'Error',
-                message: response.data.message,
-                buttons: [
-                  {
-                    label: 'ok',
-                  }
-                ]
-              });
+            } else {
+                confirmAlert({
+                    title: 'Error',
+                    message: response.data.message,
+                    buttons: [
+                        {
+                            label: 'ok',
+                        }
+                    ]
+                });
 
             }
 
@@ -94,22 +97,22 @@ export default class MessageTemplates extends Component {
         }).catch(error => {
 
             this.setState({
-                loading:false
+                loading: false
             });
 
             confirmAlert({
                 title: 'Error occurred',
                 message: error.message,
                 buttons: [
-                  {
-                    label: 'ok',
-                  }
+                    {
+                        label: 'ok',
+                    }
                 ]
-              });
+            });
 
         });
         this.setState({
-            loading:false
+            loading: false
         });
 
     }
@@ -234,7 +237,7 @@ export default class MessageTemplates extends Component {
 
     render() {
 
-        const { messageTemplates, successfulSubmission, loading,networkError, submissionMessage } = this.state;
+        const { name, balance, messageTemplates, successfulSubmission, loading, networkError, submissionMessage } = this.state;
 
         return (
 
@@ -339,7 +342,7 @@ export default class MessageTemplates extends Component {
                                                                         </Link>
                                                                 </div>
                                                             </div>
-                                                            
+
                                                         </td>
                                                     </tr>
 
@@ -365,6 +368,26 @@ export default class MessageTemplates extends Component {
                                 <div
                                     className="row">
 
+                                    <div
+                                        className="row">
+                                        <div
+                                            className="col-12 card">
+                                            <div
+                                                className="card-body">
+                                                <p>
+<small>
+    Templates help to quickly send a regularly sent message to your customers.
+                                                    We use keywords,call them template parameters, to placehold the parts of the
+                                                    template that need to be replaced with real data. In creation, represent these
+                                                    placeholders with double curly braces, as shown below:</small>
+                                                     </p>
+                                                <p>
+                                                <small> Example: Hello {name}, how are you today? Your balance is {balance}.</small>
+                                                   
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div
                                         className="col-4">
 

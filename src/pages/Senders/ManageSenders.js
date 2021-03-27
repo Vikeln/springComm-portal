@@ -8,6 +8,7 @@ import SourceService from '../../services/source.service';
 import {
     Link
 } from "react-router-dom";
+import utils from "../../utils/utils";
 
 import Notification from '../../components/notifications/Notifications';
 
@@ -274,7 +275,7 @@ export default class ManageSenders extends Component {
                                                         </td>
 
                                                         <td>
-                                                            <span className="text-muted">{mes.dateTimeCreated}</span>
+                                                            <span className="text-muted">{utils.formatDateString(mes.dateTimeCreated)}</span>
                                                         </td>
 
                                                         <td>

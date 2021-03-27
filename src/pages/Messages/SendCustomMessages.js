@@ -453,8 +453,6 @@ export default class SendCustomMessages extends Component {
 
         console.log("formData => " + JSON.stringify(this.state.formData));
 
-        // if ($(".sendMessage").parsley().isValid()) {
-        //     console.log(JSON.stringify(formData));
 
         CommunicationsService.createCustomMessage(formData).then(response => {
             console.log(response.data.data);
@@ -528,8 +526,8 @@ export default class SendCustomMessages extends Component {
                                 <div className="card-header">
                                     <strong>Create Custom Message</strong>
                                     <br />
-                                    <small>Sample: If the excel column headers are number,name and balance, then you will type the message as:
-                                    Dear @name, you balance is @balance. This message will be sent to all the [numbers]
+                                    <small>Sample: If the excel column headers are Phone,name and balance, then you will type the message as:
+                                    Dear @name, you balance is @balance. This message will be sent to all the numbers on column [Phone]
 </small><br />
                                 </div>
 
