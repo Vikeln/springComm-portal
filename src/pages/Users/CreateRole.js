@@ -248,7 +248,7 @@ export default class CreateRole extends Component {
                                                     permissions.map((permission, index) => (
 
                                                         <div
-                                                            className="col-3 roleItem" key={index}>
+                                                            className="col-4 roleItem" key={index}>
                                                             <input
 
                                                                 type="checkbox" id={permission.name} name={permission.name}
