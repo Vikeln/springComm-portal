@@ -160,7 +160,7 @@ export default class ResetPassword extends Component{
                         <div className="col-md-6 authenticationBackground r-l">
                             <div className="formTitle">
                                 <article>
-                                    <h1>Mkulima Loan</h1>
+                                    <img src="/assets/img/logo.png" />
                                     <h3>Admin Dashboard</h3>
                                 </article>
                             </div>

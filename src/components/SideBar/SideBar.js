@@ -120,7 +120,7 @@ export default class SideBar extends Component {
 
                                                 <FontAwesomeIcon icon={faCommentDots} className="sidebarIcon" />
 
-                                                <span className="nav-text">Texts</span>
+                                                <span className="nav-text">SMS</span>
                                                 <span className="nav-caret"></span>
                                             </a>
 
