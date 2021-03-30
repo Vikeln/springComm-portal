@@ -1,6 +1,6 @@
 /* global $ */
 
-import React,{Component} from 'react';
+import React, { Component } from 'react';
 
 import UserService from '../../services/user.service';
 import Notification from '../../components/notifications/Notifications';
@@ -11,29 +11,29 @@ import 'react-confirm-alert/src/react-confirm-alert.css';
 import Loader from '../../components/loaders/Loader';
 
 
-export default class AddUser extends Component{
+export default class AddUser extends Component {
 
-    constructor(props){
+    constructor(props) {
 
         super(props);
 
-        this.state ={
+        this.state = {
 
-            value:this.props.value,
-            formData:{
-                enabled:false,
-                userGroups:[]
+            value: this.props.value,
+            formData: {
+                enabled: false,
+                userGroups: []
 
             },
-            groupNames:[],
-            roles:[],
-            errors:"",
-            rolesReceived:"",
-            groupReceived:"",
-            networkError:false,
-            successfulSubmission:false,
-            submissionMessage:"",
-            loading:false,
+            groupNames: [],
+            roles: [],
+            errors: "",
+            rolesReceived: "",
+            groupReceived: "",
+            networkError: false,
+            successfulSubmission: false,
+            submissionMessage: "",
+            loading: false,
 
 
         }
@@ -46,14 +46,14 @@ export default class AddUser extends Component{
 
     }
 
-    componentDidMount(){
+    componentDidMount() {
 
         $(".createUser").parsley();
         this.getGroupValues();
 
     }
 
-    componentDidUnMount(){
+    componentDidUnMount() {
 
     }
 
@@ -81,24 +81,24 @@ export default class AddUser extends Component{
 
         let stateCopy = Object.assign({}, this.state);
 
-        if(inputName == "role"){
+        if (inputName == "role") {
 
             stateCopy.formData[inputName] = parseInt(inputValue);
 
-        }else if(inputName == "userGroups"){
+        } else if (inputName == "userGroups") {
 
             for (var i = 0, l = options.length; i < l; i++) {
 
                 if (options[i].selected) {
-                  userGroups.push(parseInt(options[i].value));
+                    userGroups.push(parseInt(options[i].value));
                 }
 
             }
 
-            stateCopy.formData[inputName] = userGroups ;
+            stateCopy.formData[inputName] = userGroups;
 
 
-        }else{
+        } else {
 
             stateCopy.formData[inputName] = inputValue;
 
@@ -110,18 +110,18 @@ export default class AddUser extends Component{
 
     }
 
-    getGroupValues(){
+    getGroupValues() {
 
-        UserService.getUserRoles().then( response => {
+        UserService.getUserRoles().then(response => {
 
-            if(response.data.status != "error"){
+            if (response.data.status != "error") {
 
                 this.setState({
-                    roles:response.data.data,
-                    rolesReceived:"yes"
+                    roles: response.data.data,
+                    rolesReceived: "yes"
                 });
 
-            }else{
+            } else {
 
 
                 confirmAlert({
@@ -136,16 +136,16 @@ export default class AddUser extends Component{
                 });
             }
 
-        }).catch(error =>{
+        }).catch(error => {
 
             confirmAlert({
-              title: 'Following Error Occurred',
-              message: error.message,
-              buttons: [
-                {
-                  label: 'Ok',
-                }
-              ]
+                title: 'Following Error Occurred',
+                message: error.message,
+                buttons: [
+                    {
+                        label: 'Ok',
+                    }
+                ]
             });
 
         });
@@ -154,59 +154,71 @@ export default class AddUser extends Component{
 
     handleUserSubmission(event) {
 
-        const {formData} = this.state;
+        const { formData } = this.state;
 
         event.preventDefault();
 
-        if( $(".createUser").parsley().isValid() ){
+        if ($(".createUser").parsley().isValid()) {
 
             this.setState({
-                loading:true,
+                loading: true,
             });
 
             $('input[type="submit"],button[type="submit"]').hide();
 
+            if (formData.apiUser === "true") {
+                var role = this.state.roles.reduce(function (prev, current) {
+                    if (+current.id < +prev.id) {
+                        return current;
+                    } else {
+                        return prev;
+                    }
+                });
+                formData["role"] = role.id;
+            }
+            console.log(formData);
+
             UserService.createUser(formData).then(response => {
 
-                if(response){
+                if (response) {
 
                     this.setState({
-                        networkError:false
+                        networkError: false
                     });
 
                 }
 
-                if(response.data.status == "success"){
+                if (response.data.status == "success") {
 
                     this.setState({
-                        successfulSubmission:true,
-                        submissionMessage : response.data.message,
-                        loading:false,
+                        successfulSubmission: true,
+                        submissionMessage: response.data.message,
+                        loading: false,
                     });
 
                     confirmAlert({
 
                         title: 'Success',
-                        message:response.data.message,
+                        message: response.data.message,
                         buttons: [
                             {
                                 label: 'ok',
-                                onClick: () => window.location.href ="/dashboard/users"
+                                onClick: () => window.location.href = "/dashboard/users"
                             }
                         ]
                     });
 
 
-                }else{
+                } else {
 
                     confirmAlert({
 
                         title: 'Error',
-                        message:response.data.message,
+                        message: response.data.message,
                         buttons: [
                             {
                                 label: 'ok',
-                                onClick: () => window.location.href ="/dashboard/users"
+                                onClick: () => window.location.href = "/dashboard/users"
                             }
                         ]
                     });
@@ -218,19 +230,19 @@ export default class AddUser extends Component{
             }).catch(error => {
 
                 this.setState({
-                    networkError:true,
-                    loading:false
+                    networkError: true,
+                    loading: false
 
                 });
 
                 confirmAlert({
-                  title: 'Following Error Occurred',
-                  message: error.message,
-                  buttons: [
-                    {
-                      label: 'Ok',
-                    }
-                  ]
+                    title: 'Following Error Occurred',
+                    message: error.message,
+                    buttons: [
+                        {
+                            label: 'Ok',
+                        }
+                    ]
                 });
 
                 $('input[type="submit"],button[type="submit"]').show();
@@ -243,12 +255,12 @@ export default class AddUser extends Component{
 
     }
 
-    render(){
+    render() {
 
-        const {roles,groupNames,rolesReceived,groupReceived,loading} = this.state;
+        const { roles, groupNames, rolesReceived, groupReceived, loading } = this.state;
 
 
-        return(
+        return (
 
             <>
                 <div id="content" className="flex ">
@@ -280,7 +292,7 @@ export default class AddUser extends Component{
                                         id="firstName"
                                         className="form-control"
                                         data-parsley-required="true"
-                                        onChange={this.handleChange}/>
+                                        onChange={this.handleChange} />
                                 </div>
 
                                 <div
@@ -294,7 +306,7 @@ export default class AddUser extends Component{
                                         id="lastName"
                                         className="form-control"
                                         data-parsley-required="true"
-                                        onChange={this.handleChange}/>
+                                        onChange={this.handleChange} />
                                 </div>
 
                                 <div
@@ -308,7 +320,7 @@ export default class AddUser extends Component{
                                         id="otherName"
                                         className="form-control"
                                         data-parsley-required="true"
-                                        onChange={this.handleChange}/>
+                                        onChange={this.handleChange} />
                                 </div>
 
                                 <div
@@ -322,7 +334,7 @@ export default class AddUser extends Component{
                                         id="userName"
                                         className="form-control"
                                         data-parsley-required="true"
-                                        onChange={this.handleChange}/>
+                                        onChange={this.handleChange} />
                                 </div>
 
                                 <div className="col-4">
@@ -337,7 +349,7 @@ export default class AddUser extends Component{
                                         data-parsley-required-message="Phone Number required"
                                         data-parsley-pattern-message="Invalid Phone Number"
                                         data-parsley-required="true"
-                                        onChange={this.handleChange}/>
+                                        onChange={this.handleChange} />
                                 </div>
 
                                 <div className="col-4">
@@ -349,58 +361,75 @@ export default class AddUser extends Component{
                                         name="email"
                                         id="email"
                                         data-parsley-required="true"
-                                        onChange={this.handleChange}/>
+                                        onChange={this.handleChange} />
+                                </div>
+
+                                <div className="col-4">
+
+                                    <label>User Type</label>
+
+                                    <select
+                                        className="form-control"
+                                        name="apiUser"
+                                        id="apiUser"
+
+                                        data-parsley-required="true"
+                                        onChange={this.handleChange}>
+                                        <option value=""></option>
+                                        <option value="true">Api User</option>
+                                        <option value="false">Dashboard User</option>
+                                    </select>
                                 </div>
 
                                 {groupReceived != "" &&
 
                                     <>
+                                        <div className="col-12">
+
+                                            <label>User Groups <em>*Use ctr on Windows / Command on Mac to select multiple groups</em></label>
+
+                                            <select
+                                                className="form-control"
+                                                name="userGroups"
+                                                id="userGroups"
+                                                multiple
+                                                data-parsley-required="true"
+                                                onChange={this.handleChange}>
+                                                <option value=""></option>
+                                                {groupNames != "" &&
+
+                                                    groupNames.map((group, index) => (
+                                                        <option key={group.id} value={group.id}>{group.name}</option>
+                                                    ))
+                                                }
+                                            </select>
+
+                                        </div>
+                                    </>
+                                }
+
+                                {rolesReceived != "" && this.state.formData.apiUser === "false" &&
                                     <div className="col-12">
 
-                                        <label>User Groups <em>*Use ctr on Windows / Command on Mac to select multiple groups</em></label>
+                                        <label>Role</label>
 
                                         <select
                                             className="form-control"
-                                            name="userGroups"
-                                            id="userGroups"
-                                            multiple
+                                            name="role"
+                                            id="role"
                                             data-parsley-required="true"
                                             onChange={this.handleChange}>
                                             <option value=""></option>
-                                            {groupNames != "" &&
+                                            {roles != "" &&
 
-                                                groupNames.map((group,index) => (
-                                                    <option key={group.id} value={group.id}>{group.name}</option>
+                                                roles.map((role, index) => (
+                                                    <option key={role.id} value={role.id}>{role.name}</option>
                                                 ))
                                             }
                                         </select>
 
                                     </div>
-                                    </>
                                 }
-
-                                {rolesReceived != "" &&
-                                <div className="col-12">
-
-                                    <label>Role</label>
-
-                                    <select
-                                        className="form-control"
-                                        name="role"
-                                        id="role"
-                                        data-parsley-required="true"
-                                        onChange={this.handleChange}>
-                                        <option value=""></option>
-                                        {roles != "" &&
-
-                                            roles.map((role,index) => (
-                                                <option key={role.id} value={role.id}>{role.name}</option>
-                                            ))
-                                        }
-                                    </select>
-
-                                </div>
-                            }
 
 
 

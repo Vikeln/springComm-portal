@@ -30,7 +30,7 @@ export default class AllUsers extends Component {
             value: this.props.value,
             users: [],
             emailSuccessful: "",
-            loading:false
+            loading: false
 
         }
 
@@ -58,7 +58,7 @@ export default class AllUsers extends Component {
     fetchUsers() {
 
         this.setState({
-            loading:true
+            loading: true
         });
 
         UserService.getAllUsers().then(response => {
@@ -69,14 +69,14 @@ export default class AllUsers extends Component {
 
                 this.setState({
                     users: response.data.data,
-                    loading:false,
+                    loading: false,
                 });
 
                 //$('.table').bootstrapTable();
                 $('.table').dataTable({});
-                $(".table #table_filter input").attr("placeHolder","Search");
+                $(".table #table_filter input").attr("placeHolder", "Search");
 
-            }else{
+            } else {
                 confirmAlert({
 
                     title: 'Error',
@@ -89,7 +89,7 @@ export default class AllUsers extends Component {
                 });
 
                 this.setState({
-                    loading:false,
+                    loading: false,
                 });
             }
 
@@ -97,16 +97,16 @@ export default class AllUsers extends Component {
         }).catch(error => {
 
             this.setState({
-                loading:false,
+                loading: false,
             });
             confirmAlert({
-              title: 'Following Error Occurred',
-              message: error.message,
-              buttons: [
-                {
-                  label: 'Ok',
-                }
-              ]
+                title: 'Following Error Occurred',
+                message: error.message,
+                buttons: [
+                    {
+                        label: 'Ok',
+                    }
+                ]
             });
         });
 
@@ -118,134 +118,134 @@ export default class AllUsers extends Component {
 
 
         confirmAlert({
-          title: 'Are you sure you want to enable '+username,
-          message: 'Please proceed.',
-          buttons: [
-            {
-              label: 'Yes',
-              onClick: () => {
-                  UserService.enableUser(username).then(response => {
+            title: 'Are you sure you want to enable ' + username,
+            message: 'Please proceed.',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: () => {
+                        UserService.enableUser(username).then(response => {
 
 
 
-                      if (response.data.status == "success") {
+                            if (response.data.status == "success") {
 
-                          this.setState({
+                                this.setState({
 
-                              emailSuccessful: response.data.message
+                                    emailSuccessful: response.data.message
 
-                          });
+                                });
 
-                          confirmAlert({
-                            title: 'Succesfully Activated '+username,
-                            message: 'Please proceed.',
-                            buttons: [
-                              {
-                                label: 'Yes',
-                                onClick: () => window.location.reload()
-                              }
-                            ]
-                          });
+                                confirmAlert({
+                                    title: 'Succesfully Activated ' + username,
+                                    message: 'Please proceed.',
+                                    buttons: [
+                                        {
+                                            label: 'Yes',
+                                            onClick: () => window.location.reload()
+                                        }
+                                    ]
+                                });
 
-                      }else if(response.data.status == "error"){
+                            } else if (response.data.status == "error") {
 
-                          confirmAlert({
-                            title: 'Error Submitting Data for '+username,
-                            message: response.data.message,
-                            buttons: [
-                              {
-                                label: 'Ok',
-                              }
-                            ]
-                          });
+                                confirmAlert({
+                                    title: 'Error Submitting Data for ' + username,
+                                    message: response.data.message,
+                                    buttons: [
+                                        {
+                                            label: 'Ok',
+                                        }
+                                    ]
+                                });
 
-                      }
+                            }
 
-                  }).catch(error => {
+                        }).catch(error => {
 
-                      confirmAlert({
-                        title: 'Following Error Occurred',
-                        message: error.message,
-                        buttons: [
-                          {
-                            label: 'Ok',
-                          }
-                        ]
-                      });
+                            confirmAlert({
+                                title: 'Following Error Occurred',
+                                message: error.message,
+                                buttons: [
+                                    {
+                                        label: 'Ok',
+                                    }
+                                ]
+                            });
 
-                  });
-              }
-            }
-          ]
+                        });
+                    }
+                }
+            ]
         });
 
 
 
 
     }
-    unlockUserAccount(id){
-        
+    unlockUserAccount(id) {
+
         confirmAlert({
             title: "Are you sure you want to unlock this user's account? ",
             message: 'Please proceed.',
             buttons: [
-              {
-                label: 'Yes',
-                onClick: () => {
-                    UserService.unlockUserAccount(id).then(response => {
-  
-  
-  
-                        if (response.data.status == "success") {
-  
-                            this.setState({
-  
-                                emailSuccessful: response.data.message
-  
-                            });
-  
-                            confirmAlert({
-                              title: 'Succesfully unlocked the account!',
-                              message: 'Please proceed.',
-                              buttons: [
-                                {
-                                  label: 'Yes',
-                                  onClick: () => window.location.reload()
-                                }
-                              ]
-                            });
-  
-                        }else if(response.data.status == "error"){
-  
-                            confirmAlert({
-                              title: 'Error Submitting Data for '+id,
-                              message: response.data.message,
-                              buttons: [
-                                {
-                                  label: 'Ok',
-                                }
-                              ]
-                            });
-  
-                        }
-  
-                    }).catch(error => {
-  
-                        confirmAlert({
-                          title: 'Following Error Occurred',
-                          message: error.message,
-                          buttons: [
-                            {
-                              label: 'Ok',
+                {
+                    label: 'Yes',
+                    onClick: () => {
+                        UserService.unlockUserAccount(id).then(response => {
+
+
+
+                            if (response.data.status == "success") {
+
+                                this.setState({
+
+                                    emailSuccessful: response.data.message
+
+                                });
+
+                                confirmAlert({
+                                    title: 'Succesfully unlocked the account!',
+                                    message: 'Please proceed.',
+                                    buttons: [
+                                        {
+                                            label: 'Yes',
+                                            onClick: () => window.location.reload()
+                                        }
+                                    ]
+                                });
+
+                            } else if (response.data.status == "error") {
+
+                                confirmAlert({
+                                    title: 'Error Submitting Data for ' + id,
+                                    message: response.data.message,
+                                    buttons: [
+                                        {
+                                            label: 'Ok',
+                                        }
+                                    ]
+                                });
+
                             }
-                          ]
+
+                        }).catch(error => {
+
+                            confirmAlert({
+                                title: 'Following Error Occurred',
+                                message: error.message,
+                                buttons: [
+                                    {
+                                        label: 'Ok',
+                                    }
+                                ]
+                            });
+
                         });
-  
-                    });
+                    }
                 }
-              }
             ]
-          });
+        });
 
     }
 
@@ -267,16 +267,16 @@ export default class AllUsers extends Component {
 
 
 
-            }else{
+            } else {
                 confirmAlert({
                     title: 'Error occurred on user deactivation',
                     message: response.data.message,
                     buttons: [
-                      {
-                        label: 'ok',
-                      }
+                        {
+                            label: 'ok',
+                        }
                     ]
-                  });
+                });
             }
 
         }).catch(error => {
@@ -285,11 +285,11 @@ export default class AllUsers extends Component {
                 title: 'Error occurred',
                 message: error.message,
                 buttons: [
-                  {
-                    label: 'ok',
-                  }
+                    {
+                        label: 'ok',
+                    }
                 ]
-              });
+            });
 
         });
 
@@ -297,7 +297,7 @@ export default class AllUsers extends Component {
 
     render() {
 
-        const { users, viewUsers,loading } = this.state;
+        const { users, viewUsers, loading } = this.state;
 
         return (
 
@@ -306,144 +306,150 @@ export default class AllUsers extends Component {
 
                     <div className="page-container" id="page-container">
 
-                    <div className="page-title padding pb-0 ">
+                        <div className="page-title padding pb-0 ">
 
-                        <h2 className="text-md mb-0">All Users</h2>
-
-                    </div>
-
-
-{viewUsers &&
-                        <div className="padding">
-
-
-
-
-                            <table
-                                className="table table-theme v-middle table-row"
-                                id="table"
-                                data-toolbar="#toolbar"
-                                data-search="true"
-                                data-page-length='10'
-                                data-show-columns="true"
-                                data-show-export="true"
-                                data-detail-view="true"
-                                data-mobile-responsive="true"
-                                data-pagination="true"
-                                data-page-list="[5, 25, 50, 100, ALL]"
-                            >
-
-                                <thead>
-                                    <tr>
-                                        <th>User name</th>
-                                        <th>First Name</th>
-                                        <th>Last Name</th>
-                                        <th>Role </th>
-
-                                        <th>Email </th>
-                                        <th>Activated </th>
-                                        <th>Actions </th>
-
-                                    </tr>
-                                </thead>
-
-                                <tbody>
-
-
-
-                                    {users != "" &&
-                                        users.map((user, index) => {
-
-                                            return (
-
-
-                                                <tr className=" " key={user.id} >
-
-
-                                                    <td>
-                                                        <span className="">{user.userName}</span>
-                                                    </td>
-
-                                                    <td>
-                                                        <span className="">{user.firstName}</span>
-                                                    </td>
-
-                                                    <td>
-                                                        <span className="">{user.lastName}</span>
-                                                    </td>
-
-                                                    <td>
-                                                        <span className="">{user.role.name}</span>
-                                                    </td>
-
-                                                    <td>
-                                                        <span className="">{user.email}</span>
-                                                    </td>
-
-                                                    <td>
-                                                        <span className=""><Badge description={user.enabled.toString()}
-                                                        type={user.enabled.toString()}/></span>
-                                                    </td>
-
-                                                    <td>
-                                                        <div className="item-action dropdown">
-                                                            <a href="#" data-toggle="dropdown" className="text-muted"><i className="i-con i-con-more"><i></i></i></a>
-
-                                                            <div className="dropdown-menu dropdown-menu-right bg-dark" role="menu">
-
-                                                                <Link className="dropdown-item" to={'/dashboard/viewuser/' + user.id}>
-                                                                    See detail
-                                                                        </Link>
-
-                                                                <Link className="dropdown-item" to={'/dashboard/edituser/' + user.id}>
-                                                                    Edit
-                                                                        </Link>
-
-                                                                        {!user.enabled &&
-                                                                    <button
-                                                                        className="dropdown-item enableUser"
-                                                                        onClickCapture={(e) =>
-                                                                            this.enableUser(user.userName)
-                                                                        }
-                                                                    >Enable {user.userName}</button>}
-
-                                                                    {user.enabled &&
-                                                                    <button
-                                                                        className="dropdown-item enableUser"
-                                                                        onClickCapture={() =>
-                                                                            this.deactivateUser(user.id)
-                                                                        }
-                                                                    >DeActivate {user.userName}</button>}
-                                                                    {user.accountLocked &&
-                                                                    <button
-                                                                        className="dropdown-item unlockUser"
-                                                                        onClickCapture={() =>
-                                                                            this.unlockUserAccount(user.id)
-                                                                        }
-                                                                    >Unlock {user.userName}'s Account </button>}
-
-                                                            </div>
-
-                                                        </div>
-                                                    </td>
-
-                                                </tr>
-
-                                            );
-
-                                        })
-                                    }
-
-                                </tbody>
-
-                            </table>
-
-
+                            <h2 className="text-md mb-0">All Users</h2>
 
                         </div>
-}{!viewUsers &&
-<div><p>You do not have permission to view this resource</p></div>
-}
+
+
+                        {viewUsers &&
+                            <div className="padding">
+
+
+
+
+                                <table
+                                    className="table table-theme v-middle table-row"
+                                    id="table"
+                                    data-toolbar="#toolbar"
+                                    data-search="true"
+                                    data-page-length='10'
+                                    data-show-columns="true"
+                                    data-show-export="true"
+                                    data-detail-view="true"
+                                    data-mobile-responsive="true"
+                                    data-pagination="true"
+                                    data-page-list="[5, 25, 50, 100, ALL]"
+                                >
+
+                                    <thead>
+                                        <tr>
+                                            <th>User name</th>
+                                            <th>First Name</th>
+                                            <th>Last Name</th>
+                                            <th>API User </th>
+                                            <th>Role </th>
+
+                                            <th>Email </th>
+                                            <th>Activated </th>
+                                            <th>Actions </th>
+
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+
+
+
+                                        {users != "" &&
+                                            users.map((user, index) => {
+
+                                                return (
+
+
+                                                    <tr className=" " key={user.user.id} >
+
+
+                                                        <td>
+                                                            <span className="">{user.user.userName}</span>
+                                                        </td>
+
+                                                        <td>
+                                                            <span className="">{user.user.firstName}</span>
+                                                        </td>
+
+                                                        <td>
+                                                            <span className="">{user.user.lastName}</span>
+                                                        </td>
+
+                                                        <td>
+                                                            <span className="">{user.apiUser ? "True" :"False"}</span>
+                                                        </td>
+
+                                                        <td>
+                                                            {!user.apiUser && <span className="">{user.user.role.name}</span>}
+                                                        </td>
+
+
+                                                        <td>
+                                                            <span className="">{user.user.email}</span>
+                                                        </td>
+
+                                                        <td>
+                                                            <span className=""><Badge description={user.user.enabled.toString()}
+                                                                type={user.user.enabled.toString()} /></span>
+                                                        </td>
+
+                                                        <td>
+                                                            <div className="item-action dropdown">
+                                                                <a href="#" data-toggle="dropdown" className="text-muted"><i className="i-con i-con-more"><i></i></i></a>
+
+                                                                <div className="dropdown-menu dropdown-menu-right bg-dark" role="menu">
+
+                                                                    <Link className="dropdown-item" to={'/dashboard/viewuser/' + user.user.id}>
+                                                                        See detail
+                                                                        </Link>
+
+                                                                    <Link className="dropdown-item" to={'/dashboard/edituser/' + user.user.id}>
+                                                                        Edit
+                                                                        </Link>
+
+                                                                    {!user.user.enabled &&
+                                                                        <button
+                                                                            className="dropdown-item enableUser"
+                                                                            onClickCapture={(e) =>
+                                                                                this.enableUser(user.user.userName)
+                                                                            }
+                                                                        >Enable {user.userName}</button>}
+
+                                                                    {user.user.enabled &&
+                                                                        <button
+                                                                            className="dropdown-item enableUser"
+                                                                            onClickCapture={() =>
+                                                                                this.deactivateUser(user.user.id)
+                                                                            }
+                                                                        >DeActivate {user.userName}</button>}
+                                                                    {user.user.accountLocked &&
+                                                                        <button
+                                                                            className="dropdown-item unlockUser"
+                                                                            onClickCapture={() =>
+                                                                                this.unlockUserAccount(user.user.id)
+                                                                            }
+                                                                        >Unlock {user.user.userName}'s Account </button>}
+
+                                                                </div>
+
+                                                            </div>
+                                                        </td>
+
+                                                    </tr>
+
+                                                );
+
+                                            })
+                                        }
+
+                                    </tbody>
+
+                                </table>
+
+
+
+                            </div>
+                        }{!viewUsers &&
+                            <div><p>You do not have permission to view this resource</p></div>
+                        }
 
                         {loading &&
                             <Loader type="circle" />

@@ -587,6 +587,8 @@ export default class SendMessages extends Component {
 
 
         if ($(".sendMessage").parsley().isValid()) {
+            
+            $('input[type="submit"],button[type="submit"]').hide();
             let vals = [];
             for (var i = 0; i < formData.recipient.length; i++) {
 
