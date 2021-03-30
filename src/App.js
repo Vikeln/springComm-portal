@@ -6,6 +6,9 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
+
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
  
 
 // User and Role Mangement
@@ -102,7 +105,17 @@ export default class App extends Component {
 
 
       setTimeout(function () {
-        window.location.href = '/logout';
+        confirmAlert({  
+        title: "Session Timed Out",
+        message: 'Your session has timed out and you will be logged out now.',
+        buttons: [
+            {
+                label: 'Ok',
+                onClick: () => window.location.href = '/logout'
+            }
+        ]
+    });
+
       }, AuthService.getUserLoggedInAt() - Math.floor(Date.now()));
 
 

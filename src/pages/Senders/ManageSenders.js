@@ -59,7 +59,7 @@ export default class ManageSenders extends Component {
 
     async fetchMySenders() {
 
-        SourceService.getAllActiveSources().then(response => {
+        SourceService.getAllSources().then(response => {
 
             if (response.data.status != "error") {
 

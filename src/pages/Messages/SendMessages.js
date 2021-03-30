@@ -600,11 +600,19 @@ export default class SendMessages extends Component {
             CommunicationsService.createMessage(formData).then(response => {
 
                 if (response.data.status != "error") {
-                    if (this.state.formData.sendTime == "now") {
-                        window.location.href = "/dashboard/messages";
-                    } else {
-                        window.location.href = "/dashboard/scheduled-messages";
-                    }
+
+                    confirmAlert({
+                        title: 'Success',
+                        message: response.data.message,
+                        buttons: [
+                            {
+                                label: 'OK',
+                                onClick:() =>this.state.formData.sendTime == "now"? window.location.href = "/dashboard/messages"
+                                 : 
+                                 window.location.href = "/dashboard/scheduled-messages"
+                            }
+                        ]
+                    });
 
                 } else {
                     confirmAlert({

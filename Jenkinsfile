@@ -15,17 +15,17 @@ pipeline {
                 checkout scm
             }
         }
-        stage ('Build Production Files') {
-            steps {
-              sh 'npm i'
-              sh 'npm run build'
-            }
-        }
         stage ('Sonar scan'){
             
             steps {
                 sh ''' echo "RUNNING CODE ANALYSIS" '''
                 sh '/opt/sonar-cli/bin/sonar-scanner -Dsonar.projectKey=prsp-rebuild-portal -Dsonar.sources=. -Dsonar.host.url=http://10.38.83.165:9000 -Dsonar.login=43fa108a90ff22212472e18a23d806a119679483'
+            }
+        }
+        stage ('Build Production Files') {
+            steps {
+              sh 'npm i'
+              sh 'npm run build'
             }
         }
         stage('Build Docker Image'){

@@ -294,8 +294,8 @@ export default class Messages extends Component {
                                         <th>ID</th>
                                         <th>Recepient</th>
                                         <th>Message</th>
-                                        <th>Priority </th>
-                                        <th>Response Status </th>
+                                        <th>Request Status </th>
+                                        <th>Status </th>
                                     </tr>
                                 </thead>
 
@@ -323,12 +323,13 @@ export default class Messages extends Component {
                                                     </td>
 
                                                     <td>
-                                                        <span className="text-muted">{mes.priority}</span>
+                                                        <span className="text-muted">{mes.sentResponseStatus}</span>
                                                     </td>
 
                                                     <td>
-                                                        <span className="text-muted">{mes.sentResponseStatus}</span>
+                                                        <span className="text-muted">{mes.processedStatus}</span>
                                                     </td>
+
                                                 </tr>
 
                                             );
