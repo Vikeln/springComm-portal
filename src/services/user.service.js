@@ -2,8 +2,8 @@ import { axiosInstance } from '../API';
 
 
 
-// const userUrl = "https://lbtotal.mfs.co.ke/users";
-const userUrl = "http://localhost:8080/users";
+const userUrl = "https://lbtotal.mfs.co.ke/users";
+// const userUrl = "http://localhost:8080/users";
 
 const baseUrl = "https://lbtotal.mfs.co.ke/";   
 
