@@ -1,13 +1,17 @@
 /* global $ */
 
 import React, { Component } from 'react';
+import ReactDom from 'react-dom';
 
 import { confirmAlert } from 'react-confirm-alert';
 import CommunicationsService from '../../services/communications.service';
 import AddressBookService from '../../services/addressbook.service';
 import SourceService from '../../services/source.service';
 import Notification from '../../components/notifications/Notifications';
-import DateTimePicker from 'react-datetime-picker';
+
+import TimePicker from 'rc-time-picker';
+import 'rc-time-picker/assets/index.css';
+import moment from 'moment';
 
 import Loader from '../../components/loaders/Loader';
 
@@ -23,6 +27,8 @@ export default class SendMessages extends Component {
             messageTemplates: [],
             sources: [],
             contactGroups: [],
+            format: "HH:mm:ss",
+            timeNow: moment().hour(0).minute(0),
             uploads: [],
             selectedFile: "",
             contacts: [],
@@ -80,7 +86,7 @@ export default class SendMessages extends Component {
 
     }
     createTimePicker() {
-        
+
         $(".startdate").datepicker({
             format: 'yyyy-mm-dd',
             todayHighlight: true,
@@ -587,7 +593,7 @@ export default class SendMessages extends Component {
 
 
         if ($(".sendMessage").parsley().isValid()) {
-            
+
             $('input[type="submit"],button[type="submit"]').hide();
             let vals = [];
             for (var i = 0; i < formData.recipient.length; i++) {
@@ -607,9 +613,9 @@ export default class SendMessages extends Component {
                         buttons: [
                             {
                                 label: 'OK',
-                                onClick:() =>this.state.formData.sendTime == "now"? window.location.href = "/dashboard/messages"
-                                 : 
-                                 window.location.href = "/dashboard/scheduled-messages"
+                                onClick: () => this.state.formData.sendTime == "now" ? window.location.href = "/dashboard/messages"
+                                    :
+                                    window.location.href = "/dashboard/scheduled-messages"
                             }
                         ]
                     });
@@ -644,13 +650,10 @@ export default class SendMessages extends Component {
     }
 
 
-    updateStartTime(time) {
-
-        // console.log("Start Time Changed", time.target.value);
-
+    updateStartTime(value) {
+        console.log(value + "         " + value.format(this.state.format));
         let stateCopy = Object.assign({}, this.state);
-
-        stateCopy.formData["timeToSend"] = time.target.value;
+        stateCopy.formData["timeToSend"] = value.format(this.state.format)
 
         this.setState(stateCopy);
 
@@ -672,7 +675,7 @@ export default class SendMessages extends Component {
 
     render() {
 
-        const { filterContacts, contactGroups, messageTemplates, uploading, sources, sendOnce, sendTime, sendFromTemplate, selectFromAddressBook, contacts, message, successfulSubmission, networkError, submissionMessage } = this.state;
+        const { format, timeNow, filterContacts, contactGroups, messageTemplates, uploading, sources, sendOnce, sendTime, sendFromTemplate, selectFromAddressBook, contacts, message, successfulSubmission, networkError, submissionMessage } = this.state;
 
         return (
 
@@ -1035,13 +1038,13 @@ export default class SendMessages extends Component {
                                                 </label>
                                                     <div
                                                         className=" messageFilter">
+                                                        <TimePicker
+                                                            style={{ width: 100 }}
+                                                            showSecond={true}
+                                                            defaultValue={moment()}
+                                                            className="xxx"
+                                                            onChange={this.updateStartTime}
 
-                                                        <input
-                                                            type="text"
-                                                            className="timepicker starttime"
-                                                            name="timeToSend"
-                                                            id="timeToSend"
-                                                            data-parsley-required="true"
                                                         />
 
                                                     </div>
@@ -1136,21 +1139,22 @@ export default class SendMessages extends Component {
                                                 </div>
                                             </div>
                                             <div className="col-4">
-                                            <label>Time to Send
+                                                <label>Time to Send
                                                 </label>
-                                                        <div>
+                                                <div>
 
-                                                            <input
-                                                                type="text"
-                                                                className="timepicker starttime"
-                                                                name="timeToSend"
-                                                                id="timeToSend"
-                                                                data-parsley-required="true"
-                                                            />
+                                                    
+                                                <TimePicker
+                                                            style={{ width: 100 }}
+                                                            showSecond={true}
+                                                            defaultValue={moment()}
+                                                            className="xxx"
+                                                            onChange={this.updateStartTime}
 
-                                                        </div>
+                                                        />
+                                                </div>
 
-                                               
+
                                             </div>
                                         </div>
                                     }

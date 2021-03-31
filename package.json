@@ -14,6 +14,7 @@
     "chart.js": "^2.9.4",
     "jquery": "^3.5.1",
     "jwt-decode": "^3.0.0-beta.2",
+    "rc-time-picker": "^3.7.3",
     "react": "^17.0.1",
     "react-bootstrap": "^1.4.0",
     "react-chartjs-2": "^2.11.1",
