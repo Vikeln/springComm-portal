@@ -530,6 +530,32 @@ export default class SendCustomMessages extends Component {
                                     Dear @name, you balance is @balance. This message will be sent to all the numbers on column [Phone]
 </small><br />
                                 </div>
+                                <div className="buttonContainer padding pt-0 pb-0">
+
+
+                            <div className="row advancedSearchOptions ">
+                                
+
+                                <div className="col-7 secondaryActions">
+<a
+                                    className="btn-rounded upload-download"
+                                    href="/assets/files/CustomSMSTemplate.xlxs"
+                                    download>
+
+                                    <span className="">
+                                        <i className="i-con i-con-download">
+                                            <i></i>
+                                        </i>
+                                    </span>Download Template</a>
+
+
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
 
                                 {/* Form Container */}
                                 <div className="card-body">
