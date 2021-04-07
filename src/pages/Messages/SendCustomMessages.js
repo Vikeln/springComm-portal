@@ -623,7 +623,7 @@ export default class SendCustomMessages extends Component {
                                                                 <i className="i-con i-con-upload">
                                                                     <i></i>
                                                                 </i>
-                                                            </span>Upload Contacts
+                                                            </span>Upload Excel File
     </button>
 
 

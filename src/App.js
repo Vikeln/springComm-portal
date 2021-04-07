@@ -25,7 +25,7 @@ import ManageContacts from './pages/AddressBook/ManageContacts';
 
 
 import ManageSenders from './pages/Senders/ManageSenders';
-import Integration from './pages/Unit/Integration';
+import Integration from './pages/Integration/Integration';
 
 
 // Role Management Views

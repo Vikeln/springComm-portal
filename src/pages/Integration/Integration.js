@@ -64,7 +64,7 @@ export default class Integration extends Component {
                                     <div className="card-title page-title padding pb-0 ">
                                         MOBICONNECT API INTEGRATION</div>
                                     <div className="card-body">
-                                        Interested?  <a target="_blank" href="http://10.38.83.54:30555/swagger-ui.html">
+                                        Interested?  <a target="_blank" href="https://lbtotal.mfs.co.ke/swagger-ui.html">
                                             Here's our documentation.</a>
                                     </div>
                                 </div>
