@@ -108,6 +108,8 @@ export default class App extends Component {
         confirmAlert({  
         title: "Session Timed Out",
         message: 'Your session has timed out and you will be logged out now.',
+        closeOnEscape: false,
+        closeOnClickOutside: false,
         buttons: [
             {
                 label: 'Ok',
