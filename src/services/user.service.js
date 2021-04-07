@@ -2,10 +2,10 @@ import { axiosInstance } from '../API';
 
 
 
-const userUrl = "https://lbtotal.mfs.co.ke/users";
+const userUrl = "http://10.38.83.36:31098/users";
 // const userUrl = "http://localhost:8080/users";
 
-const baseUrl = "https://lbtotal.mfs.co.ke/";   
+const baseUrl = "http://10.38.83.36:31098/";   
 
 
 class UserService {

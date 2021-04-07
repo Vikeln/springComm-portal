@@ -55,6 +55,7 @@ export default class SendCustomMessages extends Component {
         this.moveNext = this.moveNext.bind(this);
         this.startsWith = this.startsWith.bind(this);
         this.complete = this.complete.bind(this);
+        this.completeNumbers = this.completeNumbers.bind(this);
         this.onFileUpload = this.onFileUpload.bind(this);
 
 
@@ -255,6 +256,16 @@ export default class SendCustomMessages extends Component {
     moveNext() {
         $('#rootwizard').bootstrapWizard('next');
     }
+    completeNumbers(val) {
+
+        if (!val) return;
+
+        if (val.startsWith("0")) {
+            return "254" + val.substring(1);
+        } else {
+            return val;
+        }
+    }
 
     complete(strComplete) {
         var val = document.getElementById("message").value.substring(0, document.getElementById("message").value.indexOf('@')) + "{{" + strComplete + "}} ";
@@ -436,18 +447,20 @@ export default class SendCustomMessages extends Component {
             var data = dataObjects[m];
             Object.keys(data).map(key => {
                 if (data.hasOwnProperty(key)) {
-                    if (key == "Phone")
-                        numbers.push(data[key])
+                    if (key == "Phone") {
+                        console.log(data[key]);
+                        numbers.push(data[key]);
+                    }
                 }
             });
         }
-        
-        let vals = [];
-        for (var i=0; i < numbers.length; i++) {
 
-            vals.push(this.complete(numbers[i]));
+        let vals = [];
+        for (var i = 0; i < numbers.length; i++) {
+
+            vals.push(this.completeNumbers(numbers[i].toString()));
         }
-        stateCopy.formData.recepients = vals;
+        stateCopy.formData.recepients = vals;    
 
         this.setState(stateCopy);
 
@@ -457,10 +470,10 @@ export default class SendCustomMessages extends Component {
         CommunicationsService.createCustomMessage(formData).then(response => {
             console.log(response.data.data);
 
-            if (response.data.status != "error") {
+            if (response.data.successStatus == "success") {
 
                 this.setState({
-                    sentMessages: response.data.data != null ? response.data.data : [],
+                    sentMessages: response.data.body != null ? response.data.body : [],
                 });
 
                 this.moveNext();
@@ -488,7 +501,7 @@ export default class SendCustomMessages extends Component {
                 ]
             });
         });
-        // }
+        
 
 
 
@@ -533,29 +546,29 @@ export default class SendCustomMessages extends Component {
                                 <div className="buttonContainer padding pt-0 pb-0">
 
 
-                            <div className="row advancedSearchOptions ">
-                                
+                                    <div className="row advancedSearchOptions ">
 
-                                <div className="col-7 secondaryActions">
-<a
-                                    className="btn-rounded upload-download"
-                                    href="/assets/files/CustomSMSTemplate.xlxs"
-                                    download>
 
-                                    <span className="">
-                                        <i className="i-con i-con-download">
-                                            <i></i>
-                                        </i>
-                                    </span>Download Template</a>
+                                        <div className="col-7 secondaryActions">
+                                            <a
+                                                className="btn-rounded upload-download"
+                                                href="/assets/files/CustomSMSTemplate.xlsx"
+                                                download>
 
+                                                <span className="">
+                                                    <i className="i-con i-con-download">
+                                                        <i></i>
+                                                    </i>
+                                                </span>Download Template</a>
+
+
+
+                                        </div>
+
+                                    </div>
 
 
                                 </div>
-
-                            </div>
-
-
-                        </div>
 
                                 {/* Form Container */}
                                 <div className="card-body">
@@ -642,9 +655,9 @@ export default class SendCustomMessages extends Component {
                                                             className="fileUpload"
                                                             placeholder="Upload Custom Template"
                                                             onChange={this.onFileChange}
-                                                            accept=".xls,.xlsx" />
+                                                            accept=".xlsx" />
 
-                                                        <label htmlFor="fileUpload" className="uploadLabel">Choose File To Upload as xls(excel)</label>
+                                                        <label htmlFor="fileUpload" className="uploadLabel">Choose File To Upload as xlsx(excel)</label>
 
                                                         <button
                                                             className="btn-primary"

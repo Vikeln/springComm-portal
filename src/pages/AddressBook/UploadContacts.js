@@ -278,7 +278,7 @@ export default class UploadContacts extends Component {
                                 <div className="col-7 secondaryActions">
 <a
                                     className="btn-rounded upload-download"
-                                    href="/assets/files/ContactsUploadTemplate.xls"
+                                    href="/assets/files/ContactsUploadTemplate.xlsx"
                                     download>
 
                                     <span className="">
@@ -309,15 +309,15 @@ export default class UploadContacts extends Component {
                         <div className=" padding pt-0 pb-0">
 
                             <div className="uploadFile">
-                                <input type="file"
+                                <input type="file" 
                                     name="fileUpload"
                                     id="fileUpload"
                                     className="fileUpload"
                                     placeholder="Upload Customer Template"
                                     onChange={this.onFileChange}
-                                    accept=".xls,.xlsx,.csv" />
+                                    accept=".xlsx" />
 
-                                <label htmlFor="fileUpload" className="uploadLabel">Choose File To Upload as xls(excel)</label>
+                                <label htmlFor="fileUpload" className="uploadLabel">Choose File To Upload as xlsx(excel)</label>
 
                                 <button
                                     className="btn-primary"

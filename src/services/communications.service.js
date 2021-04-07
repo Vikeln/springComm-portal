@@ -2,8 +2,8 @@
 import { axiosInstance } from '../API';
 
 
-const communicationUrl = "https://lbtotal.mfs.co.ke/bridge";
-const communicationUrls = "https://lbtotal.mfs.co.ke";
+const communicationUrl = "http://10.38.83.36:31098/bridge";
+const communicationUrls = "http://10.38.83.36:31098";
 
 class CommunicationsService {
 

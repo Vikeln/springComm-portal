@@ -1,8 +1,8 @@
 import { axiosInstance } from '../API';
 
 
-const bookUrl = "https://lbtotal.mfs.co.ke/bridge/";
-const baseUrl = "https://lbtotal.mfs.co.ke/";
+const bookUrl = "http://10.38.83.36:31098/bridge/";
+const baseUrl = "http://10.38.83.36:31098/";
 
 
 class AddressBookService {

@@ -8,13 +8,13 @@ if (AuthService.getCurrentUserAccessToken()) {
 
     'Authorization':"Bearer " + AuthService.getCurrentUserAccessToken(),
     'Content-Type': 'application/json',
-    'App-Key': 'a1bed52870ec4338abf13513ad29875e'
+    'App-Key': '12702e6f3d914ff7b4c69573195f4017'
   };
 }else{
   headers = {
 
     'Content-Type': 'application/json',
-    'App-Key': 'a1bed52870ec4338abf13513ad29875e'
+    'App-Key': '12702e6f3d914ff7b4c69573195f4017'
   };
 }
 

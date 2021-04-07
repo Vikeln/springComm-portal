@@ -457,6 +457,8 @@ export default class SendMessages extends Component {
 
     complete(vals) {
 
+        if (!vals) return;
+
         if (vals.startsWith("0")) {
             return "254" + vals.substring(1);
         } else {
@@ -510,7 +512,7 @@ export default class SendMessages extends Component {
 
 
                 if (options[i].selected) {
-                    userGroups.push(parseInt(options[i].value));
+                    userGroups.push(options[i].value);
                 }
 
 
@@ -598,10 +600,11 @@ export default class SendMessages extends Component {
             let vals = [];
             for (var i = 0; i < formData.recipient.length; i++) {
 
-                vals.push(this.complete(formData.recipient[i]));
+                vals.push(this.complete(formData.recipient[i].toString()));
             }
             formData.recipient = vals;
-            formData.timeToSend = formData.dateToSend + " " + formData.timeToSend;
+            if (formData.sendTime != "now")
+                formData.timeToSend = formData.dateToSend + " " + formData.timeToSend;
 
             CommunicationsService.createMessage(formData).then(response => {
 
@@ -1143,15 +1146,15 @@ export default class SendMessages extends Component {
                                                 </label>
                                                 <div>
 
-                                                    
-                                                <TimePicker
-                                                            style={{ width: 100 }}
-                                                            showSecond={true}
-                                                            defaultValue={moment()}
-                                                            className="xxx"
-                                                            onChange={this.updateStartTime}
 
-                                                        />
+                                                    <TimePicker
+                                                        style={{ width: 100 }}
+                                                        showSecond={true}
+                                                        defaultValue={moment()}
+                                                        className="xxx"
+                                                        onChange={this.updateStartTime}
+
+                                                    />
                                                 </div>
 
 
