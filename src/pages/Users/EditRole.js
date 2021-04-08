@@ -29,9 +29,13 @@ export default class EditRole extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleRoleSubmission = this.handleRoleSubmission.bind(this);
         this.getPermissions = this.getPermissions.bind(this);
+        this.goBack = this.goBack.bind(this);
 
     }
-
+    goBack(event) {
+        event.preventDefault();
+        window.location.href = "/dashboard/viewroles"
+    }
     async componentDidMount() {
 
         const { roleId } = this.state;
@@ -161,7 +165,7 @@ export default class EditRole extends Component {
         if ($(".createUser").parsley().isValid() && formData.permissions
             .length > 0) {
 
-                
+
 
             UserService.updateUserRoles(formData).then(response => {
 
@@ -277,24 +281,23 @@ export default class EditRole extends Component {
                                                                     const inputValue = e.target.value;
                                                                     //let permissions = [];
 
-                                                                    
+
 
                                                                     let stateCopy = Object.assign({}, this.state);
 
                                                                     if (inputChecked) {
-
-                                                                        //stateCopy.formData.permissions[inputName] = true;
-                                                                        //permissions.push(parseInt(inputValue));
 
                                                                         stateCopy.formData.permissions.push(inputValue);
 
                                                                     } else {
 
                                                                         //delete stateCopy.formData.permissions[inputName];
-                                                                        permissions.pop(inputValue);
+                                                                        // permissions.pop(inputValue);
 
-                                                                        stateCopy.formData.permissions.pop(inputValue)
+                                                                        var index = stateCopy.formData.permissions.indexOf(inputValue)
+                                                                        console.log("removing " + inputValue + "index " + index);
 
+                                                                        stateCopy.formData.permissions.splice(index, 1);
                                                                         //stateCopy.formData.permissions = permissions;
 
                                                                     }
@@ -302,7 +305,7 @@ export default class EditRole extends Component {
 
                                                                     this.setState(stateCopy);
 
-                                                                    
+
                                                                 }}
                                                             />
                                                             <label htmlFor={permission.name}>{permission.name}</label>
@@ -332,7 +335,7 @@ export default class EditRole extends Component {
                                         className="btn-primary"
                                         type="submit">Update Role</button>
 
-                                    <button className="btn-primary" type="reset">Cancel</button>
+                                    <button className="btn-primary" type="button" onClick={this.goBack  }>Cancel</button>
 
                                 </div>
 

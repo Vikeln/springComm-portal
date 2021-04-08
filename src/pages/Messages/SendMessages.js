@@ -14,6 +14,7 @@ import 'rc-time-picker/assets/index.css';
 import moment from 'moment';
 
 import Loader from '../../components/loaders/Loader';
+import authService from '../../services/auth.service';
 
 export default class SendMessages extends Component {
 
@@ -26,6 +27,7 @@ export default class SendMessages extends Component {
             value: this.props.value,
             messageTemplates: [],
             sources: [],
+            createSchedule: authService.checkIfRoleExists("CAN_CREATE_MESSAGE_SCHEDULE"),
             contactGroups: [],
             format: "HH:mm:ss",
             timeNow: moment().hour(0).minute(0),
@@ -563,8 +565,8 @@ export default class SendMessages extends Component {
 
             stateCopy.message = tem;
 
-
-            stateCopy.formData.parameters = tem.match(/{{(.*?)}}/g).toString().replace(/{{|}}/gi, "").split(",");
+            if (tem.indexOf("{") > 0)
+                stateCopy.formData.parameters = tem.match(/{{(.*?)}}/g).toString().replace(/{{|}}/gi, "").split(",");
 
             stateCopy.formData[inputName] = parseInt(inputValue);
 
@@ -576,27 +578,26 @@ export default class SendMessages extends Component {
     }
 
     handleMessageSubmission(event) {
-
+        var send = true;
         event.preventDefault();
         const { formData } = this.state;
 
-        if (formData.sendFromTemplate == "true") {
-
-            if (formData.parameterValues.length < 1) {
-
-                alert("Please set the value of the parameter you want to send");
-
-            }
-        }
         if (formData.recipient.length < 1) {
 
             alert("Please set a recipient list");
-        } else {
+            send = false;
+        }
 
+        if (formData.sendFromTemplate == "true" && formData.parameters != undefined && formData.parameters.length > 0 && formData.parameterValues.length < 1) {
+
+            alert("Please set the value of the parameter you want to send");
+            send = false;
         }
 
 
-        if ($(".sendMessage").parsley().isValid()) {
+
+
+        if ($(".sendMessage").parsley().isValid() && send) {
 
             $('input[type="submit"],button[type="submit"]').hide();
             let vals = [];
@@ -680,7 +681,7 @@ export default class SendMessages extends Component {
 
     render() {
 
-        const { format, timeNow, filterContacts, contactGroups, messageTemplates, uploading, sources, sendOnce, sendTime, sendFromTemplate, selectFromAddressBook, contacts, message, successfulSubmission, networkError, submissionMessage } = this.state;
+        const { format, createSchedule, timeNow, filterContacts, contactGroups, messageTemplates, uploading, sources, sendOnce, sendTime, sendFromTemplate, selectFromAddressBook, contacts, message, successfulSubmission, networkError, submissionMessage } = this.state;
 
         return (
 
@@ -982,8 +983,8 @@ export default class SendMessages extends Component {
                                             <option></option>
                                             <option value="now">Send Now</option>
 
-                                            <option value="later">Send Later</option>
-
+                                            {createSchedule && <option value="later">Send Later</option>
+                                            }
                                         </select>
 
                                     </div>

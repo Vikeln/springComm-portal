@@ -18,23 +18,28 @@ export default class SideBar extends Component {
         this.state = {
             viewUsers: authService.checkIfRoleExists("CAN_VIEW_USERS"),
             createUsers: authService.checkIfRoleExists("CAN_CREATE_USERS"),
+            enableUsers: authService.checkIfRoleExists("CAN_ENABLE_USERS"),
+            disableUsers: authService.checkIfRoleExists("CAN_DEACTIVATE_USER"),
 
             viewUserDetails: authService.checkIfRoleExists("CAN_VIEW_USER_DETAILS"),
 
             viewRoles: authService.checkIfRoleExists("CAN_VIEW_ROLES"),
             createRoles: authService.checkIfRoleExists("CAN_CREATE_ROLES"),
-
-            listCustomers: authService.checkIfRoleExists("CAN_VIEW_CUSTOMERS"),
-
-            createProduct: authService.checkIfRoleExists("CAN_CREATE_LOAN_PRODUCT"),
-            viewLoan: authService.checkIfRoleExists("CAN_VIEW_LOAN_PRODUCT"),
-            viewProductApplications: authService.checkIfRoleExists("CAN_VIEW_LOAN_APPLICATIONS"),
-            viewProductDisbursements: authService.checkIfRoleExists("CAN_VIEW_DISBURSEMENT_TRANSACTIONS"),
-            viewProductRepayments: authService.checkIfRoleExists("CAN_VIEW_LOAN_REPAYMENTS"),
-
             viewOutbox: authService.checkIfRoleExists("CAN_VIEW_OUTBOX"),
             viewMessageTemplates: authService.checkIfRoleExists("CAN_VIEW_MESSAGE_TEMPLATES"),
-
+            
+            
+            
+            adminPanel: authService.checkIfRoleExists("CAN_VIEW_OUTBOX_TREND"),
+            manageAddressBook:authService.checkIfRoleExists("CAN_VIEW_ADDRESS_BOOK"),
+            createAddressBook:authService.checkIfRoleExists("CAN_CREATE_ADDRESS_BOOK"),
+            createSenders: authService.checkIfRoleExists("CAN_CREATE_SENDER_ID"),
+            viewSenders:authService.checkIfRoleExists("CAN_VIEW_SENDER_ID"),
+            viewSchedules:authService.checkIfRoleExists("CAN_VIEW_MESSAGE_SCHEDULE"),
+            createSchedule:authService.checkIfRoleExists("CAN_CREATE_MESSAGE_SCHEDULE"),
+            editTemplate:authService.checkIfRoleExists("CAN_EDIT_MESSAGE_TEMPLATE"),
+            createTemplate:authService.checkIfRoleExists("CAN_CREATE_MESSAGE_TEMPLATE"),
+            sendMessages:authService.checkIfRoleExists("CAN_SEND_MESSAGE"),
             value: this.props.value
 
         }
@@ -51,7 +56,16 @@ export default class SideBar extends Component {
 
     render() {
 
-        const { createUsers, createRoles, viewUsers, viewProductDisbursements, viewProductRepayments, viewRoles, listCustomers, viewLoan, createProduct, viewProductApplications, viewOutbox, viewMessageTemplates, } = this.state;
+        const { createUsers, adminPanel,
+            manageAddressBook,
+            createAddressBook,
+            createSenders,
+            viewSenders,
+            viewSchedules,
+            createSchedule,
+            editTemplate,
+            createTemplate,
+            sendMessages,createRoles, viewUsers, viewProductDisbursements, viewProductRepayments, viewRoles, listCustomers, viewLoan, createProduct, viewProductApplications, viewOutbox, viewMessageTemplates, } = this.state;
 
 
         return (
@@ -69,12 +83,7 @@ export default class SideBar extends Component {
                                 {/* Sidebar Navigation */}
                                 <ul className="nav bg">
 
-                                    {viewUsers == true ?
-                                        <>
-                                            {/* <li className="nav-header hidden-folded">
-                                            <span>Main</span>
-                                        </li> */}
-
+                                {adminPanel == true ?
                                             <li className="nav-item">
                                                 <Link to="/dashboard/adminprofile">
 
@@ -83,6 +92,13 @@ export default class SideBar extends Component {
                                                     <span className="nav-text">Admin Profile</span>
                                                 </Link>
                                             </li>
+     : "    "}
+                                    {viewSenders == true ?
+                                        <>
+                                            {/* <li className="nav-header hidden-folded">
+                                            <span>Main</span>
+                                        </li> */}
+
 
                                             <li className="nav-item">
                                                 <Link to="/dashboard/mysenderIds">
@@ -105,15 +121,6 @@ export default class SideBar extends Component {
                                             </Link>
                                         </li>
 
-                                    {/* {viewOutbox == true || viewMessageTemplates == true  ?
-                                    <li className="nav-header hidden-folded">
-                                        <span>Messages</span>
-                                    </li>
-                                    :
-                                    ""
-                                    } */}
-
-                                    {viewOutbox &&
                                         <li className="accordion">
 
                                             <a href="#" className="i-con-h-a">
@@ -126,7 +133,9 @@ export default class SideBar extends Component {
 
                                             <ul className="nav-sub">
 
-                                                <li className="nav-item">
+                                                {sendMessages == true ? 
+                                                <>
+                                                 <li className="nav-item">
                                                     <Link to="/dashboard/sendmessages">
                                                         <FontAwesomeIcon icon={faCommentDots} className="sidebarIcon" />
                                                         <span className="nav-text">New Message</span>
@@ -137,7 +146,10 @@ export default class SideBar extends Component {
                                                         <FontAwesomeIcon icon={faCommentDots} className="sidebarIcon" />
                                                         <span className="nav-text">Custom Message</span>
                                                     </Link>
-                                                </li>
+                                                </li></>
+                                                :
+        
+                                                ""}
                                                 {viewOutbox &&
                                                     <li className="nav-item">
                                                         <Link to="/dashboard/messages">
@@ -148,7 +160,7 @@ export default class SideBar extends Component {
                                                         </Link>
                                                     </li>}
 
-                                                {viewOutbox &&
+                                                {viewSchedules &&
                                                     <li className="nav-item">
                                                         <Link to="/dashboard/scheduled-messages">
 
@@ -171,11 +183,11 @@ export default class SideBar extends Component {
 
 
                                             </ul>
-                                        </li>}
+                                        </li>
 
 
 
-                                    {viewUsers &&
+                                    {manageAddressBook &&
                                         <>
                                             {/* <li className="nav-header hidden-folded">
                                             <span>Address Book</span>
@@ -193,7 +205,7 @@ export default class SideBar extends Component {
 
 
 
-                                                    {viewUsers &&
+                                                    {createAddressBook &&
                                                         <li className="nav-item">
                                                             <Link to="/dashboard/addressBook/upload">
                                                                 <FontAwesomeIcon icon={faUser} className="sidebarIcon" />
@@ -201,7 +213,7 @@ export default class SideBar extends Component {
                                                             </Link>
                                                         </li>}
 
-                                                    {createUsers &&
+                                                    {manageAddressBook &&
                                                         <li className="nav-item">
                                                             <Link to="/dashboard/addressBook">
                                                                 <FontAwesomeIcon icon={faUser} className="sidebarIcon" />

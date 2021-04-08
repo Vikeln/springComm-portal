@@ -13,6 +13,7 @@ import utils from "../../utils/utils";
 import Notification from '../../components/notifications/Notifications';
 
 import Loader from '../../components/loaders/Loader';
+import authService from '../../services/auth.service';
 
 export default class ManageSenders extends Component {
 
@@ -24,6 +25,7 @@ export default class ManageSenders extends Component {
 
             value: this.props.value,
             sources: [],
+            createSender: authService.checkIfRoleExists("CAN_CREATE_SENDER_ID"),
             products: [],
             formData: {
                 status: "NEW"
@@ -188,7 +190,7 @@ export default class ManageSenders extends Component {
 
     render() {
 
-        const { sources, successfulSubmission, networkError, submissionMessage, products, loading } = this.state;
+        const { sources,createSender, successfulSubmission, networkError, submissionMessage, products, loading } = this.state;
 
         return (
 
@@ -211,10 +213,12 @@ export default class ManageSenders extends Component {
                                     className="btn-primary"
                                     onClick={this.toggleView}
                                     data-target="viewall">View SenderIDs</button>
-                                <button
+                                {/* {createSender &&
+                                 <button
                                     className="btn-primary"
                                     onClick={this.toggleView}
                                     data-target="createForm">Add New SenderIDs</button>
+                                    } */}
 
                             </div>
 

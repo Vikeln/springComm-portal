@@ -268,15 +268,11 @@ export default class CreateRole extends Component {
 
                                                                         stateCopy.formData.permissions.push(inputValue);
 
-                                                                    } else {
+                                                                    } else {                                                                        
+                                                                        var index = stateCopy.formData.permissions.indexOf(inputValue)
+                                                                        console.log("removing " + inputValue + "index " + index);   
 
-                                                                        //delete stateCopy.formData.permissions[inputName];
-                                                                        permissions.pop(parseInt(inputValue));
-
-                                                                        stateCopy.formData.permissions.pop(inputValue)
-
-                                                                        //stateCopy.formData.permissions = permissions;
-
+                                                                        stateCopy.formData.permissions.splice(index, 1);
                                                                     }
 
 
