@@ -72,7 +72,7 @@ class UserService {
     }
     updateUserRoles(roleData){
 
-        return axiosInstance.put(baseUrl+"roles/editrole",roleData);
+        return axiosInstance.post(baseUrl+"roles/editrole",roleData);
 
     }
 
