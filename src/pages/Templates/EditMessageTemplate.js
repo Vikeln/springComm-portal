@@ -105,9 +105,10 @@ export default class EditMessageTemplate extends Component {
 
         event.preventDefault();
 
+        console.log(JSON.stringify(formData));
         if ($(".editTemplate").parsley().isValid()) {
 
-            CommunicationsService.createMessageTemplate(formData).then(response => {
+            CommunicationsService.updateMessageTemplate(id,formData).then(response => {
 
                 if(response.data.status == "success"){
 

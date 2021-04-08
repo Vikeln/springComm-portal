@@ -4,6 +4,7 @@ import { axiosInstance } from '../API';
 
 const userUrl = "http://10.38.83.36:31098/users";
 // const userUrl = "http://localhost:8080/users";
+// const baseUrl = "http://localhost:8080/";
 
 const baseUrl = "http://10.38.83.36:31098/";   
 
