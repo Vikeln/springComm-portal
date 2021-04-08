@@ -339,8 +339,8 @@ export default class AdminProfile extends Component {
 
                                                         <div className="mx-3">
 
-                                                            <h5 className="mt-2">MobiConnect</h5>
-                                                            <div className=""><small><i className="fa fa-map-marker mr-2"></i>Capital West Building, Westlands, Nairobi</small></div>
+                                                            <h4 className="mt-2">MobiConnect</h4>
+                                                            {/* <div className=""><small><i className="fa fa-map-marker mr-2"></i>Capital West Building, Westlands, Nairobi</small></div> */}
                                                         </div>
                                                     </div>
                                                 </div>

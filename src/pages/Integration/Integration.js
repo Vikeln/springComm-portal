@@ -55,7 +55,7 @@ export default class Integration extends Component {
                     <div className="page-container" id="page-container">
 
                         <div className="padding">
-
+                           
 
 
                             <div className="view viewall">
@@ -64,8 +64,25 @@ export default class Integration extends Component {
                                     <div className="card-title page-title padding pb-0 ">
                                         MOBICONNECT API INTEGRATION</div>
                                     <div className="card-body">
-                                        Interested?  <a target="_blank" href="https://lbtotal.mfs.co.ke/swagger-ui.html">
-                                            Here's our documentation.</a>
+                                         <div className="row advancedSearchOptions ">
+
+
+                                <div className="col-7 secondaryActions">
+                                    <a
+                                        className="btn-rounded upload-download" href="/assets/files/MobiConnectDocumentation.pdf"
+
+                                        download>
+
+                                        <span className="">
+                                            <i className="i-con i-con-download">
+                                                <i></i>
+                                            </i>
+                                        </span>Download Api Documentation</a>
+                                </div>
+
+                            </div>
+                                        Wanna try the apis out?   <a target="_blank" href="https://lbtotal.mfs.co.ke/swagger-ui.html">
+                                            Open Playground.</a>
                                     </div>
                                 </div>
 

@@ -94,19 +94,21 @@ export default class SendMessages extends Component {
             orientation: 'bottom',
             startDate: new Date(),
             endDate: '+21d',
-            datesDisabled: '-d',
+            datesDisabled: '-1d',
         });
 
+        var dateNow = new Date();
+        var now = dateNow.getTime();
 
         $(".starttime").timepicker({
             timeFormat: 'HH:mm:ss',
             interval: 30,
-            minTime: '01',
+            minTime: now,
             maxTime: '23:59:00',
-            defaultTime: '05',
-            startTime: '05:30:00',
-            dynamic: false,
-            dropdown: true,
+            defaultTime: now,
+            startTime: now,
+            dynamic: true,
+            dropdown: false,
             scrollbar: true,
             change: function (time) {
                 // the input field
