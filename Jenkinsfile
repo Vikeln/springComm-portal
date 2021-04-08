@@ -5,7 +5,7 @@ pipeline {
         workspace = pwd()
         serviceName = "mobiconnect-portal"
         registryCredential = "TmwauraHarb"
-        ImageName = "harb.diab.mfs.co.ke/tango/${serviceName}:${VERSION}.${BUILD_NUMBER}"
+        ImageName = "harb.diab.mfs.co.ke/total-mobiconnect/${serviceName}:${VERSION}.${BUILD_NUMBER}"
     }
     
  
