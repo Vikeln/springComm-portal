@@ -4,7 +4,7 @@ import jwt_decode from "jwt-decode";
 
 // const authUrl = "http://localhost:8080/auth";
 
-const authUrl = "http://10.38.83.36:31098/auth";
+const authUrl = "https://mobiconnect-api.mfs.co.ke/auth";
 
 class AuthService {
 
