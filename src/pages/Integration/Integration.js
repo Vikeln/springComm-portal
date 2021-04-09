@@ -81,7 +81,7 @@ export default class Integration extends Component {
                                 </div>
 
                             </div>
-                                        Wanna try the apis out?   <a target="_blank" href="https://lbtotal.mfs.co.ke/swagger-ui.html">
+                                        Wanna try the apis out?   <a target="_blank" href="https://total-mobiconnect.mfs.co.ke/swagger-ui.html">
                                             Open Playground.</a>
                                     </div>
                                 </div>
