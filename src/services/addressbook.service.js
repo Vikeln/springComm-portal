@@ -1,8 +1,8 @@
 import { axiosInstance } from '../API';
 
 
-const bookUrl = "http://10.38.83.36:31098/bridge/";
-const baseUrl = "http://10.38.83.36:31098/";
+const bookUrl = "https://mobiconnect-api.mfs.co.ke/bridge/";
+const baseUrl = "https://mobiconnect-api.mfs.co.ke/";
 
 
 class AddressBookService {
