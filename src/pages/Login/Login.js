@@ -103,7 +103,7 @@ export default class Login extends Component{
                 }
                 console.log("response.data.data " + JSON.stringify(response.data))
 
-                if (response.data.data.access_token != undefined) {
+                if (response.data.data !=undefined && response.data.data.access_token != undefined) {
 
                     var data = jwt_decode(response.data.data.access_token);
 
@@ -120,10 +120,19 @@ export default class Login extends Component{
                     window.location.reload();
 
 
-                }else{
+                }else if(response.data.data !=undefined && response.data.data.message != undefined) {
 
                     this.setState({
                         credentialsError:response.data.data.message,
+                        loading:false,
+                    });
+
+                    $("form button").show();
+
+                }else {
+
+                    this.setState({
+                        credentialsError:response.data.message,
                         loading:false,
                     });
 
