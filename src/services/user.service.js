@@ -29,7 +29,7 @@ class UserService {
     updateUser(formData){
 
 
-        return axiosInstance.put(userUrl+"/update",formData);
+        return axiosInstance.post(userUrl+"/update",formData);
 
     }
     unlockUserAccount(id){
