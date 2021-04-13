@@ -1,25 +1,25 @@
-import { axiosInstance,baseUrl, userUrl } from '../API';
+import { axiosInstance,baseUrl } from '../API';
 
 class UserService {
 
     /*Create Single User*/
     createUser(formData) {
 
-        return axiosInstance.post(userUrl+"/create",formData);
+        return axiosInstance.post(baseUrl+"users/create",formData);
 
     }
 
     /*Get single user based on userId*/
     getUser(userId) {
 
-        return axiosInstance.get(userUrl+"/" + userId);
+        return axiosInstance.get(baseUrl+"users/" + userId);
 
     }
 
     updateUser(formData){
 
 
-        return axiosInstance.post(userUrl+"/update",formData);
+        return axiosInstance.post(baseUrl+"users/update",formData);
 
     }
     unlockUserAccount(id){
@@ -31,7 +31,7 @@ class UserService {
     // Activate a disable user
     enableUser(username){
 
-        return axiosInstance.get(userUrl+"/enable?userName="+username);
+        return axiosInstance.get(baseUrl+"users/enable?userName="+username);
 
     }
     // DeActivate a disable user
@@ -46,10 +46,8 @@ class UserService {
 
     }
 
-
-
     getAllUsers() {
-        return axiosInstance.get(userUrl);
+        return axiosInstance.get(baseUrl + "users");
     }
 
     getUserGroups(){

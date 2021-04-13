@@ -24,10 +24,11 @@ export const axiosInstance = axios.create({
 });
 
 
-export const baseUrl = "http://localhost:8080/";
-// export const baseUrl = "http://10.38.83.36:31098/";
+// export const baseUrl = "http://localhost:8080/";
+export const baseUrl = "http://10.38.83.36:31098/";
 // export const baseUrl = "https://mobiconnect-api.mfs.co.ke/";
 
 
 // export const userUrl = "https://mobiconnect-api.mfs.co.ke/users";
-export const userUrl = "http://localhost:8080/users";
+export const userUrl = "http://10.38.83.36:31098/users";
+// export const userUrl = "http://localhost:8080/users";
