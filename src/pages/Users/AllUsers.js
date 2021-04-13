@@ -27,10 +27,14 @@ export default class AllUsers extends Component {
 
         this.state = {
             viewUsers: authService.checkIfRoleExists("CAN_VIEW_USERS"),
+            enableUser: authService.checkIfRoleExists("CAN_ENABLE_USERS"),
+            disableUser: authService.checkIfRoleExists("CAN_DEACTIVATE_USER"),
+            unlockUser: authService.checkIfRoleExists("CAN_UNLOCK_USER_ACCOUNT"),
             value: this.props.value,
             users: [],
             emailSuccessful: "",
-            loading: false
+            loading: false,
+            editUsers: authService.checkIfRoleExists("CAN_EDIT_USERS"),
 
         }
 
@@ -297,7 +301,7 @@ export default class AllUsers extends Component {
 
     render() {
 
-        const { users, viewUsers, loading } = this.state;
+        const { users, viewUsers, loading, editUsers, enableUser,disableUser, unlockUser } = this.state;
 
         return (
 
@@ -374,7 +378,7 @@ export default class AllUsers extends Component {
                                                         </td>
 
                                                         <td>
-                                                            <span className="">{user.apiUser ? "True" :"False"}</span>
+                                                            <span className="">{user.apiUser ? "True" : "False"}</span>
                                                         </td>
 
                                                         <td>
@@ -401,11 +405,13 @@ export default class AllUsers extends Component {
                                                                         See detail
                                                                         </Link>
 
-                                                                    <Link className="dropdown-item" to={'/dashboard/edituser/' + user.user.id}>
-                                                                        Edit
+                                                                    {editUsers &&
+                                                                        <Link className="dropdown-item" to={'/dashboard/edituser/' + user.user.id}>
+                                                                            Edit
                                                                         </Link>
+                                                                    }
 
-                                                                    {!user.user.enabled &&
+                                                                    {enableUser && !user.user.enabled &&
                                                                         <button
                                                                             className="dropdown-item enableUser"
                                                                             onClickCapture={(e) =>
@@ -413,14 +419,14 @@ export default class AllUsers extends Component {
                                                                             }
                                                                         >Enable {user.userName}</button>}
 
-                                                                    {user.user.enabled &&
+                                                                    {disableUser && user.user.enabled &&
                                                                         <button
                                                                             className="dropdown-item enableUser"
                                                                             onClickCapture={() =>
                                                                                 this.deactivateUser(user.user.id)
                                                                             }
                                                                         >DeActivate {user.userName}</button>}
-                                                                    {user.user.accountLocked &&
+                                                                    {unlockUser && user.user.accountLocked &&
                                                                         <button
                                                                             className="dropdown-item unlockUser"
                                                                             onClickCapture={() =>

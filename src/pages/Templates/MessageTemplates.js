@@ -11,6 +11,7 @@ import 'react-confirm-alert/src/react-confirm-alert.css';
 import Loader from '../../components/loaders/Loader';
 import CommunicationsService from '../../services/communications.service';
 import Notification from '../../components/notifications/Notifications';
+import authService from '../../services/auth.service';
 
 
 export default class MessageTemplates extends Component {
@@ -21,6 +22,7 @@ export default class MessageTemplates extends Component {
 
         this.state = {
 
+            editTemplate: authService.checkIfRoleExists("CAN_EDIT_MESSAGE_TEMPLATE"),
             value: this.props.value,
             messageTemplates: [],
             formData: {
@@ -237,7 +239,7 @@ export default class MessageTemplates extends Component {
 
     render() {
 
-        const { name, balance, messageTemplates, successfulSubmission, loading, networkError, submissionMessage } = this.state;
+        const { name, balance, messageTemplates, successfulSubmission, loading, networkError, submissionMessage,editTemplate } = this.state;
 
         return (
 
@@ -336,10 +338,10 @@ export default class MessageTemplates extends Component {
                                                                 <a href="#" data-toggle="dropdown" className="text-muted"><i className="i-con i-con-more"><i></i></i></a>
 
                                                                 <div className="dropdown-menu dropdown-menu-right bg-dark" role="menu">
-
+{editTemplate && 
                                                                     <Link className="dropdown-item" to={'/dashboard/editmessagetemplate/' + mes.id}>
                                                                         Edit
-                                                                        </Link>
+                                                                        </Link>}
                                                                 </div>
                                                             </div>
 

@@ -1,55 +1,50 @@
-import { axiosInstance } from '../API';
+import { axiosInstance,baseUrl } from '../API';
 
-
-const bookUrl = "https://mobiconnect-api.mfs.co.ke/bridge/";
-const baseUrl = "https://mobiconnect-api.mfs.co.ke/";
 
 
 class AddressBookService {
 
 
     getCustomerUploadFile() {
-        return axiosInstance.get(bookUrl + "address-book/getContactsExcelTemplate");
+        return axiosInstance.get(baseUrl + "bridge/address-book/getContactsExcelTemplate");
 
     }
 
 
     createContact(formData) {
-        return axiosInstance.post(bookUrl + "address-book", formData);
+        return axiosInstance.post(baseUrl + "bridge/address-book", formData);
     }
 
 
     /*Create Contact upload method*/
     createUploadContacts(formData) {
 
-        return axiosInstance.post(bookUrl + "address-book/uploadContactsExcelFile", formData);
+        return axiosInstance.post(baseUrl + "bridge/address-book/uploadContactsExcelFile", formData);
 
 
     }
     /*Create Contact uploads*/
     createContacts(formData) {
 
-        return axiosInstance.post(bookUrl + "address-book/batch", formData);
+        return axiosInstance.post(baseUrl + "bridge/address-book/batch", formData);
 
 
     }
     getAllContacts() {
 
-        return axiosInstance.get(bookUrl + "address-book");
+        return axiosInstance.get(baseUrl + "bridge/address-book");
 
 
     }
     getAllGroupContacts(group) {
 
-        return axiosInstance.get(bookUrl + "address-book?contgroup=" + group);
+        return axiosInstance.get(baseUrl + "bridge/address-book?contgroup=" + group);
 
 
     }
     getAllContactGroups() {
 
-        return axiosInstance.get(bookUrl + "address-book/groups");
-
-
+        return axiosInstance.get(baseUrl + "bridge/address-book/groups");
     }
 
 }

@@ -1,14 +1,4 @@
-import { axiosInstance } from '../API';
-
-
-
-const userUrl = "https://mobiconnect-api.mfs.co.ke/users";
-// const userUrl = "http://localhost:8080/users";
-// const baseUrl = "http://localhost:8080/";
-
-const baseUrl = "https://mobiconnect-api.mfs.co.ke/";   
-// const baseUrl = "http://10.38.83.36:31098/";
-
+import { axiosInstance,baseUrl, userUrl } from '../API';
 
 class UserService {
 

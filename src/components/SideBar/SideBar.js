@@ -6,7 +6,7 @@ import {
 import authService from '../../services/auth.service';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUserCircle, faCommentDots,faShareAlt, faExchangeAlt, faPaperPlane, faTasks, faUser, faBook } from '@fortawesome/free-solid-svg-icons';
+import { faUserCircle, faCommentDots, faShareAlt, faExchangeAlt, faPaperPlane, faTasks, faUser, faBook } from '@fortawesome/free-solid-svg-icons';
 
 
 export default class SideBar extends Component {
@@ -24,22 +24,23 @@ export default class SideBar extends Component {
             viewUserDetails: authService.checkIfRoleExists("CAN_VIEW_USER_DETAILS"),
 
             viewRoles: authService.checkIfRoleExists("CAN_VIEW_ROLES"),
+            editRoles: authService.checkIfRoleExists("CAN_EDIT_ROLES"),
             createRoles: authService.checkIfRoleExists("CAN_CREATE_ROLES"),
             viewOutbox: authService.checkIfRoleExists("CAN_VIEW_OUTBOX"),
             viewMessageTemplates: authService.checkIfRoleExists("CAN_VIEW_MESSAGE_TEMPLATES"),
-            
-            
-            
+
+
+
             adminPanel: authService.checkIfRoleExists("CAN_VIEW_OUTBOX_TREND"),
-            manageAddressBook:authService.checkIfRoleExists("CAN_VIEW_ADDRESS_BOOK"),
-            createAddressBook:authService.checkIfRoleExists("CAN_CREATE_ADDRESS_BOOK"),
+            manageAddressBook: authService.checkIfRoleExists("CAN_VIEW_ADDRESS_BOOK"),
+            createAddressBook: authService.checkIfRoleExists("CAN_CREATE_ADDRESS_BOOK"),
             createSenders: authService.checkIfRoleExists("CAN_CREATE_SENDER_ID"),
-            viewSenders:authService.checkIfRoleExists("CAN_VIEW_SENDER_ID"),
-            viewSchedules:authService.checkIfRoleExists("CAN_VIEW_MESSAGE_SCHEDULE"),
-            createSchedule:authService.checkIfRoleExists("CAN_CREATE_MESSAGE_SCHEDULE"),
-            editTemplate:authService.checkIfRoleExists("CAN_EDIT_MESSAGE_TEMPLATE"),
-            createTemplate:authService.checkIfRoleExists("CAN_CREATE_MESSAGE_TEMPLATE"),
-            sendMessages:authService.checkIfRoleExists("CAN_SEND_MESSAGE"),
+            viewSenders: authService.checkIfRoleExists("CAN_VIEW_SENDER_ID"),
+            viewSchedules: authService.checkIfRoleExists("CAN_VIEW_MESSAGE_SCHEDULE"),
+            createSchedule: authService.checkIfRoleExists("CAN_CREATE_MESSAGE_SCHEDULE"),
+            editTemplate: authService.checkIfRoleExists("CAN_EDIT_MESSAGE_TEMPLATE"),
+            createTemplate: authService.checkIfRoleExists("CAN_CREATE_MESSAGE_TEMPLATE"),
+            sendMessages: authService.checkIfRoleExists("CAN_SEND_MESSAGE"),
             value: this.props.value
 
         }
@@ -59,13 +60,9 @@ export default class SideBar extends Component {
         const { createUsers, adminPanel,
             manageAddressBook,
             createAddressBook,
-            createSenders,
             viewSenders,
             viewSchedules,
-            createSchedule,
-            editTemplate,
-            createTemplate,
-            sendMessages,createRoles, viewUsers, viewProductDisbursements, viewProductRepayments, viewRoles, listCustomers, viewLoan, createProduct, viewProductApplications, viewOutbox, viewMessageTemplates, } = this.state;
+            sendMessages, createRoles, viewUsers, viewRoles, viewOutbox, viewMessageTemplates, } = this.state;
 
 
         return (
@@ -83,23 +80,18 @@ export default class SideBar extends Component {
                                 {/* Sidebar Navigation */}
                                 <ul className="nav bg">
 
-                                {adminPanel == true ?
-                                            <li className="nav-item">
-                                                <Link to="/dashboard/adminprofile">
+                                    {adminPanel == true ?
+                                        <li className="nav-item">
+                                            <Link to="/dashboard/adminprofile">
 
-                                                    <FontAwesomeIcon icon={faUserCircle} className="sidebarIcon" />
+                                                <FontAwesomeIcon icon={faUserCircle} className="sidebarIcon" />
 
-                                                    <span className="nav-text">Admin Profile</span>
-                                                </Link>
-                                            </li>
-     : "    "}
+                                                <span className="nav-text">Admin Profile</span>
+                                            </Link>
+                                        </li>
+                                        : "    "}
                                     {viewSenders == true ?
                                         <>
-                                            {/* <li className="nav-header hidden-folded">
-                                            <span>Main</span>
-                                        </li> */}
-
-
                                             <li className="nav-item">
                                                 <Link to="/dashboard/mysenderIds">
 
@@ -112,78 +104,79 @@ export default class SideBar extends Component {
                                         :
 
                                         ""}
-                                        <li className="nav-item">
-                                            <Link to="/dashboard/integration">
+                                    <li className="nav-item">
+                                        <Link to="/dashboard/integration">
 
-                                                <FontAwesomeIcon icon={faShareAlt} className="sidebarIcon" />
+                                            <FontAwesomeIcon icon={faShareAlt} className="sidebarIcon" />
 
-                                                <span className="nav-text">API Integration</span>
-                                            </Link>
-                                        </li>
+                                            <span className="nav-text">API Integration</span>
+                                        </Link>
+                                    </li>
 
-                                        <li className="accordion">
+                                    <li className="accordion">
 
-                                            <a href="#" className="i-con-h-a">
+                                        <a href="#" className="i-con-h-a">
 
-                                                <FontAwesomeIcon icon={faCommentDots} className="sidebarIcon" />
+                                            <FontAwesomeIcon icon={faCommentDots} className="sidebarIcon" />
 
-                                                <span className="nav-text">SMS</span>
-                                                <span className="nav-caret"></span>
-                                            </a>
+                                            <span className="nav-text">SMS</span>
+                                            <span className="nav-caret"></span>
+                                        </a>
 
-                                            <ul className="nav-sub">
+                                        <ul className="nav-sub">
 
-                                                {sendMessages == true ? 
+                                            {sendMessages == true ?
                                                 <>
-                                                 <li className="nav-item">
-                                                    <Link to="/dashboard/sendmessages">
-                                                        <FontAwesomeIcon icon={faCommentDots} className="sidebarIcon" />
-                                                        <span className="nav-text">New Message</span>
-                                                    </Link>
-                                                </li>
-                                                <li className="nav-item">
-                                                    <Link to="/dashboard/custommessages">
-                                                        <FontAwesomeIcon icon={faCommentDots} className="sidebarIcon" />
-                                                        <span className="nav-text">Custom Message</span>
-                                                    </Link>
-                                                </li></>
+                                                    <li className="nav-item">
+                                                        <Link to="/dashboard/sendmessages">
+                                                            <FontAwesomeIcon icon={faCommentDots} className="sidebarIcon" />
+                                                            <span className="nav-text">New Message</span>
+                                                        </Link>
+                                                    </li>
+                                                    <li className="nav-item">
+                                                        <Link to="/dashboard/custommessages">
+                                                            <FontAwesomeIcon icon={faCommentDots} className="sidebarIcon" />
+                                                            <span className="nav-text">Custom Message</span>
+                                                        </Link>
+                                                    </li>
+                                                </>
                                                 :
-        
+
                                                 ""}
-                                                {viewOutbox &&
-                                                    <li className="nav-item">
-                                                        <Link to="/dashboard/messages">
+                                            {viewOutbox &&
+                                                <li className="nav-item">
+                                                    <Link to="/dashboard/messages">
 
-                                                            <FontAwesomeIcon icon={faCommentDots} className="sidebarIcon" />
+                                                        <FontAwesomeIcon icon={faCommentDots} className="sidebarIcon" />
 
-                                                            <span className="nav-text">Sent Messages</span>
-                                                        </Link>
-                                                    </li>}
+                                                        <span className="nav-text">Sent Messages</span>
+                                                    </Link>
+                                                </li>}
 
-                                                {viewSchedules &&
-                                                    <li className="nav-item">
-                                                        <Link to="/dashboard/scheduled-messages">
+                                            {viewSchedules &&
+                                                <li className="nav-item">
+                                                    <Link to="/dashboard/scheduled-messages">
 
-                                                            <FontAwesomeIcon icon={faCommentDots} className="sidebarIcon" />
+                                                        <FontAwesomeIcon icon={faCommentDots} className="sidebarIcon" />
 
-                                                            <span className="nav-text">Scheduled Messages</span>
-                                                        </Link>
-                                                    </li>}
+                                                        <span className="nav-text">Scheduled Messages</span>
+                                                    </Link>
+                                                </li>}
 
-                                                {viewMessageTemplates &&
-                                                    <li className="nav-item">
-                                                        <Link to="/dashboard/messagetemplates">
+                                            {viewMessageTemplates &&
+                                                <li className="nav-item">
+                                                    <Link to="/dashboard/messagetemplates">
 
-                                                            <FontAwesomeIcon icon={faCommentDots} className="sidebarIcon" />
+                                                        <FontAwesomeIcon icon={faCommentDots} className="sidebarIcon" />
 
-                                                            <span className="nav-text">Message Templates</span>
-                                                        </Link>
-                                                    </li>}
+                                                        <span className="nav-text">Message Templates</span>
+                                                    </Link>
+                                                </li>}
 
 
 
-                                            </ul>
-                                        </li>
+                                        </ul>
+                                    </li>
 
 
 

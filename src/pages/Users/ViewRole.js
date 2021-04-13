@@ -12,6 +12,7 @@ import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 
 import Loader from '../../components/loaders/Loader';
+import authService from '../../services/auth.service';
 
 
 export default class ViewRoles extends Component{
@@ -22,6 +23,7 @@ export default class ViewRoles extends Component{
 
         this.state ={
 
+            editRoles: authService.checkIfRoleExists("CAN_EDIT_ROLES"),
             value:this.props.value,
             roles: [],
             loading:false
@@ -93,7 +95,7 @@ export default class ViewRoles extends Component{
 
     render(){
 
-        const {roles} = this.state;
+        const {roles, editRoles} = this.state;
 
         return(
 
@@ -169,9 +171,9 @@ export default class ViewRoles extends Component{
                                                                     See detail
                                                                 </Link>
 
-                                                                <Link className="dropdown-item" to={'/dashboard/editrole/'+role.id}>
+                                                                { editRoles && <Link className="dropdown-item" to={'/dashboard/editrole/'+role.id}>
                                                                     Edit
-                                                                </Link>
+                                                                </Link>}
 
                                                             </div>
 

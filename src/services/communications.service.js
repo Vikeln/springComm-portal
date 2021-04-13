@@ -1,8 +1,4 @@
-import { axiosInstance } from '../API';
-
-
-const communicationUrl = "https://mobiconnect-api.mfs.co.ke/bridge";
-const communicationUrls = "https://mobiconnect-api.mfs.co.ke";
+import { axiosInstance,baseUrl } from '../API';
 
 class CommunicationsService {
 
@@ -11,36 +7,36 @@ class CommunicationsService {
     getAllMessages(date1, date2) {
 
 
-        return axiosInstance.get(communicationUrl + "/sent-sms?start=" + date1 + "&end=" + date2);
+        return axiosInstance.get(baseUrl + "bridge/sent-sms?start=" + date1 + "&end=" + date2);
 
     }
     
     getDashboardData() {
 
-        return axiosInstance.get(communicationUrl + "/sent-sms/my-smsdetails");
+        return axiosInstance.get(baseUrl + "bridge/sent-sms/my-smsdetails");
 
     }
 
     getDashboardGraphData() {
 
-        return axiosInstance.get(communicationUrl + "/sent-sms/my-sms-graph");
+        return axiosInstance.get(baseUrl + "bridge/sent-sms/my-sms-graph");
 
     }
 
     getAllScheduledMessages(date1, date2) {
 
 
-        return axiosInstance.get(communicationUrl + "/scheduled-sms?start=" + date1 + "&end=" + date2);
+        return axiosInstance.get(baseUrl + "bridge/scheduled-sms?start=" + date1 + "&end=" + date2);
 
     }
 
     /*Get all customer messages from endpoint*/
     getAllCustomerMessages(phone) {
         if (phone.startsWith("+")) {
-            return axiosInstance.get(communicationUrl + "/customer-outbox?customerPhone=" + phone.substring(1));
+            return axiosInstance.get(baseUrl + "bridge/customer-outbox?customerPhone=" + phone.substring(1));
         }
         else {
-            return axiosInstance.get(communicationUrl + "/customer-outbox?customerPhone=" + phone);
+            return axiosInstance.get(baseUrl + "bridge/customer-outbox?customerPhone=" + phone);
         }
 
     }
@@ -48,70 +44,70 @@ class CommunicationsService {
     /*Get single message based on messageId*/
     getSingleMessage(messageId) {
 
-        return axiosInstance.get(communicationUrl + "/" + messageId);
+        return axiosInstance.get(baseUrl + "bridge/" + messageId);
 
     }
 
     /*Get all message templates*/
     getAllMessageTemplates() {
 
-        return axiosInstance.get(communicationUrl + "/message-templates");
+        return axiosInstance.get(baseUrl + "bridge/message-templates");
 
     }
 
     /*Get single message template*/
     getSingleMessageTemplate(templateId) {
 
-        return axiosInstance.get(communicationUrl + "/message-templates/" + templateId);
+        return axiosInstance.get(baseUrl + "bridge/message-templates/" + templateId);
 
     }
 
     /*Create single message template*/
     createMessageTemplate(formData) {
 
-        return axiosInstance.post(communicationUrl + "/message-templates/add", formData);
+        return axiosInstance.post(baseUrl + "bridge/message-templates/add", formData);
 
     }
 
     /*Update single message template*/
     updateMessageTemplate(templateId, formData) {
 
-        return axiosInstance.post(communicationUrl + "/message-templates/edit?id=" + templateId, formData);
+        return axiosInstance.post(baseUrl + "bridge/message-templates/edit?id=" + templateId, formData);
 
     }
 
     /*Get all message types*/
     getAllMessageTypes() {
 
-        return axiosInstance.get(communicationUrl + "/message-types");
+        return axiosInstance.get(baseUrl + "bridge/message-types");
 
     }
 
     /*Create Message Type*/
     createMessageType(formData) {
 
-        return axiosInstance.get(communicationUrl + "/message-types/add", formData);
+        return axiosInstance.get(baseUrl + "bridge/message-types/add", formData);
 
     }
 
     /*Create Message*/
     createMessage(formData) {
 
-        return axiosInstance.post(communicationUrls + "/communications/sms/send", formData);
+        return axiosInstance.post(baseUrl + "communications/sms/send", formData);
 
     }
 
     /*Create Custom Message*/
     createCustomMessage(formData) {
 
-        return axiosInstance.post(communicationUrls + "/communications/sms/send-custom", formData);
+        return axiosInstance.post(baseUrl + "communications/sms/send-custom", formData);
 
     }
 
     /*Update single message template*/
     updateMessageType(messageTypeId, formData) {
 
-        return axiosInstance.post(communicationUrl + "/message-types/edit/" + messageTypeId, formData);
+        return axiosInstance.post(baseUrl + "bridge/message-types/edit/" + messageTypeId, formData);
 
     }
 }

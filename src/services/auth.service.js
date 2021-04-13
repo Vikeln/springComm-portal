@@ -1,25 +1,20 @@
-import axios from 'axios';
+import { axiosInstance, baseUrl } from '../API';
 
-import jwt_decode from "jwt-decode";
-
-// const authUrl = "http://localhost:8080/auth";
-
-const authUrl = "https://mobiconnect-api.mfs.co.ke/auth";
 
 class AuthService {
 
 
     forgotPassword(formData) {
 
-        //return axiosInstance.post(authUrl+"/resetpassword", formData);
-        return axios.post(authUrl + "/forgotpassword", formData);
+        //return axiosInstanceInstance.post(baseUrl + "auth"+"/resetpassword", formData);
+        return axiosInstance.post(baseUrl + "auth" + "/forgotpassword", formData);
 
     }
 
     resetPassword(formData) {
 
-        //return axiosInstance.post(authUrl+"/resetpassword", formData);
-        return axios.post(authUrl + "/resetpassword", formData);
+        //return axiosInstanceInstance.post(baseUrl + "auth"+"/resetpassword", formData);
+        return axiosInstance.post(baseUrl + "auth" + "/resetpassword", formData);
 
 
     }
@@ -28,7 +23,7 @@ class AuthService {
     */
     login(userName, password) {
 
-        return axios.post(authUrl, {
+        return axiosInstance.post(baseUrl + "auth", {
             userName,
             password
         },{
@@ -77,7 +72,7 @@ class AuthService {
     */
     register(username, email, password) {
 
-        return axios.post(authUrl, {
+        return axiosInstance.post(baseUrl + "auth", {
             username,
             email,
             password

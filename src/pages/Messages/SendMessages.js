@@ -496,6 +496,7 @@ export default class SendMessages extends Component {
 
             } else {
                 stateCopy.formData.message = inputValue;
+                stateCopy.message = inputValue;
             }
 
             this.setState(stateCopy);
@@ -569,6 +570,7 @@ export default class SendMessages extends Component {
                 stateCopy.formData.parameters = tem.match(/{{(.*?)}}/g).toString().replace(/{{|}}/gi, "").split(",");
 
             stateCopy.formData[inputName] = parseInt(inputValue);
+            stateCopy.formData["message"] = tem;
 
         } else {
 
@@ -946,7 +948,9 @@ export default class SendMessages extends Component {
                                     </div>
                                     {this.state.formData.sendFromTemplate == "true" &&
                                         <div
-                                            className="col-12"><label>Message</label><textarea
+                                            className="col-12">
+                                            <label>Message</label>
+                                            <textarea
                                                 name="message"
                                                 id="message"
                                                 value={message}
@@ -959,7 +963,9 @@ export default class SendMessages extends Component {
                                         </div>}
                                     {this.state.formData.sendFromTemplate == "false" &&
                                         <div
-                                            className="col-12">                                       <label>Message</label><textarea
+                                            className="col-12">
+                                            <label>Message</label>
+                                            <textarea
                                                 name="message"
                                                 id="message"
                                                 data-parsley-required="true"
