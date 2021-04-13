@@ -8,13 +8,13 @@ if (AuthService.getCurrentUserAccessToken()) {
 
     'Authorization': "Bearer " + AuthService.getCurrentUserAccessToken(),
     'Content-Type': 'application/json',
-    'App-Key': 'a1bed52870ec4338abf13513ad29875e'
+    'App-Key': process.env.REACT_APP_APP_KEY
   };
 } else {
   headers = {
 
     'Content-Type': 'application/json',
-    'App-Key': 'a1bed52870ec4338abf13513ad29875e'
+    'App-Key': process.env.REACT_APP_APP_KEY
   };
 }
 
@@ -26,4 +26,5 @@ export const axiosInstance = axios.create({
 
 // export const baseUrl = "http://localhost:8080/";
 // export const baseUrl = "http://10.38.83.54:30560/";
-export const baseUrl = "https://lbtotal.mfs.co.ke/"; 
+export const baseUrl = process.env.REACT_APP_BASE_URL;
+export const appKey = process.env.REACT_APP_APP_KEY;

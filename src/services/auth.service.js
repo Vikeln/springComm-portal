@@ -1,8 +1,8 @@
-import { axiosInstance, baseUrl } from '../API';
+import { axiosInstance } from '../API';
 
+var baseUrl = process.env.REACT_APP_BASE_URL;
 
 class AuthService {
-
 
     forgotPassword(formData) {
 
