@@ -5,7 +5,7 @@ metadata:
   labels:
     app: mobiconnect-total-portal
   name: mobiconnect-total-portal-deployment
-  namespace: mobiconnects
+  namespace: mobiconnect
 spec:
   selector:
     matchLabels:
@@ -29,7 +29,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: mobiconnect-total-portal-service
-  namespace: mobiconnects
+  namespace: mobiconnect
   labels:
     run: mobiconnect-total-portal-service
 spec:
