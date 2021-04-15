@@ -90,7 +90,6 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-
     if (AuthService.getCurrentUser() == null) {
       this.setState({
         authenticated: false,

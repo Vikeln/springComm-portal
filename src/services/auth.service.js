@@ -1,6 +1,5 @@
-import { axiosInstance } from '../API';
+import { axiosInstance,baseUrl } from '../API';
 
-var baseUrl = process.env.REACT_APP_BASE_URL;
 
 class AuthService {
 
