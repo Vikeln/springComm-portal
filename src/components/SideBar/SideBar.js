@@ -89,7 +89,15 @@ export default class SideBar extends Component {
                                                 <span className="nav-text">Admin Profile</span>
                                             </Link>
                                         </li>
-                                        : "    "}
+                                        : 
+                                        <li className="nav-item">
+                                        <Link to="/dashboard/welcome">
+
+                                            <FontAwesomeIcon icon={faUserCircle} className="sidebarIcon" />
+
+                                            <span className="nav-text">Home</span>
+                                        </Link>
+                                    </li>}
                                     {viewSenders == true ?
                                         <>
                                             <li className="nav-item">

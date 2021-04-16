@@ -21,13 +21,13 @@ spec:
         - name: mobiconnect-total-portal
           image: ImageName
           ports:
-            - containerPort: 80
+            - containerPort: 3000
           imagePullPolicy: IfNotPresent
           env: 
-            - name: REACT_APP_BASE
-              value: https:lbtotal.mfs.co.ke
-            - name: REACT_APP_KEY
-              value: a1bed52870ec4338abf13513ad29875e
+            - name: 'REACT_APP_BASE'
+              value: 'https://lbtotal.mfs.co.ke'
+            - name: 'REACT_APP_KEY'
+              value: 'a1bed52870ec4338abf13513ad29875e'
 
 ---
 apiVersion: v1
@@ -41,7 +41,7 @@ spec:
   type: NodePort
   ports:
     - name: mobiconnect-total-portal-port
-      port: 80
+      port: 3000
       protocol: TCP
       nodePort: 30561
   selector:

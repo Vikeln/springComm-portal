@@ -5,8 +5,11 @@ import React, { Component } from 'react';
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import Loader from '../../components/loaders/Loader';
+import authService from '../../services/auth.service';
 
 import CommunicationsService from '../../services/communications.service';
+import sourceService from '../../services/source.service';
+import userService from '../../services/user.service';
 
 
 
@@ -20,11 +23,15 @@ export default class Messages extends Component {
 
             value: this.props.value,
             message: [],
+            users: [],
+            sources: [],
             formData: {
-
+                source:"",
+                sentBy:"",
             },
             startdate: "",
             enddate: "",
+            filterMessages: authService.checkIfRoleExists("CAN_FILTER_MESSAGES_BY_USER"),
             loading: false,
 
 
@@ -34,6 +41,8 @@ export default class Messages extends Component {
         this.fetchMessages = this.fetchMessages.bind(this);
         this.updateStartDate = this.updateStartDate.bind(this);
         this.updateEndDate = this.updateEndDate.bind(this);
+        this.fetchUsers = this.fetchUsers.bind(this);
+        this.fetchMySenders = this.fetchMySenders.bind(this);
 
 
     }
@@ -60,6 +69,9 @@ export default class Messages extends Component {
 
         $(document).on("change", ".startdate", this.updateStartDate);
         $(document).on("change", ".enddate", this.updateEndDate);
+        if (authService.checkIfRoleExists("CAN_VIEW_USERS"))
+            this.fetchUsers();
+        this.fetchMySenders();
 
     }
 
@@ -83,13 +95,17 @@ export default class Messages extends Component {
 
     }
 
-    componentDidUnMount() {
+    componentDidUpdate() {
 
+        $('.table').bootstrapTable("destroy");
+
+        $('.table').bootstrapTable();
     }
 
     fetchMessages(event) {
 
         const { startdate, enddate } = this.state;
+        const { source, sentBy } = this.state.formData;
 
         event.preventDefault();
 
@@ -111,11 +127,11 @@ export default class Messages extends Component {
                 loading: true
             });
 
-            CommunicationsService.getAllMessages(startdate, enddate).then(response => {
+            CommunicationsService.getAllMessages(startdate, enddate,source, sentBy).then(response => {
 
                 if (response.data.status != "error") {
 
-                    if ((response.data.data==null || response.data.data==undefined)) {
+                    if ((response.data.data == null || response.data.data == undefined)) {
                         confirmAlert({
                             title: 'No records',
                             message: "No messages found",
@@ -178,11 +194,108 @@ export default class Messages extends Component {
 
     }
 
+    fetchUsers() {
+
+        this.setState({
+            loading: true
+        });
+
+        userService.getAllUsers().then(response => {
+
+
+
+            if (response.data.status != "error") {
+
+                this.setState({
+                    users: response.data.data,
+                    loading: false,
+                });
+
+            } else {
+                confirmAlert({
+
+                    title: 'Error',
+                    message: response.data.message,
+                    buttons: [
+                        {
+                            label: 'ok',
+                        }
+                    ]
+                });
+
+                this.setState({
+                    loading: false,
+                });
+            }
+
+
+        }).catch(error => {
+
+            this.setState({
+                loading: false,
+            });
+            confirmAlert({
+                title: 'Following Error Occurred',
+                message: error.message,
+                buttons: [
+                    {
+                        label: 'Ok',
+                    }
+                ]
+            });
+        });
+
+
+    }
+
+    fetchMySenders() {
+
+        sourceService.getAllSources().then(response => {
+
+            if (response.data.status != "error") {
+
+
+                this.setState({
+                    sources: response.data.data != null ? response.data.data : [],
+                });
+
+
+            } else {
+                confirmAlert({
+                    title: 'Error fetching your sources',
+                    message: response.data.message,
+                    buttons: [
+                        {
+                            label: 'ok',
+                        }
+                    ]
+                });
+            }
+
+
+        }).catch(error => {
+            confirmAlert({
+                title: 'Error occurred',
+                message: error.message,
+                buttons: [
+                    {
+                        label: 'ok',
+                    }
+                ]
+            });
+        });
+
+    }
     handleChange(el) {
         let inputName = el.target.name;
         let inputValue = el.target.value;
         let stateCopy = Object.assign({}, this.state);
-        stateCopy.formData[inputName] = this.formatDate(Date.parse(inputValue));
+        if (inputName == "source")
+            stateCopy.formData[inputName] = parseInt(inputValue);
+        else if (inputName == "sentBy")
+            stateCopy.formData[inputName] = inputValue;
+        else
+            stateCopy.formData[inputName] = this.formatDate(Date.parse(inputValue));
         this.setState(stateCopy);
     }
 
@@ -201,7 +314,7 @@ export default class Messages extends Component {
     }
     render() {
 
-        const { message, loading } = this.state;
+        const { message, loading, filterMessages, users, sources } = this.state;
 
         return (
 
@@ -225,9 +338,9 @@ export default class Messages extends Component {
                                     className="row messageFilter">
 
                                     <div
-                                        className="col-4">
+                                        className="col-3">
 
-                                        <label>Start Date</label>
+                                        <label>Start Date*</label>
                                         <input
                                             type="text"
                                             className="form-control startdate"
@@ -244,9 +357,9 @@ export default class Messages extends Component {
                                     </div>
 
                                     <div
-                                        className="col-4">
+                                        className="col-3">
 
-                                        <label>End Date</label>
+                                        <label>End Date*</label>
                                         <input
                                             type="text"
                                             className="form-control enddate"
@@ -260,8 +373,46 @@ export default class Messages extends Component {
                                             id="enddate"
                                             onChange={this.handleChange} />
                                     </div>
+                                    {filterMessages &&
+                                        <div
+                                            className="col-3 ">
+                                            <label>Sent By</label>
+                                            <select
+                                                className="form-control"
+                                                name="sentBy"
+                                                id="sentBy"
+                                                data-parsley-required="true"
+                                                onChange={this.handleChange}>
+                                                <option value=""></option>
+                                                {users != "" &&
+
+                                                    users.map((group, index) => (
+                                                        <option key={group.user.id} value={group.user.userName}>{group.user.firstName + " " + group.user.lastName + (group.apiUser ? " - Api User" : "")}</option>
+                                                    ))
+                                                }
+                                            </select>
+                                        </div>
+                                    }
                                     <div
-                                        className="col-4 ">
+                                        className="col-3 ">
+                                        <label>Sent Through</label>
+                                        <select
+                                            className="form-control"
+                                            name="source"
+                                            id="source"
+                                            data-parsley-required="true"
+                                            onChange={this.handleChange}>
+                                            <option value=""></option>
+                                            {sources != "" &&
+
+                                                sources.map((group, index) => (
+                                                    <option key={index} value={group.id}>{group.senderId}</option>
+                                                ))
+                                            }
+                                        </select>
+                                    </div>
+                                    <div
+                                        className="col-3 ">
                                         <button
                                             className="btn-primary"
                                             type="submit">Fetch OutBox</button>

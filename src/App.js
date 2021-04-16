@@ -9,7 +9,7 @@ import {
 
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
- 
+
 
 // User and Role Mangement
 import AllUsers from './pages/Users/AllUsers';
@@ -18,6 +18,7 @@ import EditUser from './pages/Users/EditUser';
 import ViewUser from './pages/Users/ViewUser';
 
 import AdminProfile from './pages/AdminProfile/AdminProfile';
+import Welcome from './pages/AdminProfile/Welcome';
 
 // Contacts Management Views
 import UploadContacts from './pages/AddressBook/UploadContacts';
@@ -80,7 +81,7 @@ export default class App extends Component {
       editRoles: AuthService.checkIfRoleExists("CAN_EDIT_ROLES"),
       viewRole: AuthService.checkIfRoleExists("CAN_VIEW_ROLES"),
       createRoles: AuthService.checkIfRoleExists("CAN_CREATE_ROLES"),
-
+      viewTrends:AuthService.checkIfRoleExists("CAN_VIEW_OUTBOX_TREND"),
 
       viewOutbox: AuthService.checkIfRoleExists("CAN_VIEW_OUTBOX"),
       viewMessageTemplates: AuthService.checkIfRoleExists("CAN_VIEW_MESSAGE_TEMPLATES"),
@@ -104,18 +105,18 @@ export default class App extends Component {
 
 
       setTimeout(function () {
-        confirmAlert({  
-        title: "Session Timed Out",
-        message: 'Your session has timed out and you will be logged out now.',
-        closeOnEscape: false,
-        closeOnClickOutside: false,
-        buttons: [
+        confirmAlert({
+          title: "Session Timed Out",
+          message: 'Your session has timed out and you will be logged out now.',
+          closeOnEscape: false,
+          closeOnClickOutside: false,
+          buttons: [
             {
-                label: 'Ok',
-                onClick: () => window.location.href = '/logout'
+              label: 'Ok',
+              onClick: () => window.location.href = '/logout'
             }
-        ]
-    });
+          ]
+        });
 
       }, AuthService.getUserLoggedInAt() - Math.floor(Date.now()));
 
@@ -151,6 +152,7 @@ export default class App extends Component {
                 viewUserDetails={this.state.viewUserDetails}
                 viewRole={this.state.viewRole}
                 createRoles={this.state.createRoles}
+                viewTrends={this.state.viewTrends}
                 viewOutbox={this.state.viewOutbox}
                 viewMessageTemplates={this.state.viewMessageTemplates}
                 editUser={this.state.editUser}
@@ -182,7 +184,7 @@ export default class App extends Component {
 function Dashboard(props) {
 
 
-  const { createUsers, editUser, viewUsers, viewUserDetails, editRoles, viewRole, createRoles, viewOutbox, viewMessageTemplates } = props;
+  const { createUsers, editUser, viewUsers, viewUserDetails, editRoles, viewRole, createRoles, viewOutbox,viewTrends, viewMessageTemplates } = props;
 
 
   return (
@@ -194,8 +196,16 @@ function Dashboard(props) {
         <Switch>
 
           <Route exact path="/dashboard/">
+            {viewTrends == true ?
               <AdminProfile />
+              :
+              <Welcome />
+            }
+          </Route>
 
+
+          <Route exact path="/dashboard/welcome">
+            <Welcome />
           </Route>
 
           <Route exact path="/logout">
@@ -229,7 +239,7 @@ function Dashboard(props) {
 
           {editUser == true && <Route exact path="/dashboard/edituser/:id" component={EditUser} ></Route>}
 
-          {viewUserDetails == true && <Route exact path="/dashboard/viewuser/:id" component={ViewUser}/>}
+          {viewUserDetails == true && <Route exact path="/dashboard/viewuser/:id" component={ViewUser} />}
 
           {createRoles == true && <Route exact path="/dashboard/addroles">
             <CreateRole />
@@ -244,17 +254,17 @@ function Dashboard(props) {
           {viewRole == true && <Route exact path="/dashboard/singlerole/:id" component={SingleRole}></Route>}
 
           <Route exact path="/dashboard/integration">
-              <Integration />
-            </Route>
- 
-        
+            <Integration />
+          </Route>
+
+
 
           {viewUsers == true ?
 
             <Route exact path="/dashboard/adminprofile">
               <AdminProfile />
             </Route>
- 
+
             :
             ""
           }

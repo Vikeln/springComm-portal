@@ -165,17 +165,6 @@ export default class AddUser extends Component {
             });
 
             $('input[type="submit"],button[type="submit"]').hide();
-
-            if (formData.apiUser === "true") {
-                var role = this.state.roles.reduce(function (prev, current) {
-                    if (+current.id < +prev.id) {
-                        return current;
-                    } else {
-                        return prev;
-                    }
-                });
-                formData["role"] = role.id;
-            }
             console.log(formData);
 
             UserService.createUser(formData).then(response => {
@@ -218,7 +207,6 @@ export default class AddUser extends Component {
                         buttons: [
                             {
                                 label: 'ok',
-                                onClick: () => window.location.href = "/dashboard/users"
                             }
                         ]
                     });

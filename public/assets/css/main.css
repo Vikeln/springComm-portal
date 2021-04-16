@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /***** GENERAL STYLING *******/
 img {
   height: auto;
@@ -567,6 +568,10 @@ form textarea {
 
 .buttonContainer {
   padding-right: 0px;
+}
+
+.glyphicon-export:before {
+  content: "";
 }
 
 .advancedSearchOptions {

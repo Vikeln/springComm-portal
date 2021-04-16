@@ -629,6 +629,7 @@ export default class SendMessages extends Component {
                     });
 
                 } else {
+                    $('input[type="submit"],button[type="submit"]').show();
                     confirmAlert({
                         title: 'Error sending messages',
                         message: response.data.message,
@@ -641,6 +642,7 @@ export default class SendMessages extends Component {
                 }
 
             }).catch(error => {
+                $('input[type="submit"],button[type="submit"]').show();
                 confirmAlert({
                     title: 'Error occurred',
                     message: error.message,
