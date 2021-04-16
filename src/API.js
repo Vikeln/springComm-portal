@@ -24,7 +24,7 @@ export const axiosInstance = axios.create({
 });
 
 
-export const baseUrl = "http://localhost:8080/";
+// export const baseUrl = "http://localhost:8080/";
 // export const baseUrl = "http://10.38.83.54:30560/";
-// export const baseUrl = process.env.REACT_APP_BASE;
+export const baseUrl = process.env.REACT_APP_BASE;
 export const appKey = process.env.REACT_APP_KEY;
