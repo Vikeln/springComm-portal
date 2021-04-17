@@ -96,10 +96,7 @@ export default class Messages extends Component {
     }
 
     componentDidUpdate() {
-
-        $('.table').bootstrapTable("destroy");
-
-        $('.table').bootstrapTable();
+        
     }
 
     fetchMessages(event) {
@@ -107,9 +104,8 @@ export default class Messages extends Component {
         const { startdate, enddate } = this.state;
         const { source, sentBy } = this.state.formData;
 
-        event.preventDefault();
+        event.preventDefault(); 
 
-        $('.table').bootstrapTable("destroy");
 
         if (startdate == "") {
             alert("Please select a start date");
@@ -124,11 +120,11 @@ export default class Messages extends Component {
         if (startdate != "" && enddate != "") {
 
             this.setState({
-                loading: true
+                loading: true,
+                message:[]
             });
 
             CommunicationsService.getAllMessages(startdate, enddate,source, sentBy).then(response => {
-
                 if (response.data.status != "error") {
 
                     if ((response.data.data == null || response.data.data == undefined)) {
@@ -434,7 +430,7 @@ export default class Messages extends Component {
                                 data-search-align="left"
                                 data-show-columns="true"
                                 data-show-export="true"
-                                data-detail-view="true"
+                                data-detail-view="false"
                                 data-mobile-responsive="true"
                                 data-pagination="true"
                                 data-page-list="[10, 25, 50, 100, ALL]"
