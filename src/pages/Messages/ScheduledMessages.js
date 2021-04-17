@@ -35,6 +35,7 @@ export default class Messages extends Component {
         this.fetchMessages = this.fetchMessages.bind(this);
         this.updateStartDate = this.updateStartDate.bind(this);
         this.updateEndDate = this.updateEndDate.bind(this);
+        this.openAdvancedSearch = this.openAdvancedSearch.bind(this);
 
 
     }
@@ -61,6 +62,8 @@ export default class Messages extends Component {
 
         $(document).on("change", ".startdate", this.updateStartDate);
         $(document).on("change", ".enddate", this.updateEndDate);
+        $(".advancedSearchButton").click(this.openAdvancedSearch);
+        this.openAdvancedSearch();
 
     }
 
@@ -84,6 +87,11 @@ export default class Messages extends Component {
 
     }
 
+    openAdvancedSearch() {
+
+        $(".advancedSearch").stop().slideToggle();
+
+    }
     componentDidUnMount() {
 
     }
@@ -112,6 +120,7 @@ export default class Messages extends Component {
                 loading: true
             });
 
+            this.openAdvancedSearch();
             CommunicationsService.getAllScheduledMessages(startdate, enddate).then(response => {
 
                 if (response.data.status != "error") {
@@ -219,7 +228,37 @@ export default class Messages extends Component {
 
 
                         <div className="padding">
+<div className="buttonContainer padding pt-0 pb-0">
 
+
+                                <div className="row advancedSearchOptions ">
+                                    <div className="col-6 searchToggle">
+
+                                        <button className="advancedSearchButton btn-rounded">
+
+                                            <span className="">
+                                                <i className="i-con i-con-minus">
+                                                    <i></i>
+                                                </i>
+                                            </span>
+
+        Advanced Search : Click Here to Show
+
+    </button>
+
+                                    </div>
+
+
+
+                                </div>
+
+
+
+
+                            </div>
+                            <div className="advancedSearch padding pb-0 pt-4" style={{ display: 'none' }}>
+
+                                <div className="col-lg-12 pb-2 pl-0 pr-0">
                             <form onSubmit={this.fetchMessages}
                                 className="fetchMessages">
                                 <div
@@ -228,7 +267,7 @@ export default class Messages extends Component {
                                     <div
                                         className="col-4">
 
-                                        <label>Start Date</label>
+                                        <label>Start Date*</label>
                                         <input
                                             type="text"
                                             className="form-control startdate"
@@ -247,7 +286,7 @@ export default class Messages extends Component {
                                     <div
                                         className="col-4">
 
-                                        <label>End Date</label>
+                                        <label>End Date*</label>
                                         <input
                                             type="text"
                                             className="form-control enddate"
@@ -271,6 +310,8 @@ export default class Messages extends Component {
 
                             </form>
 
+                                </div>
+                            </div>
                             <div id="toolbar">
                                 <button id="trash" className="btn btn-icon btn-white i-con-h-a mr-1"><i className="i-con i-con-trash text-muted"><i></i></i></button>
                             </div>
@@ -284,7 +325,7 @@ export default class Messages extends Component {
                                 data-search-align="left"
                                 data-show-columns="true"
                                 data-show-export="true"
-                                data-detail-view="true"
+                                data-detail-view="false"
                                 data-mobile-responsive="true"
                                 data-pagination="true"
                                 data-page-list="[10, 25, 50, 100, ALL]"

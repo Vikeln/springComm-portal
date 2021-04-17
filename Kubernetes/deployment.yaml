@@ -21,7 +21,7 @@ spec:
         - name: mobiconnect-total-portal
           image: ImageName
           ports:
-            - containerPort: 3000
+            - containerPort: 80
           imagePullPolicy: IfNotPresent
           env: 
             - name: 'REACT_APP_BASE'
@@ -41,7 +41,7 @@ spec:
   type: NodePort
   ports:
     - name: mobiconnect-total-portal-port
-      port: 3000
+      port: 80
       protocol: TCP
       nodePort: 30561
   selector:

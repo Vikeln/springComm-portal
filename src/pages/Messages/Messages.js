@@ -26,8 +26,8 @@ export default class Messages extends Component {
             users: [],
             sources: [],
             formData: {
-                source:"",
-                sentBy:"",
+                source: "",
+                sentBy: "",
             },
             startdate: "",
             enddate: "",
@@ -39,6 +39,7 @@ export default class Messages extends Component {
 
         this.handleChange = this.handleChange.bind(this);
         this.fetchMessages = this.fetchMessages.bind(this);
+        this.openAdvancedSearch = this.openAdvancedSearch.bind(this);
         this.updateStartDate = this.updateStartDate.bind(this);
         this.updateEndDate = this.updateEndDate.bind(this);
         this.fetchUsers = this.fetchUsers.bind(this);
@@ -69,9 +70,16 @@ export default class Messages extends Component {
 
         $(document).on("change", ".startdate", this.updateStartDate);
         $(document).on("change", ".enddate", this.updateEndDate);
+        $(".advancedSearchButton").click(this.openAdvancedSearch);
         if (authService.checkIfRoleExists("CAN_VIEW_USERS"))
             this.fetchUsers();
         this.fetchMySenders();
+        this.openAdvancedSearch();
+
+    }
+    openAdvancedSearch() {
+
+        $(".advancedSearch").stop().slideToggle();
 
     }
 
@@ -96,7 +104,7 @@ export default class Messages extends Component {
     }
 
     componentDidUpdate() {
-        
+
     }
 
     fetchMessages(event) {
@@ -104,7 +112,7 @@ export default class Messages extends Component {
         const { startdate, enddate } = this.state;
         const { source, sentBy } = this.state.formData;
 
-        event.preventDefault(); 
+        event.preventDefault();
 
 
         if (startdate == "") {
@@ -119,12 +127,13 @@ export default class Messages extends Component {
         //if ($(".fetchMessages").parsley().isValid()) {
         if (startdate != "" && enddate != "") {
 
+            this.openAdvancedSearch();
             this.setState({
                 loading: true,
-                message:[]
+                message: []
             });
 
-            CommunicationsService.getAllMessages(startdate, enddate,source, sentBy).then(response => {
+            CommunicationsService.getAllMessages(startdate, enddate, source, sentBy).then(response => {
                 if (response.data.status != "error") {
 
                     if ((response.data.data == null || response.data.data == undefined)) {
@@ -327,96 +336,129 @@ export default class Messages extends Component {
 
 
                         <div className="padding">
+                            <div className="buttonContainer padding pt-0 pb-0">
 
-                            <form onSubmit={this.fetchMessages}
-                                className="fetchMessages">
-                                <div
-                                    className="row messageFilter">
 
-                                    <div
-                                        className="col-3">
+                                <div className="row advancedSearchOptions ">
+                                    <div className="col-6 searchToggle">
 
-                                        <label>Start Date*</label>
-                                        <input
-                                            type="text"
-                                            className="form-control startdate"
-                                            data-parsley-required="true"
-                                            onChange={this.handleChange}
-                                        />
+                                        <button className="advancedSearchButton btn-rounded">
 
-                                        <input
-                                            type="hidden"
-                                            name="startdate"
-                                            id="startdate"
-                                            onChange={this.handleChange} />
+                                            <span className="">
+                                                <i className="i-con i-con-minus">
+                                                    <i></i>
+                                                </i>
+                                            </span>
+
+        Advanced Search : Click Here to Show
+
+    </button>
 
                                     </div>
 
-                                    <div
-                                        className="col-3">
 
-                                        <label>End Date*</label>
-                                        <input
-                                            type="text"
-                                            className="form-control enddate"
-                                            data-parsley-required="true"
 
-                                        />
-
-                                        <input
-                                            type="hidden"
-                                            name="enddate"
-                                            id="enddate"
-                                            onChange={this.handleChange} />
-                                    </div>
-                                    {filterMessages &&
-                                        <div
-                                            className="col-3 ">
-                                            <label>Sent By</label>
-                                            <select
-                                                className="form-control"
-                                                name="sentBy"
-                                                id="sentBy"
-                                                data-parsley-required="true"
-                                                onChange={this.handleChange}>
-                                                <option value=""></option>
-                                                {users != "" &&
-
-                                                    users.map((group, index) => (
-                                                        <option key={group.user.id} value={group.user.userName}>{group.user.firstName + " " + group.user.lastName + (group.apiUser ? " - Api User" : "")}</option>
-                                                    ))
-                                                }
-                                            </select>
-                                        </div>
-                                    }
-                                    <div
-                                        className="col-3 ">
-                                        <label>Sent Through</label>
-                                        <select
-                                            className="form-control"
-                                            name="source"
-                                            id="source"
-                                            data-parsley-required="true"
-                                            onChange={this.handleChange}>
-                                            <option value=""></option>
-                                            {sources != "" &&
-
-                                                sources.map((group, index) => (
-                                                    <option key={index} value={group.id}>{group.senderId}</option>
-                                                ))
-                                            }
-                                        </select>
-                                    </div>
-                                    <div
-                                        className="col-3 ">
-                                        <button
-                                            className="btn-primary"
-                                            type="submit">Fetch OutBox</button>
-                                    </div>
                                 </div>
 
-                            </form>
 
+
+
+                            </div>
+                            <div className="advancedSearch padding pb-0 pt-4" style={{ display: 'none' }}>
+
+                                <div className="col-lg-12 pb-2 pl-0 pr-0">
+
+                                    <form onSubmit={this.fetchMessages}
+                                        className="fetchMessages">
+                                        <div
+                                            className="row messageFilter">
+
+                                            <div
+                                                className="col-3">
+
+                                                <label>Start Date*</label>
+                                                <input
+                                                    type="text"
+                                                    className="form-control startdate"
+                                                    data-parsley-required="true"
+                                                    onChange={this.handleChange}
+                                                />
+
+                                                <input
+                                                    type="hidden"
+                                                    name="startdate"
+                                                    id="startdate"
+                                                    onChange={this.handleChange} />
+
+                                            </div>
+
+                                            <div
+                                                className="col-3">
+
+                                                <label>End Date*</label>
+                                                <input
+                                                    type="text"
+                                                    className="form-control enddate"
+                                                    data-parsley-required="true"
+
+                                                />
+
+                                                <input
+                                                    type="hidden"
+                                                    name="enddate"
+                                                    id="enddate"
+                                                    onChange={this.handleChange} />
+                                            </div>
+                                            {filterMessages &&
+                                                <div
+                                                    className="col-3 ">
+                                                    <label>Sent By</label>
+                                                    <select
+                                                        className="form-control"
+                                                        name="sentBy"
+                                                        id="sentBy"
+                                                        data-parsley-required="true"
+                                                        onChange={this.handleChange}>
+                                                        <option value=""></option>
+                                                        {users != "" &&
+
+                                                            users.map((group, index) => (
+                                                                <option key={group.user.id} value={group.user.userName}>{group.user.firstName + " " + group.user.lastName + (group.apiUser ? " - Api User" : "")}</option>
+                                                            ))
+                                                        }
+                                                    </select>
+                                                </div>
+                                            }
+                                            <div
+                                                className="col-3 ">
+                                                <label>Sent Through</label>
+                                                <select
+                                                    className="form-control"
+                                                    name="source"
+                                                    id="source"
+                                                    data-parsley-required="true"
+                                                    onChange={this.handleChange}>
+                                                    <option value=""></option>
+                                                    {sources != "" &&
+
+                                                        sources.map((group, index) => (
+                                                            <option key={index} value={group.id}>{group.senderId}</option>
+                                                        ))
+                                                    }
+                                                </select>
+                                            </div>
+                                            <div
+                                                className="col-3 ">
+                                                <button
+                                                    className="btn-primary"
+                                                    type="submit">Fetch OutBox</button>
+                                            </div>
+                                        </div>
+
+                                    </form>
+
+                                </div>
+                            </div>
                             <div id="toolbar">
                                 <button id="trash" className="btn btn-icon btn-white i-con-h-a mr-1"><i className="i-con i-con-trash text-muted"><i></i></i></button>
                             </div>
