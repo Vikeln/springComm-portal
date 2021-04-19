@@ -23,6 +23,11 @@ spec:
           ports:
             - containerPort: 80
           imagePullPolicy: IfNotPresent
+          env: 
+            - name: 'REACT_APP_BASE'
+              value: 'https://lbtotal.mfs.co.ke'
+            - name: 'REACT_APP_KEY'
+              value: 'a1bed52870ec4338abf13513ad29875e'
 
 ---
 apiVersion: v1

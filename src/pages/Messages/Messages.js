@@ -5,8 +5,11 @@ import React, { Component } from 'react';
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import Loader from '../../components/loaders/Loader';
+import authService from '../../services/auth.service';
 
 import CommunicationsService from '../../services/communications.service';
+import sourceService from '../../services/source.service';
+import userService from '../../services/user.service';
 
 
 
@@ -20,11 +23,15 @@ export default class Messages extends Component {
 
             value: this.props.value,
             message: [],
+            users: [],
+            sources: [],
             formData: {
-
+                source: "",
+                sentBy: "",
             },
             startdate: "",
             enddate: "",
+            filterMessages: authService.checkIfRoleExists("CAN_FILTER_MESSAGES_BY_USER"),
             loading: false,
 
 
@@ -32,8 +39,11 @@ export default class Messages extends Component {
 
         this.handleChange = this.handleChange.bind(this);
         this.fetchMessages = this.fetchMessages.bind(this);
+        this.openAdvancedSearch = this.openAdvancedSearch.bind(this);
         this.updateStartDate = this.updateStartDate.bind(this);
         this.updateEndDate = this.updateEndDate.bind(this);
+        this.fetchUsers = this.fetchUsers.bind(this);
+        this.fetchMySenders = this.fetchMySenders.bind(this);
 
 
     }
@@ -60,6 +70,16 @@ export default class Messages extends Component {
 
         $(document).on("change", ".startdate", this.updateStartDate);
         $(document).on("change", ".enddate", this.updateEndDate);
+        $(".advancedSearchButton").click(this.openAdvancedSearch);
+        if (authService.checkIfRoleExists("CAN_VIEW_USERS"))
+            this.fetchUsers();
+        this.fetchMySenders();
+        this.openAdvancedSearch();
+
+    }
+    openAdvancedSearch() {
+
+        $(".advancedSearch").stop().slideToggle();
 
     }
 
@@ -83,17 +103,17 @@ export default class Messages extends Component {
 
     }
 
-    componentDidUnMount() {
+    componentDidUpdate() {
 
     }
 
     fetchMessages(event) {
 
         const { startdate, enddate } = this.state;
+        const { source, sentBy } = this.state.formData;
 
         event.preventDefault();
 
-        $('.table').bootstrapTable("destroy");
 
         if (startdate == "") {
             alert("Please select a start date");
@@ -107,15 +127,16 @@ export default class Messages extends Component {
         //if ($(".fetchMessages").parsley().isValid()) {
         if (startdate != "" && enddate != "") {
 
+            this.openAdvancedSearch();
             this.setState({
-                loading: true
+                loading: true,
+                message: []
             });
 
-            CommunicationsService.getAllMessages(startdate, enddate).then(response => {
-
+            CommunicationsService.getAllMessages(startdate, enddate, source, sentBy).then(response => {
                 if (response.data.status != "error") {
 
-                    if ((response.data.data==null || response.data.data==undefined)) {
+                    if ((response.data.data == null || response.data.data == undefined)) {
                         confirmAlert({
                             title: 'No records',
                             message: "No messages found",
@@ -178,11 +199,108 @@ export default class Messages extends Component {
 
     }
 
+    fetchUsers() {
+
+        this.setState({
+            loading: true
+        });
+
+        userService.getAllUsers().then(response => {
+
+
+
+            if (response.data.status != "error") {
+
+                this.setState({
+                    users: response.data.data,
+                    loading: false,
+                });
+
+            } else {
+                confirmAlert({
+
+                    title: 'Error',
+                    message: response.data.message,
+                    buttons: [
+                        {
+                            label: 'ok',
+                        }
+                    ]
+                });
+
+                this.setState({
+                    loading: false,
+                });
+            }
+
+
+        }).catch(error => {
+
+            this.setState({
+                loading: false,
+            });
+            confirmAlert({
+                title: 'Following Error Occurred',
+                message: error.message,
+                buttons: [
+                    {
+                        label: 'Ok',
+                    }
+                ]
+            });
+        });
+
+
+    }
+
+    fetchMySenders() {
+
+        sourceService.getAllSources().then(response => {
+
+            if (response.data.status != "error") {
+
+
+                this.setState({
+                    sources: response.data.data != null ? response.data.data : [],
+                });
+
+
+            } else {
+                confirmAlert({
+                    title: 'Error fetching your sources',
+                    message: response.data.message,
+                    buttons: [
+                        {
+                            label: 'ok',
+                        }
+                    ]
+                });
+            }
+
+
+        }).catch(error => {
+            confirmAlert({
+                title: 'Error occurred',
+                message: error.message,
+                buttons: [
+                    {
+                        label: 'ok',
+                    }
+                ]
+            });
+        });
+
+    }
     handleChange(el) {
         let inputName = el.target.name;
         let inputValue = el.target.value;
         let stateCopy = Object.assign({}, this.state);
-        stateCopy.formData[inputName] = this.formatDate(Date.parse(inputValue));
+        if (inputName == "source")
+            stateCopy.formData[inputName] = parseInt(inputValue);
+        else if (inputName == "sentBy")
+            stateCopy.formData[inputName] = inputValue;
+        else
+            stateCopy.formData[inputName] = this.formatDate(Date.parse(inputValue));
         this.setState(stateCopy);
     }
 
@@ -201,7 +319,7 @@ export default class Messages extends Component {
     }
     render() {
 
-        const { message, loading } = this.state;
+        const { message, loading, filterMessages, users, sources } = this.state;
 
         return (
 
@@ -218,58 +336,129 @@ export default class Messages extends Component {
 
 
                         <div className="padding">
+                            <div className="buttonContainer padding pt-0 pb-0">
 
-                            <form onSubmit={this.fetchMessages}
-                                className="fetchMessages">
-                                <div
-                                    className="row messageFilter">
 
-                                    <div
-                                        className="col-4">
+                                <div className="row advancedSearchOptions ">
+                                    <div className="col-6 searchToggle">
 
-                                        <label>Start Date</label>
-                                        <input
-                                            type="text"
-                                            className="form-control startdate"
-                                            data-parsley-required="true"
-                                            onChange={this.handleChange}
-                                        />
+                                        <button className="advancedSearchButton btn-rounded">
 
-                                        <input
-                                            type="hidden"
-                                            name="startdate"
-                                            id="startdate"
-                                            onChange={this.handleChange} />
+                                            <span className="">
+                                                <i className="i-con i-con-minus">
+                                                    <i></i>
+                                                </i>
+                                            </span>
+
+        Advanced Search : Click Here to Show
+
+    </button>
 
                                     </div>
 
-                                    <div
-                                        className="col-4">
 
-                                        <label>End Date</label>
-                                        <input
-                                            type="text"
-                                            className="form-control enddate"
-                                            data-parsley-required="true"
 
-                                        />
-
-                                        <input
-                                            type="hidden"
-                                            name="enddate"
-                                            id="enddate"
-                                            onChange={this.handleChange} />
-                                    </div>
-                                    <div
-                                        className="col-4 ">
-                                        <button
-                                            className="btn-primary"
-                                            type="submit">Fetch OutBox</button>
-                                    </div>
                                 </div>
 
-                            </form>
 
+
+
+                            </div>
+                            <div className="advancedSearch padding pb-0 pt-4" style={{ display: 'none' }}>
+
+                                <div className="col-lg-12 pb-2 pl-0 pr-0">
+
+                                    <form onSubmit={this.fetchMessages}
+                                        className="fetchMessages">
+                                        <div
+                                            className="row messageFilter">
+
+                                            <div
+                                                className="col-3">
+
+                                                <label>Start Date*</label>
+                                                <input
+                                                    type="text"
+                                                    className="form-control startdate"
+                                                    data-parsley-required="true"
+                                                    onChange={this.handleChange}
+                                                />
+
+                                                <input
+                                                    type="hidden"
+                                                    name="startdate"
+                                                    id="startdate"
+                                                    onChange={this.handleChange} />
+
+                                            </div>
+
+                                            <div
+                                                className="col-3">
+
+                                                <label>End Date*</label>
+                                                <input
+                                                    type="text"
+                                                    className="form-control enddate"
+                                                    data-parsley-required="true"
+
+                                                />
+
+                                                <input
+                                                    type="hidden"
+                                                    name="enddate"
+                                                    id="enddate"
+                                                    onChange={this.handleChange} />
+                                            </div>
+                                            {filterMessages &&
+                                                <div
+                                                    className="col-3 ">
+                                                    <label>Sent By</label>
+                                                    <select
+                                                        className="form-control"
+                                                        name="sentBy"
+                                                        id="sentBy"
+                                                        data-parsley-required="true"
+                                                        onChange={this.handleChange}>
+                                                        <option value=""></option>
+                                                        {users != "" &&
+
+                                                            users.map((group, index) => (
+                                                                <option key={group.user.id} value={group.user.userName}>{group.user.firstName + " " + group.user.lastName + (group.apiUser ? " - Api User" : "")}</option>
+                                                            ))
+                                                        }
+                                                    </select>
+                                                </div>
+                                            }
+                                            <div
+                                                className="col-3 ">
+                                                <label>Sent Through</label>
+                                                <select
+                                                    className="form-control"
+                                                    name="source"
+                                                    id="source"
+                                                    data-parsley-required="true"
+                                                    onChange={this.handleChange}>
+                                                    <option value=""></option>
+                                                    {sources != "" &&
+
+                                                        sources.map((group, index) => (
+                                                            <option key={index} value={group.id}>{group.senderId}</option>
+                                                        ))
+                                                    }
+                                                </select>
+                                            </div>
+                                            <div
+                                                className="col-3 ">
+                                                <button
+                                                    className="btn-primary"
+                                                    type="submit">Fetch OutBox</button>
+                                            </div>
+                                        </div>
+
+                                    </form>
+
+                                </div>
+                            </div>
                             <div id="toolbar">
                                 <button id="trash" className="btn btn-icon btn-white i-con-h-a mr-1"><i className="i-con i-con-trash text-muted"><i></i></i></button>
                             </div>
@@ -283,7 +472,7 @@ export default class Messages extends Component {
                                 data-search-align="left"
                                 data-show-columns="true"
                                 data-show-export="true"
-                                data-detail-view="true"
+                                data-detail-view="false"
                                 data-mobile-responsive="true"
                                 data-pagination="true"
                                 data-page-list="[10, 25, 50, 100, ALL]"

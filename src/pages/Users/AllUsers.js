@@ -268,7 +268,7 @@ export default class AllUsers extends Component {
                     emailSuccessful: response.data.message
 
                 });
-
+                window.location.reload()
 
 
             } else {
@@ -382,7 +382,7 @@ export default class AllUsers extends Component {
                                                         </td>
 
                                                         <td>
-                                                            {!user.apiUser && <span className="">{user.user.role.name}</span>}
+                                                            { <span className="">{user.user.role.name}</span> }
                                                         </td>
 
 

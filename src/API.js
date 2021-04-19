@@ -8,13 +8,13 @@ if (AuthService.getCurrentUserAccessToken()) {
 
     'Authorization': "Bearer " + AuthService.getCurrentUserAccessToken(),
     'Content-Type': 'application/json',
-    'App-Key': '12702e6f3d914ff7b4c69573195f4017'
+    'App-Key': process.env.REACT_APP_KEY
   };
 } else {
   headers = {
 
     'Content-Type': 'application/json',
-    'App-Key': '12702e6f3d914ff7b4c69573195f4017'
+    'App-Key': process.env.REACT_APP_KEY
   };
 }
 
@@ -26,4 +26,5 @@ export const axiosInstance = axios.create({
 
 // export const baseUrl = "http://localhost:8080/";
 // export const baseUrl = "http://10.38.83.54:30560/";
-export const baseUrl = "https://mobiconnect-api.mfs.co.ke/";
+export const baseUrl = process.env.REACT_APP_BASE;
+export const appKey = process.env.REACT_APP_KEY;

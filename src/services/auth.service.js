@@ -1,8 +1,7 @@
-import { axiosInstance, baseUrl } from '../API';
+import { axiosInstance,baseUrl } from '../API';
 
 
 class AuthService {
-
 
     forgotPassword(formData) {
 

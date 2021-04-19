@@ -718,7 +718,7 @@ export default class SendCustomMessages extends Component {
                                                     data-search-align="left"
                                                     data-show-columns="true"
                                                     data-show-export="true"
-                                                    data-detail-view="true"
+                                                    data-detail-view="false"
                                                     data-mobile-responsive="true"
                                                     data-pagination="true"
                                                     data-page-list="[10, 25, 50, 100, ALL]"

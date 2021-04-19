@@ -1,16 +1,23 @@
-import { axiosInstance,baseUrl } from '../API';
+import { axiosInstance, baseUrl } from '../API';
 
 class CommunicationsService {
 
 
     /*Get all messages from endpoint*/
-    getAllMessages(date1, date2) {
+    getAllMessages(date1, date2, source, sentBy) {
 
+        var part = "";
 
-        return axiosInstance.get(baseUrl + "bridge/sent-sms?start=" + date1 + "&end=" + date2);
+        if (source !== "")
+            part = part + "&source=" + source;
+
+        if (sentBy !== "")
+            part = part + "&sentBy=" + sentBy;
+
+        return axiosInstance.get(baseUrl + "bridge/sent-sms?start=" + date1 + "&end=" + date2 + (part !== "" ? part : ""));
 
     }
-    
+
     getDashboardData() {
 
         return axiosInstance.get(baseUrl + "bridge/sent-sms/my-smsdetails");
