@@ -209,11 +209,11 @@ export default class ManageSenders extends Component {
                         <div className="padding">
 
                             <div className="toggleMenu">
-                                <button
+                                {/* <button
                                     className="btn-primary"
                                     onClick={this.toggleView}
                                     data-target="viewall">View SenderIDs</button>
-                                {/* {createSender &&
+                                {createSender &&
                                  <button
                                     className="btn-primary"
                                     onClick={this.toggleView}
@@ -247,9 +247,10 @@ export default class ManageSenders extends Component {
                                         <tr>
                                             <th>ID</th>
                                             <th>SenderId</th>
-                                            <th>Alphanumeric</th>
+                                            <th>Provider</th>
                                             <th>Date Created</th>
                                             <th>Status</th>
+                                            <th>Balance</th>
                                             <th></th>
                                         </tr>
                                     </thead>
@@ -275,7 +276,7 @@ export default class ManageSenders extends Component {
                                                         </td>
 
                                                         <td>
-                                                            <span className="text-muted">{mes.alphanumeric}</span>
+                                                            <span className="text-muted">{mes.provider !=undefined ? mes.provider : "SAFARICOM"}</span>
                                                         </td>
 
                                                         <td>
@@ -284,6 +285,9 @@ export default class ManageSenders extends Component {
 
                                                         <td>
                                                             <span className="text-muted">{mes.status}</span>
+                                                        </td>
+                                                        <td>
+                                                            <span className="text-muted">KES {mes.smsBalance}</span>
                                                         </td>
 
                                                         {/* <td>
@@ -366,6 +370,24 @@ export default class ManageSenders extends Component {
                                             className="form-control"
                                             data-parsley-required="true"
                                             onChange={this.handleChange} />
+                                    </div> 
+                                    <div
+                                        className="col-6">
+
+                                        <label>Provider</label>
+                                            
+                                        <select
+                                            type="text"
+                                            name="provider"
+                                            id="provider"
+                                            className="form-control"
+                                            data-parsley-required="true"
+                                            onChange={this.handleChange} >
+                                                <option></option>
+                                                <option value="SAFARICOM">SAFARICOM</option>
+                                                <option value="AIRTEL">AIRTEL</option>
+                                                <option></option>
+                                            </select>
                                     </div>
 
 
