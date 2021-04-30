@@ -76,9 +76,9 @@ export default class AllUsers extends Component {
                     loading: false,
                 });
 
-                //$('.table').bootstrapTable();
-                $('.table').dataTable({});
-                $(".table #table_filter input").attr("placeHolder", "Search");
+                $('.table').bootstrapTable();
+                // $('.table').dataTable({});
+                // $(".table #table_filter input").attr("placeHolder", "Search");
 
             } else {
                 confirmAlert({
@@ -321,20 +321,23 @@ export default class AllUsers extends Component {
                             <div className="padding">
 
 
+{/* <div id="toolbar">
+                                <button id="trash" className="btn btn-icon btn-white i-con-h-a mr-1"><i className="i-con i-con-trash text-muted"><i></i></i></button>
+                            </div> */}
 
 
                                 <table
-                                    className="table table-theme v-middle table-row"
-                                    id="table"
-                                    data-toolbar="#toolbar"
-                                    data-search="true"
-                                    data-page-length='10'
-                                    data-show-columns="true"
-                                    data-show-export="true"
-                                    data-detail-view="true"
-                                    data-mobile-responsive="true"
-                                    data-pagination="true"
-                                    data-page-list="[5, 25, 50, 100, ALL]"
+                                className="table table-theme v-middle table-row"
+                                id="table"
+                                data-toolbar="#toolbar"
+                                data-search="true"
+                                data-search-align="left"
+                                data-show-columns="true"
+                                data-show-export="true"
+                                data-detail-view="false"
+                                data-mobile-responsive="true"
+                                data-pagination="true"
+                                data-page-list="[10, 25, 50, 100, ALL]"
                                 >
 
                                     <thead>

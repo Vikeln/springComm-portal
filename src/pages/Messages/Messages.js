@@ -114,6 +114,7 @@ export default class Messages extends Component {
 
         event.preventDefault();
 
+        $(".table").bootstrapTable("destroy");  
 
         if (startdate == "") {
             alert("Please select a start date");
@@ -129,7 +130,7 @@ export default class Messages extends Component {
 
             this.openAdvancedSearch();
             this.setState({
-                loading: true,
+                loadingData: true,
                 message: []
             });
 
@@ -151,7 +152,7 @@ export default class Messages extends Component {
 
                     this.setState({
                         message: response.data.data != null ? response.data.data : [],
-                        loading: false,
+                        loadingData: false,
                     });
 
                     $('.table').bootstrapTable();
@@ -170,7 +171,7 @@ export default class Messages extends Component {
                     });
 
                     this.setState({
-                        loading: false,
+                        loadingData: false,
                     });
 
                 }
@@ -189,7 +190,7 @@ export default class Messages extends Component {
                 });
 
                 this.setState({
-                    loading: false,
+                    loadingData: false,
                 });
 
             });
@@ -319,7 +320,7 @@ export default class Messages extends Component {
     }
     render() {
 
-        const { message, loading, filterMessages, users, sources } = this.state;
+        const { message, loading,loadingData, filterMessages, users, sources } = this.state;
 
         return (
 
@@ -464,6 +465,7 @@ export default class Messages extends Component {
                             </div>
 
 
+                            {!loadingData ?
                             <table
                                 className="table table-theme v-middle table-row"
                                 id="table"
@@ -529,8 +531,7 @@ export default class Messages extends Component {
                                 </tbody>
 
                             </table>
-
-                            {loading &&
+ :
                                 <Loader type="circle" />
                             }
 

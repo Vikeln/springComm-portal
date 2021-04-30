@@ -602,12 +602,12 @@ export default class SendMessages extends Component {
         if ($(".sendMessage").parsley().isValid() && send) {
 
             $('input[type="submit"],button[type="submit"]').hide();
-            let vals = [];
-            for (var i = 0; i < formData.recipient.length; i++) {
+            // let vals = [];
+            // for (var i = 0; i < formData.recipient.length; i++) {
 
-                vals.push(this.complete(formData.recipient[i].toString()));
-            }
-            formData.recipient = vals;
+            //     vals.push(this.complete(formData.recipient[i].toString()));
+            // }
+            // formData.recipient = vals;
             if (formData.sendTime != "now")
                 formData.timeToSend = formData.dateToSend + " " + formData.timeToSend;
 
@@ -776,7 +776,7 @@ export default class SendMessages extends Component {
                                             {sources != "" &&
 
                                                 sources.map((group, index) => (
-                                                    <option key={group.id} value={group.id}>{group.senderId}</option>
+                                                    <option key={group.id} value={group.id}>{group.senderId} : {group.provider}</option>
                                                 ))
                                             }
 
