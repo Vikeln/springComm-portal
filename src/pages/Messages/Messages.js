@@ -154,8 +154,10 @@ export default class Messages extends Component {
                         message: response.data.data != null ? response.data.data : [],
                         loadingData: false,
                     });
-
-                    $('.table').bootstrapTable();
+                    $('.table').bootstrapTable({
+                        exportDataType: 'all',
+                        exportTypes: ['json', 'csv', 'excel'],
+                    });
 
 
                 } else {

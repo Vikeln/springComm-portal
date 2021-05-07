@@ -162,7 +162,7 @@ export default class ManageContacts extends Component {
     }
 
     componentDidUpdate() {
-        
+
         // $('.table').bootstrapTable();
 
     }
@@ -181,22 +181,6 @@ export default class ManageContacts extends Component {
                     loading: false,
                     groups: response.data.data
                 });
-
-                // if (this.state.grouping === undefined) {
-                //     var groups = [];
-                //     for (var i = 0; i < response.data.data.length; i++) {
-                //         if (!groups.includes(response.data.data[i].grouping))
-                //             groups.push(response.data.data[i].grouping);
-                //     }
-
-                //     this.setState({
-                //         groups: groups,
-                //     });
-                // }
-
-                // $('.table').bootstrapTable();
-                // $('.table').dataTable({});
-                // $(".table #table_filter input").attr("placeHolder", "Search");
 
             } else {
                 confirmAlert({
@@ -239,7 +223,7 @@ export default class ManageContacts extends Component {
 
         event.preventDefault();
         $('.table').bootstrapTable('destroy');
-        
+
 
         this.setState({
             loading: true,
@@ -268,10 +252,10 @@ export default class ManageContacts extends Component {
                 }
                 // $('.table').bootstrapTable('refresh');
                 // $('.table').bootstrapTable();
-                
+
                 $('.table').bootstrapTable({
                     exportDataType: 'all',
-                    showSearch:true,
+                    showSearch: true,
                     exportTypes: ['json', 'csv', 'excel'],
                 });
                 // $('.table').dataTable({});
@@ -393,7 +377,7 @@ Advanced Search : Click Here to Show
                                                         className="form-control"
                                                         name="grouping"
                                                         id="grouping"
-                                                        data-parsley-required="true"
+                                                        data-parsley-required="false"
                                                         onChange={this.handleSearchChange}>
                                                         <option value=""></option>
                                                         {groups != "" &&
@@ -420,72 +404,72 @@ Advanced Search : Click Here to Show
 
                                 {!loading ?
 
-                                <table
-                                    className="table table-theme v-middle table-row"
-                                    id="table"
-                                    data-toolbar="#toolbar"
-                                    data-search="true"
-                                    data-search-align="left"
-                                    data-show-columns="true"
-                                    data-show-export="true"
-                                    data-detail-view="false"
-                                    data-mobile-responsive="true"
-                                    data-pagination="true"
-                                    data-page-list="[10, 25, 50, 100, ALL]"
-                                >
+                                    <table
+                                        className="table table-theme v-middle table-row"
+                                        id="table"
+                                        data-toolbar="#toolbar"
+                                        data-search="true"
+                                        data-search-align="left"
+                                        data-show-columns="true"
+                                        data-show-export="true"
+                                        data-detail-view="false"
+                                        data-mobile-responsive="true"
+                                        data-pagination="true"
+                                        data-page-list="[10, 25, 50, 100, ALL]"
+                                    >
 
-                                    <thead>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Phone Number</th>
-                                            <th>Email </th>
-                                            <th>Grouping</th>
+                                        <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Phone Number</th>
+                                                <th>Email </th>
+                                                <th>Grouping</th>
 
-                                        </tr>
-                                    </thead>
+                                            </tr>
+                                        </thead>
 
-                                    <tbody>
-
-
-
-                                        {users != "" &&
-                                            users.map((user, index) => {
-
-                                                return (
+                                        <tbody>
 
 
-                                                    <tr className=" " key={user.id} >
+
+                                            {users != "" &&
+                                                users.map((user, index) => {
+
+                                                    return (
 
 
-                                                        <td>
-                                                            <span className="">{user.name}</span>
-                                                        </td>
+                                                        <tr className=" " key={user.id} >
 
 
-                                                        <td>
-                                                            <span className="">{user.phone}</span>
-                                                        </td>
+                                                            <td>
+                                                                <span className="">{user.name}</span>
+                                                            </td>
 
-                                                        <td>
-                                                            <span className="">{user.email}</span>
-                                                        </td>
 
-                                                        <td>
-                                                            <span className="">{user.grouping}</span>
-                                                        </td>
+                                                            <td>
+                                                                <span className="">{user.phone}</span>
+                                                            </td>
 
-                                                    </tr>
+                                                            <td>
+                                                                <span className="">{user.email}</span>
+                                                            </td>
 
-                                                );
+                                                            <td>
+                                                                <span className="">{user.grouping}</span>
+                                                            </td>
 
-                                            })
-                                        }
+                                                        </tr>
 
-                                    </tbody>
+                                                    );
 
-                                </table>
+                                                })
+                                            }
 
- :
+                                        </tbody>
+
+                                    </table>
+
+                                    :
                                     <Loader type="circle" />
                                 }
                             </div>
@@ -542,17 +526,61 @@ Advanced Search : Click Here to Show
                                             </div>
                                             <div className="col-4">
 
-                                                <label>Contact Grouping</label>
-                                                <input
-                                                    type="text"
-                                                    name="group"
-                                                    id="group"
+                                                <label>Add to Existing Contact Group</label>
+                                                <select
                                                     className="form-control"
+                                                    name="sendToGroup"
+                                                    id="sendToGroup"
                                                     data-parsley-required="true"
-                                                    onChange={this.handleChange}
-                                                />
+                                                    onChange={this.handleChange}>
+                                                    <option value=""></option>
+                                                    <option value="true">Yes</option>
+                                                    <option value="false">No</option>
+                                                    
+                                                </select>
 
                                             </div>
+                                            {this.state.formData.sendToGroup === "true" &&
+                                                <div className="col-4">
+
+                                                    <label>Contact Grouping</label>
+                                                    <select
+                                                    className="form-control"
+                                                    name="group"
+                                                    id="group"
+                                                    data-parsley-required="false"
+                                                    onChange={this.handleChange}>
+                                                    <option value=""></option>
+                                                    {groups != "" &&
+
+                                                        groups.map((group, index) => (
+                                                            <option key={index} value={group}>{group}</option>
+                                                        ))
+                                                    }
+                                                </select>
+
+                                                </div>
+                                                
+
+                                            }
+                                            {this.state.formData.sendToGroup === "false" &&
+                                                
+                                                <div className="col-4">
+
+                                                    <label>Contact Grouping</label>
+                                                    <input
+                                                        type="text"
+                                                        name="group"
+                                                        id="group"
+                                                        className="form-control"
+                                                        data-parsley-required="true"
+                                                        onChange={this.handleChange}
+                                                    />
+
+                                                </div>
+                                                
+
+                                            }
                                         </div>
                                     </div>
                                     <div className="row">

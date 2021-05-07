@@ -75,8 +75,10 @@ export default class AllUsers extends Component {
                     users: response.data.data,
                     loading: false,
                 });
-
-                $('.table').bootstrapTable();
+                $('.table').bootstrapTable({
+                    exportDataType: 'all',
+                    exportTypes: ['json', 'csv', 'excel'],
+                });
                 // $('.table').dataTable({});
                 // $(".table #table_filter input").attr("placeHolder", "Search");
 

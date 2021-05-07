@@ -545,6 +545,16 @@ export default class SendMessages extends Component {
             stateCopy.formData.recipient = [];
             stateCopy.uploads = [];
 
+        } else if (inputName === "sendToGroup") {
+
+            stateCopy.sendToGroup = inputValue;
+            if  (inputValue == "YES"){
+                stateCopy.formData.recipient = stateCopy.contacts.map((contact) => {return contact.phone;});
+            }else{
+            stateCopy.formData.recipient = [];
+            stateCopy.uploads = [];
+            }
+
 
         } else if (inputName === "sendFromTemplate") {
             if (inputValue != "true") {
@@ -685,7 +695,7 @@ export default class SendMessages extends Component {
 
     render() {
 
-        const { format, createSchedule, timeNow, filterContacts, contactGroups, messageTemplates, uploading, sources, sendOnce, sendTime, sendFromTemplate, selectFromAddressBook, contacts, message, successfulSubmission, networkError, submissionMessage } = this.state;
+        const { format, createSchedule, timeNow, filterContacts, contactGroups,sendToGroup, messageTemplates, uploading, sources, sendOnce, sendTime, sendFromTemplate, selectFromAddressBook, contacts, message, successfulSubmission, networkError, submissionMessage } = this.state;
 
         return (
 
@@ -820,30 +830,49 @@ export default class SendMessages extends Component {
 
                                             </div>}
                                             {filterContacts == "Yes" &&
-                                                <div className="col-4">
+                                                <>
+                                                    <div className="col-4">
 
-                                                    <label>Contact Groups</label>
+                                                        <label>Contact Groups</label>
 
-                                                    <select
-                                                        className="form-control"
-                                                        name="contactGroup"
-                                                        id="contactGroup"
+                                                        <select
+                                                            className="form-control"
+                                                            name="contactGroup"
+                                                            id="contactGroup"
 
-                                                        data-parsley-required="true"
-                                                        onChange={this.handleChange}>
-                                                        <option value=""></option>
-                                                        {contactGroups != "" &&
+                                                            data-parsley-required="true"
+                                                            onChange={this.handleChange}>
+                                                            <option value=""></option>
+                                                            {contactGroups != "" &&
 
-                                                            contactGroups.map((contact, index) => (
-                                                                <option key={contact} value={contact}>{contact}</option>
-                                                            ))
-                                                        }
-                                                    </select>
+                                                                contactGroups.map((contact, index) => (
+                                                                    <option key={contact} value={contact}>{contact}</option>
+                                                                ))
+                                                            }
+                                                        </select>
 
-                                                </div>
+                                                    </div>
+                                                   
+                                                    <div className="col-4">
 
+                                                        <label>Send To ALL contacts in Group</label>
+
+                                                        <select
+                                                            className="form-control"
+                                                            name="sendToGroup"
+                                                            id="sendToGroup"
+
+                                                            data-parsley-required="true"
+                                                            onChange={this.handleChange}>
+                                                            <option value=""></option>
+                                                            <option value="YES">Yes</option>
+                                                            <option value="No">No</option>
+                                                        </select>
+
+                                                    </div>
+                                                </>
                                             }
-                                            {selectFromAddressBook == "AddressBook" &&
+                                            {(selectFromAddressBook == "AddressBook" && sendToGroup == "No") &&
                                                 <div className="col-8">
 
                                                     <label>Recipients <em>*Use ctr on Windows / Command on Mac to select multiple</em></label>

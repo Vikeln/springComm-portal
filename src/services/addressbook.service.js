@@ -39,7 +39,7 @@ class AddressBookService {
     
     getAllGroupContacts(group) {
 
-        return axiosInstance.get(baseUrl + "bridge/address-book?contgroup=" + group);
+        return axiosInstance.get(baseUrl + "bridge/address-book" + (group !=undefined ? "?contgroup=" + group : ""));
 
 
     }
