@@ -35,9 +35,9 @@ class UserService {
 
     }
     // DeActivate a disable user
-    deactivate(username){
+    deactivate(id){
 
-        return axiosInstance.get(baseUrl+"auth/deactivateUser/"+username);
+        return axiosInstance.get(baseUrl+"auth/deactivateUser/"+id);
 
     }
 

@@ -50,7 +50,9 @@ export default class AllUsers extends Component {
 
         await this.fetchUsers();
 
-        //$("body").on("click",".enableUser",this.enableUser);
+        $("body").on("click",".enableUser",this.enableUser);
+        $("body").on("click",".disableUser",this.deactivateUser);
+        $("body").on("click",".unlockUser",this.unlockUserAccount);
 
 
     }
@@ -119,8 +121,10 @@ export default class AllUsers extends Component {
 
     }
 
-    enableUser(username) {
+    enableUser(el) {
 
+        
+        var username = el.target.dataset.name;
 
 
         confirmAlert({
@@ -189,8 +193,10 @@ export default class AllUsers extends Component {
 
 
     }
-    unlockUserAccount(id) {
+    unlockUserAccount(el) {
 
+        
+        var id = el.target.dataset.id;
         confirmAlert({
             title: "Are you sure you want to unlock this user's account? ",
             message: 'Please proceed.',
@@ -255,11 +261,10 @@ export default class AllUsers extends Component {
 
     }
 
-    deactivateUser(username) {
+    deactivateUser(el) {        
+        var id = el.target.dataset.id;
 
-
-
-        UserService.deactivate(username).then(response => {
+        UserService.deactivate(id).then(response => {
 
 
 
@@ -417,26 +422,23 @@ export default class AllUsers extends Component {
                                                                     }
 
                                                                     {enableUser && !user.user.enabled &&
-                                                                        <button
+                                                                        <button data-name={user.user.userName}
                                                                             className="dropdown-item enableUser"
-                                                                            onClickCapture={(e) =>
-                                                                                this.enableUser(user.user.userName)
-                                                                            }
-                                                                        >Enable {user.userName}</button>}
+                                                                        >Enable {user.user.userName}</button>}
 
                                                                     {disableUser && user.user.enabled &&
-                                                                        <button
-                                                                            className="dropdown-item enableUser"
-                                                                            onClickCapture={() =>
-                                                                                this.deactivateUser(user.user.id)
-                                                                            }
-                                                                        >DeActivate {user.userName}</button>}
+                                                                        <button data-id={user.user.id}
+                                                                            className="dropdown-item disableUser"
+                                                                            // onClickCapture={() =>
+                                                                            //     this.deactivateUser(user.user.id)
+                                                                            // }
+                                                                        >DeActivate {user.user.userName}</button>}
                                                                     {unlockUser && user.user.accountLocked &&
-                                                                        <button
+                                                                        <button data-id={user.user.id}
                                                                             className="dropdown-item unlockUser"
-                                                                            onClickCapture={() =>
-                                                                                this.unlockUserAccount(user.user.id)
-                                                                            }
+                                                                            // onClickCapture={() =>
+                                                                            //     this.unlockUserAccount(user.user.id)
+                                                                            // }
                                                                         >Unlock {user.user.userName}'s Account </button>}
 
                                                                 </div>
