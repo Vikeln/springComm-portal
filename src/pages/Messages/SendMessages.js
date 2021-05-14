@@ -171,10 +171,12 @@ export default class SendMessages extends Component {
             if (response.data.status != "error") {
 
 
-                this.setState({
-                    sources: response.data.data != null ? response.data.data : [],
-                });
+                var uniqueSources = response.data.data.filter((v, i, a) => a.findIndex(t => (t.alphanumeric === v.alphanumeric)) === i);
 
+                this.setState({
+                    sources: uniqueSources != null ? uniqueSources : [],
+                });
+                
 
             } else {
                 if (response.data.message == "No records found") {
@@ -548,11 +550,11 @@ export default class SendMessages extends Component {
         } else if (inputName === "sendToGroup") {
 
             stateCopy.sendToGroup = inputValue;
-            if  (inputValue == "YES"){
-                stateCopy.formData.recipient = stateCopy.contacts.map((contact) => {return contact.phone;});
-            }else{
-            stateCopy.formData.recipient = [];
-            stateCopy.uploads = [];
+            if (inputValue == "YES") {
+                stateCopy.formData.recipient = stateCopy.contacts.map((contact) => { return contact.phone; });
+            } else {
+                stateCopy.formData.recipient = [];
+                stateCopy.uploads = [];
             }
 
 
@@ -695,7 +697,7 @@ export default class SendMessages extends Component {
 
     render() {
 
-        const { format, createSchedule, timeNow, filterContacts, contactGroups,sendToGroup, messageTemplates, uploading, sources, sendOnce, sendTime, sendFromTemplate, selectFromAddressBook, contacts, message, successfulSubmission, networkError, submissionMessage } = this.state;
+        const { format, createSchedule, timeNow, filterContacts, contactGroups, sendToGroup, messageTemplates, uploading, sources, sendOnce, sendTime, sendFromTemplate, selectFromAddressBook, contacts, message, successfulSubmission, networkError, submissionMessage } = this.state;
 
         return (
 
@@ -786,7 +788,7 @@ export default class SendMessages extends Component {
                                             {sources != "" &&
 
                                                 sources.map((group, index) => (
-                                                    <option key={group.id} value={group.id}>{group.senderId} : {group.provider}</option>
+                                                    <option key={group.id} value={group.id}>{group.senderId}</option>
                                                 ))
                                             }
 
@@ -852,7 +854,7 @@ export default class SendMessages extends Component {
                                                         </select>
 
                                                     </div>
-                                                   
+
                                                     <div className="col-4">
 
                                                         <label>Send To ALL contacts in Group</label>

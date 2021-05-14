@@ -445,7 +445,7 @@ export default class Messages extends Component {
                                                     {sources != "" &&
 
                                                         sources.map((group, index) => (
-                                                            <option key={index} value={group.id}>{group.senderId}</option>
+                                                            <option key={index} value={group.id}>{group.senderId} : {group.provider != undefined ? group.provider : "SAFARICOM" }</option>
                                                         ))
                                                     }
                                                 </select>
