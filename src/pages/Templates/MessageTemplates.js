@@ -288,7 +288,7 @@ export default class MessageTemplates extends Component {
                                     data-search-align="left"
                                     data-show-columns="true"
                                     data-show-export="true"
-                                    data-detail-view="true"
+                                    data-detail-view="false"
                                     data-mobile-responsive="true"
                                     data-pagination="true"
                                     data-page-list="[10, 25, 50, 100, ALL]"
@@ -454,7 +454,7 @@ export default class MessageTemplates extends Component {
                                             name="template"
                                             id="template"
                                             data-parsley-required="true"
-                                            data-parsley-trigger="keyup" data-parsley-minlength="20" data-parsley-maxlength="255"
+                                            data-parsley-trigger="keyup" data-parsley-minlength="1" data-parsley-maxlength="1000"
                                             onChange={this.handleChange}
                                             cols=""
                                             rows="">

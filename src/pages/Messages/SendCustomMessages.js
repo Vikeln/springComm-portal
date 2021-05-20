@@ -464,7 +464,7 @@ export default class SendCustomMessages extends Component {
 
         this.setState(stateCopy);
 
-        console.log("formData => " + JSON.stringify(this.state.formData));
+        // console.log("formData => " + JSON.stringify(this.state.formData));
 
 
         CommunicationsService.createCustomMessage(formData).then(response => {
@@ -693,7 +693,7 @@ export default class SendCustomMessages extends Component {
                                                                     id="message"
                                                                     // onChange={this.findSuggestions('message', 'suggestions')}
                                                                     data-parsley-required="true"
-                                                                    data-parsley-trigger="keyup" data-parsley-minlength="20" data-parsley-maxlength="100"
+                                                                    data-parsley-trigger="keyup" data-parsley-minlength="1" data-parsley-maxlength="1000"
                                                                     onChange={this.handleChange}
                                                                     cols=""
                                                                     rows="">

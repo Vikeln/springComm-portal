@@ -252,7 +252,7 @@ export default class EditMessageTemplate extends Component {
                                                 name="template"
                                                 id="template"
                                                 data-parsley-required="true"
-                                                data-parsley-trigger="keyup" data-parsley-minlength="20" data-parsley-maxlength="300"
+                                                data-parsley-trigger="keyup" data-parsley-minlength="1" data-parsley-maxlength="1000"
                                                 onChange={this.handleChange}
                                                 value={formData.template || ""}
                                                 cols=""

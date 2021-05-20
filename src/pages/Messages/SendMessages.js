@@ -988,7 +988,7 @@ export default class SendMessages extends Component {
                                                 id="message"
                                                 value={message}
                                                 data-parsley-required="true"
-                                                data-parsley-trigger="keyup" data-parsley-minlength="20" data-parsley-maxlength="100"
+                                                data-parsley-trigger="keyup" data-parsley-minlength="1" data-parsley-maxlength="1000"
                                                 onChange={this.handleChange}
                                                 cols=""
                                                 rows="">
@@ -1002,7 +1002,7 @@ export default class SendMessages extends Component {
                                                 name="message"
                                                 id="message"
                                                 data-parsley-required="true"
-                                                data-parsley-trigger="keyup" data-parsley-minlength="20" data-parsley-maxlength="100"
+                                                data-parsley-trigger="keyup" data-parsley-minlength="1" data-parsley-maxlength="1000"
                                                 onChange={this.handleChange}
                                                 cols=""
                                                 rows="">
@@ -1243,9 +1243,6 @@ export default class SendMessages extends Component {
                                     description="Network Connection Issue, please check your internet connection and try again"
                                 />
                             }
-
-
-
 
                             {/* Form Sample */}
 
