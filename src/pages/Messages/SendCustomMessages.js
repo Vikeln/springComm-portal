@@ -19,6 +19,8 @@ export default class SendCustomMessages extends Component {
 
         this.state = {
             dataObjects: [],
+            sources: [],
+            templates: [],
             columnNames: [],
             value: this.props.value,
             messageTemplates: [],
@@ -57,6 +59,8 @@ export default class SendCustomMessages extends Component {
         this.complete = this.complete.bind(this);
         this.completeNumbers = this.completeNumbers.bind(this);
         this.onFileUpload = this.onFileUpload.bind(this);
+        this.fetchSources = this.fetchSources.bind(this);
+        this.fetchMessageTemplates = this.fetchMessageTemplates.bind(this);
 
 
     }
@@ -64,7 +68,8 @@ export default class SendCustomMessages extends Component {
     componentDidMount() {
         this.setupWizard();
         this.indexTabContainers();
-        // this.fetchSources();
+        this.fetchSources();
+        this.fetchMessageTemplates();
 
         $(".startdate").datepicker({
             format: 'mm/dd/yyyy',
@@ -334,6 +339,7 @@ export default class SendCustomMessages extends Component {
 
             var templateString = inputValue;
             var lastString = templateString.substr(templateString.lastIndexOf(" "));
+
             if (this.startsWith(lastString, " @")) {
                 var val = lastString.substr(2);
                 console.log("finding suggestions for " + val);
@@ -380,6 +386,7 @@ export default class SendCustomMessages extends Component {
 
             } else {
                 var params = templateString.match(/{{(.*?)}}/g);
+
                 if (params != null && params.length > 0) {
 
                     var paramsText = params.toString();
@@ -400,6 +407,44 @@ export default class SendCustomMessages extends Component {
             this.setState(stateCopy);
 
 
+        }
+        else if (inputName == "senderId") {
+
+            stateCopy.formData[inputName] = parseInt(inputValue);
+        }
+        else if (inputName == "template") {
+            var templ = this.state.templates.find(x => x.id === parseInt(inputValue));
+
+            stateCopy.template = templ;
+
+            var tem = templ.template;
+
+            stateCopy.message = tem;
+
+            if (tem.indexOf("{") > 0)
+                stateCopy.formData.parameters = tem.match(/{{(.*?)}}/g).toString().replace(/{{|}}/gi, "").split(",");
+
+            stateCopy.formData[inputName] = parseInt(inputValue);
+            stateCopy.formData["message"] = tem;
+
+            var params = tem.match(/{{(.*?)}}/g);
+
+            if (params != null && params.length > 0) {
+
+                var paramsText = params.toString();
+                var paramsWithoutBraces = paramsText.replace(/{{|}}/gi, "");
+
+                stateCopy.formData.parameterValues = paramsWithoutBraces.split(",");
+                // stateCopy.formData[inputName] = tem;
+                stateCopy.message = tem;
+
+                //this.setMessageParams(params);
+
+            } else {
+                stateCopy.formData.message = tem;
+            }
+
+
         } else {
 
             stateCopy.formData[inputName] = inputValue;
@@ -415,80 +460,181 @@ export default class SendCustomMessages extends Component {
 
         event.preventDefault();
         const { formData, dataObjects } = this.state;
+        let send = false;
 
         if (formData.parameterValues.length < 1) {
-
+            send = false;
             alert("Please set the value of the parameter you want to send");
 
         }
-        var values = [];
+
+
+        let founAllParams = true;
+        let notFoundParams = "";
+
+        var data = dataObjects[0];
+        var keys = Object.keys(data);
+
+        for (var m = 0; m < keys.length; m++) {
+            keys[m] = keys[m].toLowerCase();
+        }
+
         for (var i = 0; i < formData.parameterValues.length; i++) {
 
-            var paramValues = [];
+            if (!keys.includes(formData.parameterValues[i].toLowerCase())) {
+
+                if (notFoundParams.indexOf(formData.parameterValues[i]) < 0)
+                    notFoundParams += formData.parameterValues[i] + ",";
+                founAllParams = false;
+            }
+        }
+
+        if (!founAllParams) {
+            send = false;
+            confirmAlert({
+                title: 'Error',
+                message: "Sorry. Some of the params on the message could not be found in your uploaded data. Params : " + notFoundParams,
+                buttons: [
+                    {
+                        label: 'ok',
+                    }
+                ]
+            });
+
+        }
+
+        if (founAllParams)
+            send = true;
+
+        if (send) {
+            var values = [];
+            for (var i = 0; i < formData.parameterValues.length; i++) {
+
+                var paramValues = [];
+
+                for (var m = 0; m < dataObjects.length; m++) {
+                    var data = dataObjects[m];
+                    Object.keys(data).map(key => {
+                        // if (data.hasOwnProperty(key)) {
+                        if (key.toLowerCase() == formData.parameterValues[i].toLowerCase())
+                            paramValues.push(data[key])
+                        // }
+                    });
+                }
+                var obj = {
+                    parameter: formData.parameterValues[i],
+                    values: paramValues
+                };
+                values.push(obj);
+            }
+
+            stateCopy.formData.parameters = values;
+
+            var numbers = [];
             for (var m = 0; m < dataObjects.length; m++) {
                 var data = dataObjects[m];
                 Object.keys(data).map(key => {
                     if (data.hasOwnProperty(key)) {
-                        if (key == formData.parameterValues[i])
-                            paramValues.push(data[key])
+                        if (key == "Phone") {
+                            console.log(data[key]);
+                            numbers.push(data[key]);
+                        }
                     }
                 });
             }
-            var obj = {
-                parameter: formData.parameterValues[i],
-                values: paramValues
-            };
-            values.push(obj);
-        }
-        stateCopy.formData.parameters = values;
 
-        var numbers = [];
-        for (var m = 0; m < dataObjects.length; m++) {
-            var data = dataObjects[m];
-            Object.keys(data).map(key => {
-                if (data.hasOwnProperty(key)) {
-                    if (key == "Phone") {
-                        console.log(data[key]);
-                        numbers.push(data[key]);
-                    }
+            let vals = [];
+            for (var i = 0; i < numbers.length; i++) {
+
+                vals.push(this.completeNumbers(numbers[i].toString()));
+            }
+            stateCopy.formData.recepients = vals;
+
+            this.setState(stateCopy);
+
+            console.log("formData => " + JSON.stringify(this.state.formData));
+
+
+            CommunicationsService.createCustomMessage(formData).then(response => {
+                console.log(response.data.data);
+
+                if (response.data.successStatus == "success") {
+
+                    this.setState({
+                        sentMessages: response.data.body != null ? response.data.body : [],
+                    });
+
+                    this.moveNext();
+
+                } else {
+                    confirmAlert({
+                        title: 'Error sending messages',
+                        message: response.data.message,
+                        buttons: [
+                            {
+                                label: 'ok',
+                            }
+                        ]
+                    });
                 }
-            });
-        }
 
-        let vals = [];
-        for (var i = 0; i < numbers.length; i++) {
-
-            vals.push(this.completeNumbers(numbers[i].toString()));
-        }
-        stateCopy.formData.recepients = vals;    
-
-        this.setState(stateCopy);
-
-        // console.log("formData => " + JSON.stringify(this.state.formData));
-
-
-        CommunicationsService.createCustomMessage(formData).then(response => {
-            console.log(response.data.data);
-
-            if (response.data.successStatus == "success") {
-
-                this.setState({
-                    sentMessages: response.data.body != null ? response.data.body : [],
-                });
-
-                this.moveNext();
-
-            } else {
+            }).catch(error => {
                 confirmAlert({
-                    title: 'Error sending messages',
-                    message: response.data.message,
+                    title: 'Error occurred',
+                    message: error.message,
                     buttons: [
                         {
                             label: 'ok',
                         }
                     ]
                 });
+            });
+
+        }
+
+
+    }
+
+    async fetchSources() {
+
+        SourceService.getAllActiveSources().then(response => {
+
+            if (response.data.status != "error") {
+
+
+                var uniqueSources = response.data.data.filter((v, i, a) => a.findIndex(t => (t.alphanumeric === v.alphanumeric)) === i);
+
+                this.setState({
+                    sources: uniqueSources != null ? uniqueSources : [],
+                });
+
+
+            } else {
+                if (response.data.message == "No records found") {
+                    confirmAlert({
+                        title: 'Sadly You have no Sender registered yet.',
+                        message: "Click OK to go register one now",
+                        buttons: [
+                            {
+                                label: 'ok',
+                                onClick: () => window.location.href = "/dashboard/mysenderIds"
+                            }
+                        ]
+                    });
+                } else {
+                    confirmAlert({
+                        title: 'Error fetching your sources',
+                        message: response.data.message,
+                        buttons: [
+                            {
+                                label: 'ok',
+                            }
+                        ]
+                    });
+                }
+
             }
+
 
         }).catch(error => {
             confirmAlert({
@@ -501,16 +647,50 @@ export default class SendCustomMessages extends Component {
                 ]
             });
         });
-        
+    }
+
+    async fetchMessageTemplates() {
 
 
+        CommunicationsService.getAllMessageTemplates().then(response => {
+
+            if (response.data.status != "error") {
+
+
+                this.setState({
+                    templates: response.data.data != null ? response.data.data : [],
+                });
+
+            } else {
+                confirmAlert({
+                    title: 'Error fetching templates',
+                    message: response.data.message,
+                    buttons: [
+                        {
+                            label: 'ok',
+                        }
+                    ]
+                });
+            }
+
+
+        }).catch(error => {
+            confirmAlert({
+                title: 'Error occurred',
+                message: error.message,
+                buttons: [
+                    {
+                        label: 'ok',
+                    }
+                ]
+            });
+        });
 
     }
 
-
     render() {
 
-        const { columnNames, uploading, sentMessages, sendOnce, sendTime, sendFromTemplate, selectFromAddressBook, contacts, message, successfulSubmission, networkError, submissionMessage } = this.state;
+        const { columnNames, uploading, sentMessages, sendOnce, sendTime, sendFromTemplate, selectFromAddressBook, contacts, message, successfulSubmission, networkError, templates, sources } = this.state;
 
 
         return (
@@ -684,24 +864,107 @@ export default class SendCustomMessages extends Component {
                                                         }.
                                                         </p>
                                                     <form>
+
                                                         <div className="col-12 row">
+                                                            {this.state.templates.length > 0 &&
+
+                                                                <div className="col-4">
+
+                                                                    <label>Use Existing Template</label>
+                                                                    <select
+                                                                        className="form-control"
+                                                                        onChange={this.handleChange}
+                                                                        data-parsley-required="true"
+                                                                        id="sendFromTemplate"
+                                                                        name="sendFromTemplate">
+                                                                        <option></option>
+                                                                        <option value="true">Yes</option>
+
+                                                                        <option value="false">No</option>
+
+                                                                    </select>
+                                                                </div>}
+                                                            {this.state.formData.sendFromTemplate == "true" &&
+                                                                <div
+                                                                    className="col-4">
+
+                                                                    <label>Select Template</label>
+
+                                                                    <select
+                                                                        id="template"
+                                                                        name="template"
+                                                                        className="form-control"
+                                                                        data-parsley-required="true"
+                                                                        onChange={this.handleChange}>
+
+                                                                        <option></option>
+                                                                        {templates != "" &&
+
+                                                                            templates.map((group, index) => (
+                                                                                <option key={group.id} value={group.id}>{group.templateName}</option>
+                                                                            ))
+                                                                        }
+
+                                                                    </select>
+
+                                                                </div>
+                                                            }
                                                             <div
                                                                 className="col-12">
-                                                                <label>Message</label>
-                                                                <textarea
-                                                                    name="message"
-                                                                    id="message"
-                                                                    // onChange={this.findSuggestions('message', 'suggestions')}
-                                                                    data-parsley-required="true"
-                                                                    data-parsley-trigger="keyup" data-parsley-minlength="1" data-parsley-maxlength="1000"
-                                                                    onChange={this.handleChange}
-                                                                    cols=""
-                                                                    rows="">
-                                                                </textarea>
 
-                                                                <button type="submit" className="btn-primary" onClick={this.handleMessageSubmission}>Submit</button>
+                                                                <label>Select Source</label>
+
+                                                                <select
+                                                                    id="senderId"
+                                                                    name="senderId"
+                                                                    className="form-control"
+                                                                    data-parsley-required="true"
+                                                                    onChange={this.handleChange}>
+
+                                                                    <option></option>
+                                                                    {sources != "" &&
+
+                                                                        sources.map((group, index) => (
+                                                                            <option key={group.id} value={group.id}>{group.senderId}</option>
+                                                                        ))
+                                                                    }
+
+                                                                </select>
 
                                                             </div>
+
+                                                            {this.state.formData.sendFromTemplate == "true" &&
+                                                                <div
+                                                                    className="col-12">
+                                                                    <label>Message</label>
+                                                                    <textarea
+                                                                        name="message"
+                                                                        id="message"
+                                                                        value={message}
+                                                                        data-parsley-required="true"
+                                                                        data-parsley-trigger="keyup" data-parsley-minlength="1" data-parsley-maxlength="1000"
+                                                                        onChange={this.handleChange}
+                                                                        cols=""
+                                                                        rows="">
+                                                                    </textarea>
+                                                                </div>}
+                                                            {this.state.formData.sendFromTemplate == "false" &&
+                                                                <div
+                                                                    className="col-12">
+                                                                    <label>Message</label>
+                                                                    <textarea
+                                                                        name="message"
+                                                                        id="message"
+                                                                        data-parsley-required="true"
+                                                                        data-parsley-trigger="keyup" data-parsley-minlength="1" data-parsley-maxlength="1000"
+                                                                        onChange={this.handleChange}
+                                                                        cols=""
+                                                                        rows="">
+                                                                    </textarea>
+                                                                </div>}
+
+                                                            <button type="submit" className="btn-primary" onClick={this.handleMessageSubmission}>Submit</button>
+
                                                         </div>
                                                     </form>
 
