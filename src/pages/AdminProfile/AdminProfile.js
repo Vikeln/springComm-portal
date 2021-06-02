@@ -216,6 +216,134 @@ export default class AdminProfile extends Component {
         await this.getData();
 
         $(".createUser").parsley();
+        var that = this;
+        // setInterval( () => {
+            
+        //     this.setState({
+        //         loading: true,
+        //     });
+        //     CommunicationsService.getDashboardData().then(response => {
+
+        //         if (response.data.status != "error") {
+    
+    
+        //             this.setState({
+        //                 sentSms: response.data.data.sentSms,
+        //                 scheduledSms: response.data.data.scheduledSms,
+        //                 smsBalance: response.data.data.smsBalance,
+        //                 sentScheduledSms: response.data.data.sentScheduledSms,
+        //                 loading: false,
+        //             });
+        //         } else {
+    
+        //             confirmAlert({
+        //                 title: 'Error occurred',
+        //                 message: response.data.message,
+        //                 buttons: [
+        //                     {
+        //                         label: 'ok',
+        //                     }
+        //                 ]
+        //             });
+    
+        //             this.setState({
+        //                 loading: false,
+        //             });
+    
+        //         }
+    
+    
+        //     }).catch(error => {
+    
+        //         confirmAlert({
+        //             title: 'Error occurred',
+        //             message: error.message,
+        //             buttons: [
+        //                 {
+        //                     label: 'ok',
+        //                 }
+        //             ]
+        //         });
+    
+        //         this.setState({
+        //             loading: false,
+        //         });
+    
+        //     });
+    
+    
+    
+        //     CommunicationsService.getDashboardGraphData().then(response => {
+    
+        //         if (response.data.status != "error") {
+    
+        //             const data = {
+        //                 labels: ['Today', 'This Week', 'This Month', 'This Year'],
+        //                 datasets: [
+        //                     {
+        //                         label: 'SMS Usage',
+        //                         backgroundColor: '#ff901f',
+        //                         borderColor: '#AFD9FF',
+        //                         borderWidth: 1,
+        //                         hoverBackgroundColor: '#AFD9FF',
+        //                         hoverBorderColor: '#AFD9FF',
+        //                         data: [response.data.data.today, response.data.data.week, response.data.data.month, response.data.data.year]
+        //                     }
+        //                 ]
+        //             };
+    
+    
+    
+        //             this.setState({
+        //                 chartdata: data,
+        //                 loading: false,
+        //             });
+    
+        //             $('.table').bootstrapTable();
+    
+    
+        //         } else {
+    
+        //             confirmAlert({
+        //                 title: 'Error occurred',
+        //                 message: response.data.message,
+        //                 buttons: [
+        //                     {
+        //                         label: 'ok',
+        //                     }
+        //                 ]
+        //             });
+    
+        //             this.setState({
+        //                 loading: false,
+        //             });
+    
+        //         }
+    
+    
+        //     }).catch(error => {
+    
+        //         confirmAlert({
+        //             title: 'Error occurred',
+        //             message: error.message,
+        //             buttons: [
+        //                 {
+        //                     label: 'ok',
+        //                 }
+        //             ]
+        //         });
+    
+        //         this.setState({
+        //             loading: false,
+        //         });
+    
+        //     });
+    
+    
+        //     this.setState({
+        //         loading: false,
+        //     });
+        // }, 10000);
 
     }
 
@@ -339,7 +467,7 @@ export default class AdminProfile extends Component {
 
                                                         <div className="mx-3">
 
-                                                            <h4 className="mt-2">MobiConnect</h4>
+                                                            <h4 className="mt-2">TRENDYMEDIA</h4>
                                                             {/* <div className=""><small><i className="fa fa-map-marker mr-2"></i>Capital West Building, Westlands, Nairobi</small></div> */}
                                                         </div>
                                                     </div>
@@ -367,12 +495,13 @@ export default class AdminProfile extends Component {
 
                                             <div className="tab-pane active" id="tab_1">
 
+                                            {!loading &&
                                                 <div className="row">
                                                     {smsBalance != "" && <SummaryIcon
                                                         amount={"KES " + utils.formatNumber(smsBalance)}
                                                         title="SMS Balance"
                                                         icon={faHandHoldingUsd}
-                                                    />} 
+                                                    />}
 
                                                     {/* Summary Icon */}
                                                     {sentSms != "" && <SummaryIcon
@@ -393,12 +522,13 @@ export default class AdminProfile extends Component {
 
                                                     {/* Summary Icon */}
                                                     {sentScheduledSms != "" && <SummaryIcon
-                                                        amount={sentScheduledSms    }
+                                                        amount={sentScheduledSms}
                                                         title="Sent Scheduled SMS   "
                                                         icon={faHourglass}
                                                     />}
                                                     {/* End Summary Icon*/}
                                                 </div>
+                                            }   
                                                 {/* 
                                                 <h3>Latest Loan Requests</h3> */}
                                                 {loading == true &&
@@ -412,7 +542,7 @@ export default class AdminProfile extends Component {
                                         {/* End Tab Content  */}
                                     </div>
                                 </div>
-                                {this.state.chartdata != "" &&
+                                {(!loading && this.state.chartdata != "") &&
                                     <div className="row">
 
                                         <div className="col-sm-12 col-lg-12">

@@ -3,22 +3,22 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: mobiconnect-total-portal
-  name: mobiconnect-total-portal-deployment
-  namespace: mobiconnects
+    app: TRENDYMEDIA-total-portal
+  name: TRENDYMEDIA-total-portal-deployment
+  namespace: TRENDYMEDIAs
 spec:
   selector:
     matchLabels:
-      app: mobiconnect-total-portal
+      app: TRENDYMEDIA-total-portal
   replicas: 1
   minReadySeconds: 30
   template:
     metadata:
       labels:
-        app: mobiconnect-total-portal
+        app: TRENDYMEDIA-total-portal
     spec:
       containers:
-        - name: mobiconnect-total-portal
+        - name: TRENDYMEDIA-total-portal
           image: ImageName
           ports:
             - containerPort: 80
@@ -33,16 +33,16 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: mobiconnect-total-portal-service
-  namespace: mobiconnects
+  name: TRENDYMEDIA-total-portal-service
+  namespace: TRENDYMEDIAs
   labels:
-    run: mobiconnect-total-portal-service
+    run: TRENDYMEDIA-total-portal-service
 spec:
   type: NodePort
   ports:
-    - name: mobiconnect-total-portal-port
+    - name: TRENDYMEDIA-total-portal-port
       port: 80
       protocol: TCP
       nodePort: 30561
   selector:
-    app: mobiconnect-total-portal
+    app: TRENDYMEDIA-total-portal

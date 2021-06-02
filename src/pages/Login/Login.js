@@ -189,8 +189,8 @@ export default class Login extends Component{
 
                             <div className="formTitle">
                                 <article>
-                                    <img src="/assets/img/logo.png" />
-                                    <h1>MobiConnect</h1>
+                                    <img src="/assets/img/logo2.jpeg" />
+                                    {/* <h1>TRENDYMEDIA</h1> */}
                                 </article>
                             </div>
 

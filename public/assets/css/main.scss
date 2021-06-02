@@ -225,7 +225,7 @@ button{
 .btn-primary{
 
 
-    background:#DA0021;
+    background:#846FA9;
     color: #ffffff;
     padding-left: 20px;
     padding-right: 20px;
@@ -243,7 +243,7 @@ button{
 }
 
 .btn-primary:hover, .btn-primary.active,.btn-primary.disabled{
-    background: #2A85C9 !important;
+    background: #846FA9 !important;
     color: #ffffff;
     border: none;
     border:1px solid #ffffff;
@@ -280,7 +280,7 @@ button{
 
 .profileheader{
 
-    background: #FF911E;
+    background: #E4B89C;
 
 }
 
@@ -297,7 +297,7 @@ button{
 
 .active > .active-bg-success{
 
-    background-color: #da0021 !important;
+    background-color: #846FA9 !important;
 
 }
 
@@ -368,8 +368,8 @@ form{
         display: block;
         width: 100%;
         margin-bottom: 25px;
-        color: #ff911e;
-        border-bottom: 1px solid #ff911e;
+        color: #E4B89C;
+        border-bottom: 1px solid #E4B89C;
         padding-bottom: 15px;
         padding-left: 0px;
         margin-left: 0px;
@@ -499,7 +499,7 @@ form{
 }
 .authenticationBackground{
 
-    background:#DA0021 url('../img/login/background_patter.png') left top no-repeat;
+    background:#846FA9 url('../img/login/background_patter.png') left top no-repeat;
     height: 100vh;
     background-size:70%;
 }
@@ -597,7 +597,7 @@ form{
 
     .nav > li.active{
 
-        border-left:2px solid #da0021;
+        border-left:2px solid #846FA9;
         background-color: rgb(218 0 33 / 20%);
 
     }
@@ -636,7 +636,7 @@ form{
     h2{
 
         margin-left: 20px;
-        color: #da0021;
+        color: #846FA9;
         font-weight: bold;
         padding-bottom: 1px solid #efefef;
 
@@ -653,8 +653,8 @@ form{
         position: absolute;
         top: 20px;
         right:15px;
-        color: #da0021;
-        border:1px solid #da0021;
+        color: #846FA9;
+        border:1px solid #846FA9;
         padding:10px;
         border-radius:50%;
         width: 60px;
@@ -781,7 +781,7 @@ form{
 
 .page-header{
     .bg-mobiloan {
-        background-color: #da0021 !important;
+        background-color: #846FA9 !important;
     }
 }
 
@@ -793,7 +793,7 @@ form{
 .uploadFile{
 
     width: 100%;
-    border:2px dashed #da0021;
+    border:2px dashed #846FA9;
     height: 70px;
     @include borderRadius(5px);
     margin-top: 10px;
@@ -845,7 +845,7 @@ form{
     display: flex;
 
     button,a{
-        border:1px solid #2A85C9;
+        border:1px solid #846FA9;
         display: inline-block;
         padding-top: 10px;
         padding-bottom: 10px;
@@ -891,7 +891,7 @@ form{
 
     .advancedSearchButton{
 
-        border:1px solid #FF911E;
+        border:1px solid #E4B89C;
         background: none;
         padding-top: 10px;
         padding-bottom: 10px;
@@ -904,7 +904,7 @@ form{
 
     .addCustomer,.btn-primary{
 
-        background:#FF911E;
+        background:#E4B89C;
         color: #ffffff;
         padding-left: 30px;
         margin-right: 20px;
@@ -913,7 +913,7 @@ form{
 
     .addCustomer{
 
-        background:#FF911E;
+        background:#E4B89C;
         color: #ffffff;
         padding-left: 30px;
         margin-right: 20px;
@@ -959,7 +959,7 @@ form{
 
     form{
 
-       border-top: 4px solid #FF921C;
+       border-top: 4px solid #E4B89C;
 
        .col-6{
            margin-bottom: 20px;
@@ -1086,7 +1086,7 @@ form{
 
             .customerLink{
 
-                color: #FF911E;
+                color: #E4B89C;
 
             }
 
@@ -1512,7 +1512,7 @@ form{
 
     .loancharge{
 
-        border-bottom: 1px dashed #ff911e;
+        border-bottom: 1px dashed #E4B89C;
         margin-bottom: 20px;
 
         .chargeHeading{

@@ -147,7 +147,8 @@ export default class App extends Component {
 
 
             <Route path='/' >
-              <Dashboard createUsers={this.state.createUsers}
+              <Dashboard
+               createUsers={this.state.createUsers}
                 viewUsers={this.state.viewUsers}
                 viewUserDetails={this.state.viewUserDetails}
                 viewRole={this.state.viewRole}

@@ -209,7 +209,7 @@ export default class ManageSenders extends Component {
                         <div className="padding">
 
                             <div className="toggleMenu">
-                                {/* <button
+                                <button
                                     className="btn-primary"
                                     onClick={this.toggleView}
                                     data-target="viewall">View SenderIDs</button>
@@ -218,7 +218,7 @@ export default class ManageSenders extends Component {
                                     className="btn-primary"
                                     onClick={this.toggleView}
                                     data-target="createForm">Add New SenderIDs</button>
-                                    } */}
+                                    }
 
                             </div>
 

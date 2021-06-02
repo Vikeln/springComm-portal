@@ -62,14 +62,14 @@ export default class Integration extends Component {
 
                                 <div className="card">
                                     <div className="card-title page-title padding pb-0 ">
-                                        MOBICONNECT API INTEGRATION</div>
+                                        TRENDYMEDIA API INTEGRATION</div>
                                     <div className="card-body">
                                          <div className="row advancedSearchOptions ">
 
 
                                 <div className="col-7 secondaryActions">
                                     <a
-                                        className="btn-rounded upload-download" href="/assets/files/MobiConnectDocumentation.pdf"
+                                        className="btn-rounded upload-download" href="/assets/files/TRENDYMEDIADocumentation.pdf"
 
                                         download>
 
@@ -81,7 +81,7 @@ export default class Integration extends Component {
                                 </div>
 
                             </div>
-                                        Wanna try the apis out?   <a target="_blank" href="https://mobiconnect-api.mfs.co.ke/swagger-ui.html">
+                                        Wanna try the apis out?   <a target="_blank" href="https://TRENDYMEDIA-api.mfs.co.ke/swagger-ui.html">
                                             Open Playground.</a>
                                     </div>
                                 </div>

@@ -36,7 +36,7 @@ export default class Loaders extends Component{
                     <div className="loader mr-auto">
                         <Loader
                              type="Oval"
-                             color="#da0021"
+                             color="#846FA9"
                              height={65}
                              width={65}
                          />

@@ -3,9 +3,9 @@ pipeline {
     environment {
         VERSION = "1.1"
         workspace = pwd()
-        serviceName = "mobiconnect-portal"
+        serviceName = "TRENDYMEDIA-portal"
         registryCredential = "TmwauraHarb"
-        ImageName = "harb.diab.mfs.co.ke/total-mobiconnect/${serviceName}:${VERSION}.${BUILD_NUMBER}"
+        ImageName = "harb.diab.mfs.co.ke/total-TRENDYMEDIA/${serviceName}:${VERSION}.${BUILD_NUMBER}"
     }
 
  

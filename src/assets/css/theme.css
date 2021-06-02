@@ -52,7 +52,7 @@ small {
 sup {
   vertical-align: text-top;
   top: -.25em; }
-
+ 
 canvas {
   max-width: 100%; }
 
@@ -2040,6 +2040,7 @@ Layout
 .layout-row {
   -ms-flex-direction: row;
   flex-direction: row; }
+ 
   .layout-row > .flex {
     min-width: 0; }
 

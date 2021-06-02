@@ -2194,7 +2194,7 @@ Layout
 .page-header {
   position: relative;
   z-index: 1020;
-  background-color: #2A85C9 !important;
+  background-color: #846FA9 !important;
   color: white;
   transition: background-color 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
 }

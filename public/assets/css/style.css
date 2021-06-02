@@ -228,7 +228,7 @@ a{
 
 .advancedSearchOptions button,.advancedSearchOptions a{
 
-    border:1px solid #da0021;
+    border:1px solid #846FA9;
     display: inline-block;
     padding-top: 10px;
     padding-bottom: 10px;
@@ -249,7 +249,7 @@ a{
 
 .advancedSearchOptions .advancedSearchBUtton{
 
-    border:1px solid #da0021;
+    border:1px solid #846FA9;
     background: none;
     padding-top: 10px;
     padding-bottom: 10px;
@@ -261,7 +261,7 @@ a{
 }
 .advancedSearchOptions .addCustomer,.btn-primary{
 
-    background:#da0021;
+    background:#846FA9;
     color: #ffffff;
     padding-left: 30px;
     margin-right: 20px;
@@ -272,7 +272,7 @@ a{
 
 .advancedSearchOptions .addCustomer{
 
-    background:#da0021;
+    background:#846FA9;
     color: #ffffff;
     padding-left: 30px;
     margin-right: 20px;
@@ -305,7 +305,7 @@ a{
 
 .advancedSearch form{
 
-    border-top: 4px solid #da0021;
+    border-top: 4px solid #846FA9;
 
 }
 
@@ -341,8 +341,8 @@ a{
     cursor: pointer;
     background: none;
     padding:10px 20px;
-    border:1px solid #da0021;
-    color: #da0021;
+    border:1px solid #846FA9;
+    color: #846FA9;
     margin-right: 10px;
 
 }
@@ -367,7 +367,7 @@ a{
 
 .profileheader{
 
-    background: #da0021;
+    background: #846FA9;
 
 }
 
@@ -384,7 +384,7 @@ a{
 
 .active > .active-bg-success{
 
-    background-color: #da0021 !important;
+    background-color: #846FA9 !important;
 
 }
 
