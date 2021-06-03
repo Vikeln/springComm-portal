@@ -103,19 +103,19 @@ export default class Login extends Component{
                 }
                 console.log("response.data.data " + JSON.stringify(response.data))
 
-                if (response.data.data !=undefined && response.data.data.access_token != undefined) {
+                if (response.data.data !=undefined && response.data.data.accessToken     != undefined) {
 
-                    var data = jwt_decode(response.data.data.access_token);
+                    var data = jwt_decode(response.data.data.accessToken);
 
                     console.log(data);
 
-                    localStorage.setItem("user", data.preferred_username);
-                    localStorage.setItem("email",data.email);
-                    localStorage.setItem("name", data.family_name + " "+ data.given_name);
-                    localStorage.setItem("loginTime", Math.floor(Date.now() + (response.data.data.expires_in *1000)));
+                    localStorage.setItem("user", data.username);
+                    localStorage.setItem("email",data.user.accountOwner.emailAddress);
+                    localStorage.setItem("name", data.user.accountOwner.firstName + " "+ data.user.accountOwner.lastName);
+                    localStorage.setItem("loginTime", Math.floor(response.data.data.expiry));
                     localStorage.setItem("data", JSON.stringify(data));
-                    localStorage.setItem("roles", JSON.stringify(data.realm_access.roles));
-                    localStorage.setItem("accessToken", response.data.data.access_token);
+                    localStorage.setItem("roles", JSON.stringify(data.user.account.permissions.map(perm => perm.name)));
+                    localStorage.setItem("accessToken", response.data.data.accessToken);
 
                     window.location.reload();
 

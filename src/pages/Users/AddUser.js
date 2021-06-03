@@ -22,10 +22,12 @@ export default class AddUser extends Component {
             value: this.props.value,
             formData: {
                 enabled: false,
-                userGroups: []
+                userGroups: [],
+                userPermissions: []
 
             },
             groupNames: [],
+            permissions: [],
             roles: [],
             errors: "",
             rolesReceived: "",
@@ -43,6 +45,8 @@ export default class AddUser extends Component {
         this.handleUserSubmission = this.handleUserSubmission.bind(this);
 
         this.getGroupValues = this.getGroupValues.bind(this);
+        this.getPermissions = this.getPermissions.bind(this);
+        this.getRoleDetails = this.getRoleDetails.bind(this);
 
     }
 
@@ -50,6 +54,7 @@ export default class AddUser extends Component {
 
         $(".createUser").parsley();
         this.getGroupValues();
+        this.getPermissions();
 
     }
 
@@ -81,11 +86,11 @@ export default class AddUser extends Component {
 
         let stateCopy = Object.assign({}, this.state);
 
-        if (inputName == "role") {
-
+        if (inputName == "role") {      
             stateCopy.formData[inputName] = parseInt(inputValue);
-
-        } else if (inputName == "userGroups") {
+            this.getRoleDetails(parseInt(inputValue));
+      
+          } else if (inputName == "userGroups") {
 
             for (var i = 0, l = options.length; i < l; i++) {
 
@@ -149,6 +154,88 @@ export default class AddUser extends Component {
             });
 
         });
+
+    }
+    getRoleDetails(roleId) {
+        console.log("fetching Role data => " +roleId);
+    
+        UserService.getUserRole(roleId).then(response => {
+    
+            if (response.data.successMessage == "success") {
+              let stateCopy = Object.assign({}, this.state);
+              // console.log("Role data => " + JSON.stringify(response.data.data));
+              stateCopy.formData.userPermissions = response.data.data.permissions
+               
+            this.setState(stateCopy);
+    
+            } else {
+                confirmAlert({
+                    title: 'Error occurred',
+                    message: response.data.message,
+                    buttons: [
+                        {
+                            label: 'ok',
+                        }
+                    ]
+                });
+            }
+    
+        }).catch(error => {
+            confirmAlert({
+                title: 'Error occurred',
+                message: error.message,
+                buttons: [
+                    {
+                        label: 'ok',
+                    }
+                ]
+            });
+        })
+    
+    }
+    getPermissions() {
+
+        UserService.getAllPermissions().then(response => {
+
+
+
+            if (response.data.status != "error") {
+
+                this.setState({
+                    permissions: response.data.data,
+                    permissionsReceived: true
+                });
+
+            } else {
+
+                confirmAlert({
+                    title: 'Error occurred',
+                    message: response.data.message,
+                    buttons: [
+                        {
+                            label: 'ok',
+                        }
+                    ]
+                });
+
+            }
+
+
+        }).catch(error => {
+
+            confirmAlert({
+                title: 'Error occurred',
+                message: error.message,
+                buttons: [
+                    {
+                        label: 'ok',
+                    }
+                ]
+            });
+
+        });
+
+
 
     }
 
@@ -245,7 +332,7 @@ export default class AddUser extends Component {
 
     render() {
 
-        const { roles, groupNames, rolesReceived, groupReceived, loading } = this.state;
+        const { roles, groupNames, rolesReceived, groupReceived, loading, permissions, permissionsReceived } = this.state;
 
 
         return (
@@ -397,7 +484,7 @@ export default class AddUser extends Component {
                                 }
 
                                 {rolesReceived != "" && this.state.formData.apiUser === "false" &&
-                                    <div className="col-12">
+                                    <> <div className="col-12">
 
                                         <label>Role</label>
 
@@ -417,6 +504,67 @@ export default class AddUser extends Component {
                                         </select>
 
                                     </div>
+
+
+                                        {permissionsReceived != "" &&
+
+                                            <>
+                                                <div className="col-12">
+
+                                                    <div className="row">
+
+                                                        {permissions != "" &&
+
+                                                            permissions.map((permission, index) => (
+
+                                                                <div
+                                                                    className="col-4 roleItem" key={index}>
+                                                                    <input
+
+                                                                        type="checkbox" id={permission.name} name={permission.name}
+                                                                        checked={this.state.formData.userPermissions.includes(permission.name)}
+                                                                        value={permission.name}
+                                                                        onChange={e => {
+
+                                                                            const inputName = e.target.name;
+                                                                            const inputChecked = e.target.checked;
+                                                                            const inputValue = e.target.value;
+                                                                            //let permissions = [];
+
+
+
+                                                                            let stateCopy = Object.assign({}, this.state);
+
+                                                                            if (inputChecked) {
+                      
+                                                                              stateCopy.formData.userPermissions.push(inputValue);
+                      
+                                                                            } else {
+                                                                              var index = stateCopy.formData.userPermissions.indexOf(inputValue)
+                                                                              console.log("removing " + inputValue + "index " + index);
+                      
+                                                                              stateCopy.formData.userPermissions.splice(index, 1);
+                                                                            }
+
+
+                                                                            this.setState(stateCopy);
+
+
+                                                                        }}
+                                                                    />
+                                                                    <label htmlFor={permission.name}>{permission.name}</label>
+                                                                </div>
+
+                                                            ))
+                                                        }
+                                                    </div>
+
+
+
+                                                </div>
+                                            </>
+                                        }
+                                    </>
                                 }
 
 

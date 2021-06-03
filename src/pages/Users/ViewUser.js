@@ -23,9 +23,10 @@ export default class ViewUser extends Component {
             value: this.props.value,
             userId: this.props.match.params.id,
             formData: {
-
+                userPermissions:[]
             },
             groupNames: [],
+            permissions: [],
             roles: [],
             errors: "",
             rolesReceived: "",
@@ -37,15 +38,62 @@ export default class ViewUser extends Component {
         }
 
         this.enenableUser = this.enenableUser.bind(this);
+        this.getPermissions = this.getPermissions.bind(this);
 
     }
 
+    getPermissions() {
+
+        UserService.getAllPermissions().then(response => {
+
+
+
+            if (response.data.status != "error") {
+
+                this.setState({
+                    permissions: response.data.data,
+                    permissionsReceived: true
+                });
+
+            } else {
+
+                confirmAlert({
+                    title: 'Error occurred',
+                    message: response.data.message,
+                    buttons: [
+                        {
+                            label: 'ok',
+                        }
+                    ]
+                });
+
+            }
+
+
+        }).catch(error => {
+
+            confirmAlert({
+                title: 'Error occurred',
+                message: error.message,
+                buttons: [
+                    {
+                        label: 'ok',
+                    }
+                ]
+            });
+
+        });
+
+
+
+    }
     async componentDidMount() {
 
         const { userId } = this.state;
 
         this.loadSingleUser(userId);
         this.getGroupValues();
+        this.getPermissions();
 
 
 
@@ -330,7 +378,7 @@ export default class ViewUser extends Component {
 
     render() {
 
-        const { roles, groupNames, rolesReceived, groupReceived, successfulSubmission, networkError, submissionMessage, formData } = this.state;
+        const { roles, groupNames, rolesReceived, groupReceived, successfulSubmission, networkError, submissionMessage, formData, permissions, permissionsReceived} = this.state;
 
         const { otherName, email, phoneNumber, userName } = this.state.formData;
 
@@ -503,6 +551,66 @@ export default class ViewUser extends Component {
 
                                             </div>
                                         }
+                                           {permissionsReceived != "" &&
+
+<>
+    <div className="col-12">
+
+        <div className="row">
+
+            {permissions != "" &&
+
+                permissions.map((permission, index) => (
+
+                    <div
+                        className="col-3 roleItem" key={index}>
+                        <input
+
+                            checked={formData.userPermissions.includes(permission.name)}
+                            disabled
+                            type="checkbox" id={permission.name}
+                            name={permission.name}
+                            value={permission.name}
+                            onChange={e => {
+
+                                const inputName = e.target.name;
+                                const inputChecked = e.target.checked;
+                                const inputValue = e.target.value;
+
+                                console.log(inputChecked);
+
+                                let stateCopy = Object.assign({}, this.state);
+
+                                if (inputChecked) {
+
+                                    stateCopy.formData.permissions.push(inputValue);
+
+                                } else {
+
+                                    permissions.pop(inputValue);
+
+                                    stateCopy.formData.permissions.pop(inputValue)
+
+
+                                }
+
+
+                                this.setState(stateCopy);
+                            }}
+                        />
+                        <label htmlFor={permission.name}>{permission.name}</label>
+                    </div>
+
+                ))
+            }
+        </div>
+
+
+
+    </div>
+</>
+}
+
 
 
 

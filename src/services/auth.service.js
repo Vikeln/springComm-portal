@@ -20,10 +20,10 @@ class AuthService {
     /*Login method
     Set username and password field, and will respond with true or false
     */
-    login(userName, password) {
+    login(username, password) {
 
         return axiosInstance.post(baseUrl + "auth", {
-            userName,
+            username,
             password
         },{
             headers: {

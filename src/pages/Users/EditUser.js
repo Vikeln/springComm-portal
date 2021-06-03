@@ -22,10 +22,12 @@ export default class EditUser extends Component {
             value: this.props.value,
             userId: this.props.match.params.id,
             formData: {
+                userPermissions: []
 
             },
             groupNames: [],
             roles: [],
+            permissions: [],
             errors: "",
             rolesReceived: "",
             groupReceived: "",
@@ -41,10 +43,56 @@ export default class EditUser extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleUserSubmission = this.handleUserSubmission.bind(this);
         this.loadSingleUser = this.loadSingleUser.bind(this);
+        this.getPermissions = this.getPermissions.bind(this);
         this.getGroupValues = this.getGroupValues.bind(this);
+        this.getRoleDetails = this.getRoleDetails.bind(this);
 
     }
+    getPermissions() {
 
+        UserService.getAllPermissions().then(response => {
+
+
+
+            if (response.data.status != "error") {
+
+                this.setState({
+                    permissions: response.data.data,
+                    permissionsReceived: true
+                });
+
+            } else {
+
+                confirmAlert({
+                    title: 'Error occurred',
+                    message: response.data.message,
+                    buttons: [
+                        {
+                            label: 'ok',
+                        }
+                    ]
+                });
+
+            }
+
+
+        }).catch(error => {
+
+            confirmAlert({
+                title: 'Error occurred',
+                message: error.message,
+                buttons: [
+                    {
+                        label: 'ok',
+                    }
+                ]
+            });
+
+        });
+
+
+
+    }
     async componentDidMount() {
 
         const { userId } = this.state;
@@ -53,6 +101,7 @@ export default class EditUser extends Component {
 
         await this.loadSingleUser(userId);
         this.getGroupValues();
+        this.getPermissions();
 
     }
 
@@ -87,6 +136,7 @@ export default class EditUser extends Component {
         if (inputName == "role") {
 
             stateCopy.formData[inputName] = parseInt(inputValue);
+            this.getRoleDetails(parseInt(inputValue));
 
         } else if (inputName == "userGroups") {
 
@@ -194,6 +244,43 @@ export default class EditUser extends Component {
 
     }
 
+    getRoleDetails(roleId) {
+
+        UserService.getUserRole(roleId).then(response => {
+
+            if (response.data.successMessage == "success") {
+                let stateCopy = Object.assign({}, this.state);
+                // console.log("Role data => " + JSON.stringify(response.data.data));
+                stateCopy.formData.userPermissions = response.data.data.permissions
+
+                this.setState(stateCopy);
+
+            } else {
+                confirmAlert({
+                    title: 'Error occurred',
+                    message: response.data.message,
+                    buttons: [
+                        {
+                            label: 'ok',
+                        }
+                    ]
+                });
+            }
+
+        }).catch(error => {
+            confirmAlert({
+                title: 'Error occurred',
+                message: error.message,
+                buttons: [
+                    {
+                        label: 'ok',
+                    }
+                ]
+            });
+        })
+
+    }
+
     loadSingleUser(userId) {
 
         UserService.getUser(userId).then(response => {
@@ -275,7 +362,7 @@ export default class EditUser extends Component {
                         buttons: [
                             {
                                 label: 'Yes',
-                                onClick: () => window.location.href = "/dashboard/users"
+                                onClick: () => window.location.href = "/dashboard/viewuser/"+ formData.id
                             }
                         ]
                     });
@@ -290,6 +377,7 @@ export default class EditUser extends Component {
                             }
                         ]
                     });
+                    $('input[type="submit"],button[type="submit"]').show();
 
                 }
             }).catch(error => {
@@ -303,6 +391,7 @@ export default class EditUser extends Component {
                         }
                     ]
                 });
+                $('input[type="submit"],button[type="submit"]').show();
 
             });
 
@@ -314,7 +403,7 @@ export default class EditUser extends Component {
 
     render() {
 
-        const { roles, groupNames, rolesReceived, groupReceived, formData, loading } = this.state;
+        const { roles, groupNames, rolesReceived, groupReceived, formData, loading, permissions } = this.state;
 
         const { firstName, lastName, otherName, email, phoneNumber, userName, role, userGroups } = this.state.formData;
 
@@ -485,6 +574,54 @@ export default class EditUser extends Component {
                                                 </select>
 
                                             </div>
+                                        }
+                                        {permissions != "" &&
+
+                                            permissions.map((permission, index) => (
+
+                                                <div
+                                                    className="col-3 roleItem" key={index}>
+                                                    <input
+
+                                                        checked={formData.userPermissions.includes(permission.name)}
+                                                        type="checkbox" id={permission.name}
+                                                        name={permission.name}
+                                                        value={permission.name}
+                                                        onChange={e => {
+
+                                                            const inputName = e.target.name;
+                                                            const inputChecked = e.target.checked;
+                                                            const inputValue = e.target.value;
+
+                                                            console.log(inputChecked);
+
+                                                            let stateCopy = Object.assign({}, this.state);
+
+                                                            if (inputChecked) {
+
+                                                                stateCopy.formData.userPermissions.push(inputValue);
+
+                                                            } else {
+
+                                                                //delete stateCopy.formData.permissions[inputName];
+                                                                // permissions.pop(inputValue);
+
+                                                                var index = stateCopy.formData.userPermissions.indexOf(inputValue)
+                                                                console.log("removing " + inputValue + "index " + index);
+
+                                                                stateCopy.formData.userPermissions.splice(index, 1);
+                                                                //stateCopy.formData.permissions = permissions;
+
+                                                            }
+
+
+                                                            this.setState(stateCopy);
+                                                        }}
+                                                    />
+                                                    <label htmlFor={permission.name}>{permission.name}</label>
+                                                </div>
+
+                                            ))
                                         }
 
 
