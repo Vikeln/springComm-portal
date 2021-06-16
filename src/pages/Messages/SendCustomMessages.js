@@ -846,7 +846,7 @@ export default class SendCustomMessages extends Component {
 </button>
 
                                                         {uploading &&
-                                                            <Loader type="circle" />
+                                                            <Loader type="dots"/>
                                                         }
 
                                                     </div>

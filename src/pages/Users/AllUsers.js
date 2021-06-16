@@ -465,7 +465,7 @@ export default class AllUsers extends Component {
                         }
 
                         {loading &&
-                            <Loader type="circle" />
+                            <Loader type="dots"/>
                         }
 
 

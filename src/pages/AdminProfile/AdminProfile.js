@@ -28,6 +28,8 @@ import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 
 import CommunicationsService from '../../services/communications.service';
+import authService from '../../services/auth.service';
+import tenantService from '../../services/tenant.service.js';
 
 export default class AdminProfile extends Component {
 
@@ -87,6 +89,7 @@ export default class AdminProfile extends Component {
     }
 
     getData() {
+       
         CommunicationsService.getDashboardData().then(response => {
 
             if (response.data.status != "error") {
@@ -467,7 +470,7 @@ export default class AdminProfile extends Component {
 
                                                         <div className="mx-3">
 
-                                                            <h4 className="mt-2">TRENDYMEDIA</h4>
+                                                            <h4 className="mt-2">{authService.getCurrentClientName() != undefined ? authService.getCurrentClientName() : "TRENDYMEDIA"}</h4>
                                                             {/* <div className=""><small><i className="fa fa-map-marker mr-2"></i>Capital West Building, Westlands, Nairobi</small></div> */}
                                                         </div>
                                                     </div>
@@ -532,7 +535,7 @@ export default class AdminProfile extends Component {
                                                 {/* 
                                                 <h3>Latest Loan Requests</h3> */}
                                                 {loading == true &&
-                                                    <Loader type="circle" />
+                                                    <Loader type="dots"/>
                                                 }
 
                                             </div>

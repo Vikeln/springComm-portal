@@ -18,15 +18,18 @@ class CommunicationsService {
 
     }
 
-    getDashboardData() {
-
-        return axiosInstance.get(baseUrl + "bridge/sent-sms/my-smsdetails");
-
+    getDashboardData(clientKey) {
+        if (clientKey != undefined)
+            return axiosInstance.get(baseUrl + "bridge/sent-sms/my-smsdetails?client=" + clientKey);
+        else
+            return axiosInstance.get(baseUrl + "bridge/sent-sms/my-smsdetails");
     }
 
-    getDashboardGraphData() {
-
-        return axiosInstance.get(baseUrl + "bridge/sent-sms/my-sms-graph");
+    getDashboardGraphData(clientKey) {
+        if (clientKey != undefined)
+            return axiosInstance.get(baseUrl + "bridge/sent-sms/my-sms-graph?client=" + clientKey);
+        else
+            return axiosInstance.get(baseUrl + "bridge/sent-sms/my-sms-graph");
 
     }
 
@@ -34,6 +37,20 @@ class CommunicationsService {
 
 
         return axiosInstance.get(baseUrl + "bridge/scheduled-sms?start=" + date1 + "&end=" + date2);
+
+    }
+
+    deleteScheduledMessage(id) {
+
+
+        return axiosInstance.post(baseUrl + "bridge/scheduled-sms/modifystatus/" + id + "?status=DELETED");
+
+    }
+
+    modifyScheduledMessage(id, formData) {
+
+
+        return axiosInstance.post(baseUrl + "bridge/scheduled-sms/modify/" + id, formData);
 
     }
 

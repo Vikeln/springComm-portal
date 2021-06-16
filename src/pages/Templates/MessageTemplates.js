@@ -358,7 +358,7 @@ export default class MessageTemplates extends Component {
                                 </table>
 
                                 {loading &&
-                                    <Loader type="circle" />
+                                    <Loader type="dots"/>
                                 }
 
                             </div>

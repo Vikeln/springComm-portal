@@ -112,11 +112,12 @@ export default class Loaders extends Component{
             default:
                 return(
                     <div className="loader">
+                        
                         <Loader
-                             type="Rings"
+                             type="Puff"
                              color="#ff931e"
-                             height={100}
-                             width={100}
+                             height={65}
+                             width={65}
                          />
                     </div>
                 );

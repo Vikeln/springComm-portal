@@ -651,7 +651,7 @@ export default class EditUser extends Component {
                         }
 
                         {loading &&
-                            <Loader type="circle" />
+                            <Loader type="dots"/>
                         }
 
 

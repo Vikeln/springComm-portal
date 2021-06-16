@@ -88,7 +88,7 @@ export default class Integration extends Component {
 
 
                                 {loading &&
-                                    <Loader type="circle" />
+                                    <Loader type="dots"/>
                                 }
                             </div>
 

@@ -534,7 +534,7 @@ export default class Messages extends Component {
 
                             </table>
  :
-                                <Loader type="circle" />
+                                <Loader type="dots"/>
                             }
 
                         </div>

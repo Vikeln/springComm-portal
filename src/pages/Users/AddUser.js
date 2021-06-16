@@ -589,7 +589,7 @@ export default class AddUser extends Component {
                         </form>
 
                         {loading &&
-                            <Loader type="circle" />
+                            <Loader type="dots"/>
                         }
 
                     </div>

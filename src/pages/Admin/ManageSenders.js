@@ -15,7 +15,7 @@ import Notification from '../../components/notifications/Notifications';
 import Loader from '../../components/loaders/Loader';
 import authService from '../../services/auth.service';
 
-export default class ManageSenders extends Component {
+export default class Senders extends Component {
 
     constructor(props) {
 

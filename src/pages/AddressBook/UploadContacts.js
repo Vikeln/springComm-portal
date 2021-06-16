@@ -326,7 +326,7 @@ export default class UploadContacts extends Component {
                             </button>
 
                                 {uploading &&
-                                    <Loader type="circle" />
+                                    <Loader type="dots"/>
                                 }
 
                             </div>
@@ -418,7 +418,7 @@ export default class UploadContacts extends Component {
 
 
                             {loading &&
-                                <Loader type="circle" />
+                                <Loader type="dots"/>
                             }
 
                         </div>

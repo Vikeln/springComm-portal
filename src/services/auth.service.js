@@ -59,6 +59,9 @@ class AuthService {
         localStorage.removeItem("loginTime");
         localStorage.removeItem("email");
         localStorage.removeItem("roles");
+        localStorage.removeItem("clientId");
+        localStorage.removeItem("client");
+        localStorage.removeItem("clientName");
         localStorage.removeItem("name");
         localStorage.removeItem("accessToken");
         window.location.href="/auth/login";
@@ -114,6 +117,22 @@ class AuthService {
     getCurrentUserAccessToken() {
 
         return localStorage.getItem("accessToken");
+
+    }
+    
+    getCurrentClientId() {
+
+        return localStorage.getItem("clientId");
+
+    }
+    getCurrentClientKey() {
+
+        return localStorage.getItem("client");
+
+    }
+    getCurrentClientName() {
+
+        return localStorage.getItem("clientName");
 
     }
 

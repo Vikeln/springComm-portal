@@ -152,7 +152,7 @@ button {
 }
 
 .btn-primary {
-  background: #846FA9;
+  background: #204066;
   color: #ffffff;
   padding-left: 20px;
   padding-right: 20px;
@@ -174,7 +174,7 @@ button {
 }
 
 .btn-primary:hover, .btn-primary.active, .btn-primary.disabled {
-  background: #846FA9 !important;
+  background: #204066 !important;
   color: #ffffff;
   border: none;
   border: 1px solid #ffffff;
@@ -190,7 +190,7 @@ button {
 }
 
 .badge-warning {
-  background: #ff931e;
+  background: #204066;
 }
 
 .table-theme tbody td {
@@ -203,7 +203,7 @@ button {
 }
 
 .profileheader {
-  background: #E4B89C;
+  background: #204066;
 }
 
 .list-item {
@@ -216,7 +216,7 @@ button {
 }
 
 .active > .active-bg-success {
-  background-color: #846FA9 !important;
+  background-color: #204066 !important;
 }
 
 form .col-6, form .col-4, form .col-12 {
@@ -269,8 +269,8 @@ form .formheading {
   display: block;
   width: 100%;
   margin-bottom: 25px;
-  color: #E4B89C;
-  border-bottom: 1px solid #E4B89C;
+  color: #204066;
+  border-bottom: 1px solid #204066;
   padding-bottom: 15px;
   padding-left: 0px;
   margin-left: 0px;
@@ -338,7 +338,7 @@ form textarea {
 }
 .notFound h1 {
   font-size: 120px;
-  color: #ff931e;
+  color: #204066;
 }
 .notFound h2 {
   margin-bottom: 20px;
@@ -369,7 +369,7 @@ form textarea {
 }
 
 .authenticationBackground {
-  background: #846FA9 url("../img/login/background_patter.png") left top no-repeat;
+  background: #204066 url("../img/login/background_patter.png") left top no-repeat;
   height: 100vh;
   background-size: 70%;
 }
@@ -384,7 +384,7 @@ form textarea {
 }
 
 .page-header .nav-item .dropdown-item {
-  color: #2b3035;
+  color: #204066;
 }
 
 /***** END HEADER STYLING *******/
@@ -412,7 +412,7 @@ form textarea {
 }
 
 .nav-border .nav > li.active {
-  border-left: 2px solid #846FA9;
+  border-left: 2px solid #204066;
   background-color: rgba(218, 0, 33, 0.2);
 }
 
@@ -435,7 +435,7 @@ form textarea {
 }
 .summaryIcon h2 {
   margin-left: 20px;
-  color: #846FA9;
+  color: #204066;
   font-weight: bold;
   padding-bottom: 1px solid #efefef;
 }
@@ -446,8 +446,8 @@ form textarea {
   position: absolute;
   top: 20px;
   right: 15px;
-  color: #846FA9;
-  border: 1px solid #846FA9;
+  color: #204066;
+  border: 1px solid #204066;
   padding: 10px;
   border-radius: 50%;
   width: 60px;
@@ -478,7 +478,7 @@ form textarea {
 }
 
 .nav-active-border li > a.active:before, .nav-active-border .nav-link.active:before {
-  border-bottom: 5px solid #ff931e;
+  border-bottom: 5px solid #204066;
 }
 
 .createUser .col-12 {
@@ -494,7 +494,7 @@ form textarea {
 }
 
 .table td a, .table th a {
-  color: #ff931e;
+  color: #204066;
 }
 
 .fixed-table-toolbar {
@@ -513,27 +513,27 @@ form textarea {
 
 .bg-status-lt {
   color: #ffffff;
-  background: #ff901f;
+  background: #204066;
 }
 
 .orangebutton {
   cursor: pointer;
   background: none;
   padding: 10px 20px;
-  border: 1px solid #FF921E;
-  color: #FF921E;
+  border: 1px solid #204066;
+  color: #204066;
   margin-right: 10px;
 }
 
 .page-header .bg-mobiloan {
-  background-color: #846FA9 !important;
+  background-color: #204066 !important;
 }
 
 /***** END Bootstrap Table *******/
 /***** Advanced Search *******/
 .uploadFile {
   width: 100%;
-  border: 2px dashed #846FA9;
+  border: 2px dashed #204066;
   height: 70px;
   border-radius: 5px;
   -o-border-radius: 5px;
@@ -557,7 +557,7 @@ form textarea {
   line-height: 70px;
   cursor: pointer;
   font-size: 20px;
-  color: #4D4D4D;
+  color: #204066;
 }
 .uploadFile button {
   position: absolute;
@@ -578,7 +578,7 @@ form textarea {
   display: flex;
 }
 .advancedSearchOptions button, .advancedSearchOptions a {
-  border: 1px solid #846FA9;
+  border: 1px solid #204066;
   display: inline-block;
   padding-top: 10px;
   padding-bottom: 10px;
@@ -608,7 +608,7 @@ form textarea {
   text-align: left;
 }
 .advancedSearchOptions .advancedSearchButton {
-  border: 1px solid #E4B89C;
+  border: 1px solid #204066;
   background: none;
   padding-top: 10px;
   padding-bottom: 10px;
@@ -618,13 +618,13 @@ form textarea {
   cursor: pointer;
 }
 .advancedSearchOptions .addCustomer, .advancedSearchOptions .btn-primary {
-  background: #E4B89C;
+  background: #204066;
   color: #ffffff;
   padding-left: 30px;
   margin-right: 20px;
 }
 .advancedSearchOptions .addCustomer {
-  background: #E4B89C;
+  background: #204066;
   color: #ffffff;
   padding-left: 30px;
   margin-right: 20px;
@@ -633,7 +633,7 @@ form textarea {
   left: 10px;
 }
 .advancedSearchOptions .upload {
-  background: #4D4D4D;
+  background: #204066;
   color: #ffffff;
   border: none;
   padding-left: 30px;
@@ -651,7 +651,7 @@ form textarea {
   display: block;
 }
 .advancedSearch form {
-  border-top: 4px solid #E4B89C;
+  border-top: 4px solid #204066;
 }
 .advancedSearch form .col-6 {
   margin-bottom: 20px;
@@ -676,8 +676,8 @@ form textarea {
   cursor: pointer;
   background: none;
   padding: 10px 20px;
-  border: 1px solid #FF921E;
-  color: #FF921E;
+  border: 1px solid #204066;
+  color: #204066;
   margin-right: 10px;
 }
 .advancedSearch .formButtons .reset {
@@ -702,7 +702,7 @@ form textarea {
   top: 10%;
   padding: 20px;
   width: 60%;
-  background: rgba(255, 147, 30, 0.8);
+  background: #204066;
   text-align: right;
 }
 .bannerImage article h1, .bannerImage article p {
@@ -713,7 +713,7 @@ form textarea {
 }
 
 .bg-dark, .bg-dark-overlay {
-  background: #4d4d4d;
+  background: #204066;
 }
 .bg-dark .buttonContainer, .bg-dark-overlay .buttonContainer {
   flex-direction: row-reverse;
@@ -724,7 +724,7 @@ form textarea {
 }
 .bg-dark .buttonContainer button:hover, .bg-dark-overlay .buttonContainer button:hover {
   background: #ffffff;
-  color: #ff931e;
+  color: #204066;
 }
 
 .userTable {
@@ -732,7 +732,7 @@ form textarea {
 }
 
 .customerTable tr td .customerLink {
-  color: #E4B89C;
+  color: #204066;
 }
 
 #table_filter {
@@ -755,7 +755,7 @@ form textarea {
 }
 
 .dataTables_paginate .paginate_button {
-  color: #4d4d4d !important;
+  color: #204066 !important;
   background-color: #ffffff !important;
   padding: 5px 15px;
   margin-right: 5px;
@@ -765,8 +765,8 @@ form textarea {
   -moz-border-radius: 2px;
 }
 .dataTables_paginate .current {
-  background-color: #4d4d4d !important;
-  border-color: #4d4d4d !important;
+  background-color: #204066 !important;
+  border-color: #204066 !important;
   color: #ffffff !important;
 }
 .dataTables_paginate span {
@@ -774,7 +774,7 @@ form textarea {
 }
 
 .page-item .page-link {
-  color: #4d4d4d !important;
+  color: #204066 !important;
   background-color: #ffffff !important;
   padding: 5px 15px;
   margin-right: 5px;
@@ -839,7 +839,7 @@ form textarea {
 }
 .page-container .accordion .badge-warning {
   background: #fff;
-  color: #ff931e !important;
+  color: #204066 !important;
 }
 .page-container .accordion strong {
   font-weight: bold;
@@ -848,7 +848,7 @@ form textarea {
   margin-right: 5px;
 }
 .page-container .accordion .accordionTitle {
-  background: #ff931e;
+  background: #204066;
   padding-top: 15px;
   padding-bottom: 15px;
   padding-left: 15px;
@@ -931,7 +931,7 @@ form textarea {
   padding-left: 10px;
   padding-top: 14px;
   padding-bottom: 14px;
-  border-bottom: 1px dashed #ff931d;
+  border-bottom: 1px dashed #204066;
 }
 .page-container .accordion .accordion .accordionRow span {
   display: inline-block;
@@ -955,8 +955,8 @@ form textarea {
   margin-bottom: 0px;
   margin-left: 0px;
   padding-left: 0px;
-  border-top: 1px solid #4d4d4d;
-  border-right: 1px solid #4d4d4d;
+  border-top: 1px solid #204066;
+  border-right: 1px solid #204066;
 }
 .tab-pane .tab-nav li {
   list-style: none;
@@ -965,11 +965,11 @@ form textarea {
   cursor: pointer;
   padding-left: 20px;
   border-bottom: 1px solid gray;
-  border-left: 5px solid #4d4d4d;
+  border-left: 5px solid #204066;
   position: relative;
 }
 .tab-pane .tab-nav li.active {
-  border-left: 5px solid #ff931e;
+  border-left: 5px solid #204066;
   padding-left: 20px;
   background-color: rgba(251, 144, 32, 0.22);
 }
@@ -985,7 +985,7 @@ form textarea {
 }
 
 .multistep .loancharge {
-  border-bottom: 1px dashed #E4B89C;
+  border-bottom: 1px dashed #204066;
   margin-bottom: 20px;
 }
 .multistep .loancharge .chargeHeading {
@@ -1081,7 +1081,7 @@ form textarea {
   }
   .notFound h1 {
     font-size: 48px;
-    color: #ff931e;
+    color: #204066;
   }
   .notFound h2 {
     margin-bottom: 20px;

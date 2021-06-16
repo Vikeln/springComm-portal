@@ -470,7 +470,7 @@ Advanced Search : Click Here to Show
                                     </table>
 
                                     :
-                                    <Loader type="circle" />
+                                    <Loader type="dots"/>
                                 }
                             </div>
 

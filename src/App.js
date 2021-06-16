@@ -25,6 +25,17 @@ import UploadContacts from './pages/AddressBook/UploadContacts';
 import ManageContacts from './pages/AddressBook/ManageContacts';
 
 
+//ADMIN
+import Senders from './pages/Admin/ManageSenders';
+import Clients from './pages/Admin/Clients';
+import SingleClient from './pages/Admin/SingleClient';
+import AddClient from './pages/Admin/AddClient';
+import ViewCodes from './pages/Admin/Codes';
+import NewCodes from './pages/Admin/NewCode';
+import Pricing from './pages/Admin/Pricing';
+import Countries from './pages/Admin/Countries';
+
+
 import ManageSenders from './pages/Senders/ManageSenders';
 import Integration from './pages/Integration/Integration';
 
@@ -46,10 +57,17 @@ import ForgotPassword from './pages/ResetPassword/ForgotPassword';
 import PageNotFound from './pages/404/404';
 import LoginRedirect from './pages/404/LoginRedirect';
 
+// Units
+import Units from './pages/Units/Units';
 
+// Codes
+import Codes from './pages/USSD/Codes';
+import NewCode from './pages/USSD/NewCode';
+
+// Documents
+import Documents from './pages/Documents/Documents';
 
 // Messages and Communications Pages
-
 import Messages from './pages/Messages/Messages';
 import ScheduledMessages from './pages/Messages/ScheduledMessages';
 import MessageTemplates from './pages/Templates/MessageTemplates';
@@ -65,6 +83,7 @@ import SideBar from './components/SideBar/SideBar';
 
 
 import AuthService from './services/auth.service';
+import authService from './services/auth.service';
 
 export default class App extends Component {
 
@@ -225,6 +244,55 @@ function Dashboard(props) {
             <ManageSenders />
           </Route>
 
+          <Route exact path="/dashboard/transactions">
+            <Units />
+          </Route> 
+
+          <Route exact path="/dashboard/my-codes">
+            <Codes />
+          </Route>
+
+          <Route exact path="/dashboard/new-code">
+            <NewCode />
+          </Route>
+
+          <Route exact path="/dashboard/my-documents">
+            <Documents />
+          </Route>
+
+{/* ADMIN ROUTES */}
+    {parseInt(authService.getCurrentClientId()) === 1 &&  <>    
+          <Route exact path="/dashboard/admin/sources">
+            <Senders />
+          </Route>
+
+          <Route exact path="/dashboard/admin/clients">
+            <Clients />
+          </Route>
+
+          <Route exact path="/dashboard/admin/viewclients/:id" component={SingleClient}/>
+
+          <Route exact path="/dashboard/admin/clients/new">
+            <AddClient />
+          </Route>
+
+          <Route exact path="/dashboard/admin/ussd-codes">
+            <ViewCodes />
+          </Route>
+
+          <Route exact path="/dashboard/admin/ussd-codes/new">
+            <NewCodes />
+          </Route>
+
+          <Route exact path="/dashboard/admin/pricing">
+            <Pricing />
+          </Route>
+
+          <Route exact path="/dashboard/admin/countries">
+            <Countries />
+          </Route>
+          </>
+ }
           {viewUsers == true &&
             <Route exact path="/dashboard/users">
               <AllUsers />

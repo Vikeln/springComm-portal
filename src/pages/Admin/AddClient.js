@@ -4,6 +4,8 @@ import React, { Component } from 'react';
 import {
     Link
 } from "react-router-dom";
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 
 import Notification from '../../components/notifications/Notifications';
 
@@ -11,7 +13,7 @@ import Loader from '../../components/loaders/Loader';
 
 import TenantService from '../../services/tenant.service';
 
-export default class Register extends Component {
+export default class AddClient extends Component {
 
     constructor(props) {
 
@@ -92,9 +94,9 @@ export default class Register extends Component {
         event.preventDefault();
         //submit here
 
-        
-        if(formData.clientType==="INDIVIDUAL")
-        formData.name = formData.firstName +" " + formData.lastName +" Client";
+
+        if (formData.clientType === "INDIVIDUAL")
+            formData.name = formData.firstName + " " + formData.lastName;
 
         console.log(JSON.stringify(formData));
         TenantService.createClients(formData).then(response => {
@@ -112,14 +114,20 @@ export default class Register extends Component {
             }
             if (response.data.status != "error") {
                 this.setState({
-                    credentialsError: "Your account has been setup successfully! We have sent you a link on your email to verify your data.",
+
                     loading: false,
                 });
-                
 
-                setTimeout(function(){
-                    window.location.href ="/auth/login"
-                }, 5000);
+                confirmAlert({
+                    title: 'Success!',
+                    message: "Client account has been setup successfully! We have sent you a link to the email email to verify the data.",
+                    buttons: [
+                        {
+                            label: 'OK',
+                            onClick: () => window.location.href = "/dashboard/admin/clients"
+                        }
+                    ]
+                });
 
             } else {
                 this.setState({
@@ -148,28 +156,18 @@ export default class Register extends Component {
                 {/* Authentication Screen */}
                 <div id="" className="authentication ">
 
-                    <div className="page-container" id="page-container">
+                    <div className="page-container padding card" id="page-container">
 
                         <div className="row">
 
-                            <div className="col-md-6  r-l authenticationBackground">
-
-                                <div className="formTitle">
-                                    <article>
-                                        <h1>TRENDYMEDIA</h1>
-                                    </article>
-                                </div>
-
-                            </div>
-
-                            <div className="col-md-6 container" id="content-body">
+                            <div className="col-12" id="content-body">
                                 <br></br>
 
                                 <div className="formcontainer">
 
-                                    <h5>Create TRENDYMEDIA Account</h5>
+                                    <h5>Create New Client</h5>
                                     <p>
-                                        <small className="text-muted">Create an account to access all our features</small>
+                                        <small className="text-muted">Setup a new Client</small>
                                     </p>
 
                                     <form className="" role="form" onSubmit={this.handleSubmit}>
@@ -211,22 +209,22 @@ export default class Register extends Component {
 
 
                                             {this.state.formData.clientType === "CORPORATE" ?
-                                            <div className="col-6">
+                                                <div className="col-6">
 
-                                                <label>Corporate Firm Name</label>
-                                                <input
-                                                    type="text" className="form-control"
-                                                    placeholder="Enter name"
-                                                    name="name"
-                                                    id="name"
-                                                    data-parsley-required="true"
-                                                    onChange={this.handleChange} />
+                                                    <label>Corporate Firm Name</label>
+                                                    <input
+                                                        type="text" className="form-control"
+                                                        placeholder="Enter name"
+                                                        name="name"
+                                                        id="name"
+                                                        data-parsley-required="true"
+                                                        onChange={this.handleChange} />
 
-                                            </div> : 
-                                            <div className="col-6">
+                                                </div> :
+                                                <div className="col-6">
 
 
-                                            </div>}
+                                                </div>}
                                             <div className="col-4">
 
                                                 <label>FirstName</label>
@@ -329,7 +327,7 @@ export default class Register extends Component {
 
 
                                         <button type="submit" className="btn btn-primary mb-4">Create Account</button>
-                                        <Link to="/auth/login" className="text-muted">Already have an account? Sign In</Link>
+
                                     </form>
 
                                     {loading &&
