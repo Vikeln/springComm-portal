@@ -70,7 +70,7 @@ export default class ManageSenders extends Component {
                     sources: response.data.data != null ? response.data.data : [],
                 });
 
-
+                $(".table").bootstrapTable();
             } else {
                 confirmAlert({
                     title: 'Error fetching your sources',
@@ -361,8 +361,8 @@ export default class ManageSenders extends Component {
                                             data-parsley-required="true"
                                             onChange={this.handleChange} >
                                             <option></option>
-                                            <option value="senderID">Sender ID</option>
-                                            <option value="shortCode">Two Way SMS ShortCode</option>
+                                            <option value="SENDER_ID">Sender ID</option>
+                                            <option value="TWO_WAY_SHORTCODE">Two Way SMS ShortCode</option>
                                             <option></option>
                                         </select>
                                     </div>
@@ -370,7 +370,7 @@ export default class ManageSenders extends Component {
                                 <div
                                     className="row">
 
-                                    {this.state.formData.type == "senderID" &&
+                                    {this.state.formData.type == "SENDER_ID" &&
                                         <>
 
                                             <div
@@ -403,7 +403,7 @@ export default class ManageSenders extends Component {
                                         </>
 
                                     }
-                                    {this.state.formData.type == "shortCode" &&
+                                    {this.state.formData.type == "TWO_WAY_SHORTCODE" &&
                                         <div
                                             className="col-6">
 

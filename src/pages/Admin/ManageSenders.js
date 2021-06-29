@@ -71,6 +71,7 @@ export default class Senders extends Component {
                 });
 
 
+                $(".table").bootstrapTable();
             } else {
                 confirmAlert({
                     title: 'Error fetching your sources',
@@ -255,7 +256,6 @@ export default class Senders extends Component {
                                     data-search-align="left"
                                     data-show-columns="true"
                                     data-show-export="true"
-                                    data-detail-view="true"
                                     data-mobile-responsive="true"
                                     data-pagination="true"
                                     data-page-list="[10, 25, 50, 100, ALL]"
@@ -361,8 +361,8 @@ export default class Senders extends Component {
                                             data-parsley-required="true"
                                             onChange={this.handleChange} >
                                             <option></option>
-                                            <option value="senderID">Sender ID</option>
-                                            <option value="shortCode">Two Way SMS ShortCode</option>
+                                            <option value="SENDER_ID">Sender ID</option>
+                                            <option value="TWO_WAY_SHORTCODE">Two Way SMS ShortCode</option>
                                             <option></option>
                                         </select>
                                     </div>
@@ -370,7 +370,7 @@ export default class Senders extends Component {
                                 <div
                                     className="row">
 
-                                    {this.state.formData.type == "senderID" &&
+                                    {this.state.formData.type == "SENDER_ID" &&
                                         <>
 
                                             <div
@@ -403,7 +403,7 @@ export default class Senders extends Component {
                                         </>
 
                                     }
-                                    {this.state.formData.type == "shortCode" &&
+                                    {this.state.formData.type == "TWO_WAY_SHORTCODE" &&
                                         <div
                                             className="col-6">
 

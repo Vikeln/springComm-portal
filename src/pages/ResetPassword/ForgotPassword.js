@@ -1,6 +1,6 @@
 /* global $ */
 
-import React,{Component} from 'react';
+import React, { Component } from 'react';
 
 import AuthService from '../../services/auth.service';
 
@@ -9,23 +9,23 @@ import Notification from '../../components/notifications/Notifications';
 import Loader from '../../components/loaders/Loader';
 
 
-export default class ForgotPassword extends Component{
+export default class ForgotPassword extends Component {
 
-    constructor(props){
+    constructor(props) {
 
         super(props);
 
-        this.state ={
+        this.state = {
 
-            formData:{
+            formData: {
 
-                email:""
+                email: ""
 
             },
-            networkError:false,
-            successfulSubmission:false,
-            submissionMessage:"",
-            loading:false
+            networkError: false,
+            successfulSubmission: false,
+            submissionMessage: "",
+            loading: false
 
         }
 
@@ -34,13 +34,13 @@ export default class ForgotPassword extends Component{
 
     }
 
-    componentDidMount(){
+    componentDidMount() {
 
         $(".resetPassword").parsley();
 
     }
 
-    componentDidUnMount(){
+    componentDidUnMount() {
 
         $(".resetPassword").parsley().destroy();
 
@@ -63,14 +63,14 @@ export default class ForgotPassword extends Component{
 
 
 
-        const {formData} = this.state;
+        const { formData } = this.state;
 
         event.preventDefault();
 
-        if( $(".resetPassword").parsley().isValid() ){
+        if ($(".resetPassword").parsley().isValid()) {
 
             this.setState({
-                loading:true,
+                loading: true,
             });
 
             $("form button").hide();
@@ -79,34 +79,34 @@ export default class ForgotPassword extends Component{
 
                 console.log(response);
 
-                if(response){
+                if (response) {
 
                     this.setState({
-                        networkError:false,
-                        loading:false
+                        networkError: false,
+                        loading: false
                     });
 
                     $("form button").show();
 
                 }
 
-                if(response.data.status == "success"){
+                if (response.data.status == "success") {
 
                     this.setState({
-                        successfulSubmission:true,
-                        submissionMessage : response.data.message,
-                        loading:false
+                        successfulSubmission: true,
+                        submissionMessage: response.data.message,
+                        loading: false
                     });
 
-                    setTimeout(function(){
-                        window.location.href ="/auth/login"
+                    setTimeout(function () {
+                        window.location.href = "/auth/login"
                     }, 3000);
 
-                }else{
+                } else {
                     this.setState({
-                        successfulSubmission:true,
-                        submissionMessage : response.data.message,
-                        loading:false
+                        successfulSubmission: true,
+                        submissionMessage: response.data.message,
+                        loading: false
                     });
                 }
 
@@ -115,8 +115,8 @@ export default class ForgotPassword extends Component{
                 console.log(error);
 
                 this.setState({
-                    networkError:true,
-                    loading:false
+                    networkError: true,
+                    loading: false
                 });
 
                 $("form button").show();
@@ -131,74 +131,69 @@ export default class ForgotPassword extends Component{
     }
 
 
-    render(){
+    render() {
 
-        const {successfulSubmission,networkError,submissionMessage,loading} = this.state;
+        const { successfulSubmission, networkError, submissionMessage, loading } = this.state;
 
-        return(
+        return (
 
             <>
-            <div id="" className="authentication ">
-                <div className="page-container" id="page-container">
-                    <div className="row">
 
-                        <div className="col-md-6 authenticationBackground r-l">
-                            <div className="formTitle">
-                                <article>
-                                    <h1>Mkulima Loan</h1>
-                                    <h3>Admin Dashboard</h3>
-                                </article>
-                            </div>
+                <div className="authenticationBackground auth-wrapper">
+
+                    <div className="auth-inner" >
+                        <div className="row authenticationBackgroundInner">
+
+                            <img src="/logo2.png" />
                         </div>
+                        <div className="formcontainer">
+                            <p>
+                                <small className="text-muted">Enter your Email Address to receive a reset password link</small>
+                            </p>
 
-                        <div className="col-md-6 formBody" id="content-body">
-                            <div className="formcontainer">
-                                <h5>Forgot Password</h5>
+                            {successfulSubmission &&
+                                <Notification
+                                    type="success"
+                                    description={submissionMessage}
+                                />
+                            }
 
-                                {successfulSubmission &&
-                                    <Notification
-                                        type="success"
-                                        description={submissionMessage}
-                                    />
-                                }
+                            {networkError &&
+                                <Notification
+                                    type="network"
+                                    description="Network Connection Error"
+                                />
+                            }
 
-                                {networkError &&
-                                    <Notification
-                                        type="network"
-                                        description="Network Connection Error"
-                                    />
-                                }
+                            <form
+                                className="resetPassword"
+                                onSubmit={this.handleUserSubmission}
+                                role="form" >
 
-                                <form
-                                    className="resetPassword"
-                                    onSubmit={this.handleUserSubmission}
-                                    role="form" >
+                                <div className="form-group">
 
-                                    <div className="form-group">
+                                    <label>Email Address</label>
 
-                                        <label>Email Address</label>
-
-                                        <input type="email" className="form-control"
+                                    <input type="email" className="form-control"
                                         data-parsley-required="true"
                                         name="email"
                                         id="email"
                                         onChange={this.handleChange} placeholder="Email" />
 
-                                    </div>
+                                </div>
 
-                                    <button type="submit" className="btn btn-primary mb-4">Send New Password</button>
+                                <button type="submit" className="btn btn-primary mb-4">Send New Password</button>
 
-                                </form>
+                            </form>
 
-                                {loading &&
-                                    <Loader type="dots"/>
-                                }
-                            </div>
+                            {loading &&
+                                <Loader type="dots" />
+                            }
                         </div>
 
                     </div>
+
                 </div>
-            </div>
             </>
 
         )

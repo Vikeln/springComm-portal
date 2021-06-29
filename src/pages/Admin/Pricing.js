@@ -88,7 +88,7 @@ export default class Pricing extends Component {
                 this.setState({
                     sources: response.data.data != null ? response.data.data : [],
                 });
-
+                $(".table").bootstrapTable();
 
             } else {
                 confirmAlert({
@@ -265,6 +265,27 @@ export default class Pricing extends Component {
                                                     <div
                                                         className="col-3">
 
+                                                        <label>Service</label>
+                                                        <select
+
+                                                            className="form-control"
+                                                            value={cost.service}
+                                                            data-parsley-required="true"
+                                                            data-parsley-minlength='12'
+                                                            data-parsley-maxlength='12'
+                                                            onChange={(e) => this.handleChange(e, index)}
+                                                            name="service"
+                                                            id="service">
+                                                            <option></option>
+                                                            <option value="SMS">SMS</option>
+                                                            <option value="USSD">USSD</option>
+
+                                                        </select>
+
+                                                    </div>
+                                                    <div
+                                                        className="col-3">
+
                                                         <label>Min</label>
 
                                                         <input
@@ -350,7 +371,6 @@ export default class Pricing extends Component {
                                     data-search-align="left"
                                     data-show-columns="true"
                                     data-show-export="true"
-                                    data-detail-view="true"
                                     data-mobile-responsive="true"
                                     data-pagination="true"
                                     data-page-list="[10, 25, 50, 100, ALL]"
@@ -359,6 +379,7 @@ export default class Pricing extends Component {
                                     <thead>
                                         <tr>
                                             <th>#</th>
+                                            <th>Service</th>
                                             <th>Range</th>
                                             <th>Cost Per Unit</th>
                                         </tr>
@@ -377,7 +398,11 @@ export default class Pricing extends Component {
 
 
                                                         <td>
-                                                            <span className="text-muted">{index+1}</span>
+                                                            <span className="text-muted">{index + 1}</span>
+                                                        </td>
+
+                                                        <td>
+                                                            <span className="text-muted">{mes.service}</span>
                                                         </td>
 
                                                         <td>

@@ -45,7 +45,6 @@ export default class AdminProfile extends Component {
             users: [],
             loading: false,
             sentSms: undefined,
-            setInterval: 0,
             chartdata: "",
             scheduledSms: undefined,
             smsBalance: undefined,
@@ -223,7 +222,7 @@ export default class AdminProfile extends Component {
 
         $(".createUser").parsley();
         var that = this;
-      this.state.setInterval = setInterval(() => {
+        setInterval(() => {
 
             this.setState({
                 loading: true,
@@ -288,11 +287,11 @@ export default class AdminProfile extends Component {
                         datasets: [
                             {
                                 label: 'SMS Usage',
-                                backgroundColor: '#204066',
-                                borderColor: '#204066',
+                                backgroundColor: '#ff901f',
+                                borderColor: '#AFD9FF',
                                 borderWidth: 1,
-                                hoverBackgroundColor: '#204066',
-                                hoverBorderColor: '#204066',
+                                hoverBackgroundColor: '#AFD9FF',
+                                hoverBorderColor: '#AFD9FF',
                                 data: [response.data.data.today, response.data.data.week, response.data.data.month, response.data.data.year]
                             }
                         ]
@@ -354,7 +353,7 @@ export default class AdminProfile extends Component {
     }
 
     componentDidUnMount() {
-        clearTimeout( this.state.setInterval );
+
     }
 
 
@@ -507,8 +506,7 @@ export default class AdminProfile extends Component {
                                                             amount={"KES " + utils.formatNumber(smsBalance)}
                                                             title="SMS Balance"
                                                             icon={faHandHoldingUsd}
-                                                        />
-                                                    }
+                                                        />}
 
                                                         {/* Summary Icon */}
                                                         {sentSms != undefined && <SummaryIcon

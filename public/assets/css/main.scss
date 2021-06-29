@@ -497,11 +497,36 @@ form{
     }
 
 }
+.auth-wrapper {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: left;
+  }
+  
+  .auth-inner {
+    width: 510px;
+    margin: auto;
+    background: #ffffff;
+    box-shadow: 0px 14px 80px rgba(34, 35, 58, 0.2);
+    padding: 40px 55px 45px 55px;
+    border-radius: 15px;
+    transition: all .3s;
+  }
+
+.authenticationBackgroundInner{
+
+    background:#204066  ;
+}
 .authenticationBackground{
 
-    background:#204066 url('../img/login/background_patter.png') left top no-repeat;
+    background:#204066  url('../img/login/bg.jpg')  no-repeat center center fixed;
     height: 100vh;
-    background-size:70%;
+    background-size:70%;    
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
 
 
@@ -512,7 +537,7 @@ form{
 #header{
     .navbar-brand{
 
-        max-width: 100px;
+        max-width: 200px;       
         
 
 
@@ -696,7 +721,6 @@ form{
         margin-bottom: 10px;
 
     }
-
     
 
 }

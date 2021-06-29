@@ -212,30 +212,16 @@ export default class Login extends Component {
         return (
 
             <>
+                        <div className="authenticationBackground auth-wrapper">
 
-                {/* Authentication Screen */}
-                <div id="" className="authentication ">
-
-                    <div className="page-container" id="page-container">
-
-                        <div className="row">
-
-                            <div className="col-md-6  r-l authenticationBackground">
-
-                                <div className="formTitle">
-                                    <article>
-                                        <img src="/assets/img/logo2.jpeg" />
-                                        {/* <h1>TRENDYMEDIA</h1> */}
-                                    </article>
-                                </div>
-
+                            <div className="auth-inner" >
+                            <div className="row authenticationBackgroundInner">
+                                
+                                <img src="/logo2.png" />
                             </div>
-
-                            <div className="col-md-6  formBody" id="content-body">
 
                                 <div className="formcontainer">
 
-                                    <h5>Welcome back</h5>
                                     <p>
                                         <small className="text-muted">Login to manage your account</small>
                                     </p>
@@ -291,14 +277,6 @@ export default class Login extends Component {
 
                                         </div>
 
-                                        {/*
-                                    <div className="checkbox mb-3">
-                                        <label className="ui-check">
-                                            <input type="checkbox" /><i></i> Remember me
-                                        </label>
-                                    </div>
-                                    */}
-
 
                                         <button type="submit" className="btn btn-primary mb-4">Sign in</button>
 
@@ -311,10 +289,6 @@ export default class Login extends Component {
                             </div>
 
                         </div>
-
-                    </div>
-                </div>
-                {/* End Authentication Screen*/}
 
             </>
 

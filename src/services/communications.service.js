@@ -18,6 +18,16 @@ class CommunicationsService {
 
     }
 
+    getAllInboxMessages(date1, date2, source, sentBy) {
+
+        var part = "";
+        if (sentBy !== "")
+            part = part + "&senderPhone=" + sentBy;
+
+        return axiosInstance.get(baseUrl + "bridge/inbox/all?startDate=" + date1 + "&endDate=" + date2+ (part !== "" ? part : ""));
+
+    }
+
     getDashboardData(clientKey) {
         if (clientKey != undefined)
             return axiosInstance.get(baseUrl + "bridge/sent-sms/my-smsdetails?client=" + clientKey);

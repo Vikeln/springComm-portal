@@ -13,6 +13,7 @@ import {
 import Notification from '../../components/notifications/Notifications';
 
 import Loader from '../../components/loaders/Loader';
+import authService from '../../services/auth.service';
 
 export default class Integration extends Component {
 
@@ -28,17 +29,38 @@ export default class Integration extends Component {
             successfulSubmission: false,
             submissionMessage: "",
             loading: false,
+            revealApiKey: false,
 
         }
+        this.revealApiKey = this.revealApiKey.bind(this);
 
     }
 
     componentDidMount() {
 
     }
+    revealApiKey(){
+        this.setState({
+            showKey : !this.state.showKey
+        });
+
+    }
 
     componentDidUnMount() {
 
+    }
+
+    componentDidUpdate() {
+        if (this.state.showKey){
+
+        setTimeout(() => {
+            
+            this.setState({
+                showKey : false
+            });
+        
+              }, 10000);
+}
     }
 
 
@@ -55,7 +77,7 @@ export default class Integration extends Component {
                     <div className="page-container" id="page-container">
 
                         <div className="padding">
-                           
+
 
 
                             <div className="view viewall">
@@ -64,23 +86,46 @@ export default class Integration extends Component {
                                     <div className="card-title page-title padding pb-0 ">
                                         TRENDYMEDIA API INTEGRATION</div>
                                     <div className="card-body">
-                                         <div className="row advancedSearchOptions ">
+                                        <div className="row advancedSearchOptions ">
 
 
-                                <div className="col-7 secondaryActions">
-                                    <a
-                                        className="btn-rounded upload-download" href="/assets/files/TRENDYMEDIADocumentation.pdf"
+                                            <div className="col-7 secondaryActions">
 
-                                        download>
+                                                <form>
+                                                    <div className="row">
+                                                        <div className="col-8">
+                                                            <label>API KEY</label>
+                                                            <input type="text"
+                                                                disabled
+                                                                className="form-control"
+                                                                value={this.state.showKey ? authService.getCurrentClientKey() : "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"}
+                                                            />
+                                                        </div>
+                                                        <div className="col-4">
+                                                            <Button variant="primary" className="pull-left float-left" onClick={() => this.revealApiKey()}>
+                                                                Reveal Api Key
+                                                            </Button>
+                                                        </div>
+                                                    </div>
+                                                </form>
 
-                                        <span className="">
-                                            <i className="i-con i-con-download">
-                                                <i></i>
-                                            </i>
-                                        </span>Download Api Documentation</a>
-                                </div>
+                                                <div className="row">
+                                                    <br></br>
+                                                </div>
 
-                            </div>
+                                                <a
+                                                    className="btn-rounded upload-download" href="/assets/files/TRENDYMEDIADocumentation.pdf"
+
+                                                    download>
+
+                                                    <span className="">
+                                                        <i className="i-con i-con-download">
+                                                            <i></i>
+                                                        </i>
+                                                    </span>Download Api Documentation</a>
+                                            </div>
+
+                                        </div>
                                         Wanna try the apis out?   <a target="_blank" href="https://TRENDYMEDIA-api.mfs.co.ke/swagger-ui.html">
                                             Open Playground.</a>
                                     </div>
@@ -88,7 +133,7 @@ export default class Integration extends Component {
 
 
                                 {loading &&
-                                    <Loader type="dots"/>
+                                    <Loader type="dots" />
                                 }
                             </div>
 

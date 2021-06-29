@@ -38,6 +38,7 @@ export default class AddClient extends Component {
                 "status": true,
                 "userName": undefined,
                 "createAdminUser": true,
+                "createSMSService": false,
             },
             emailError: '',
             passwordError: '',
@@ -64,8 +65,10 @@ export default class AddClient extends Component {
         let inputName = el.target.name;
         let inputValue = el.target.value;
         let stateCopy = Object.assign({}, this.state);
-
-        stateCopy.formData[inputName] = inputValue;
+        if  (inputName == "createSMSService")
+            stateCopy.formData[inputName] = inputValue === "true" ? true:false;
+        else
+            stateCopy.formData[inputName] = inputValue;
         this.setState(stateCopy);
     }
 
@@ -323,6 +326,32 @@ export default class AddClient extends Component {
                                                     onChange={this.handleChange} />
 
                                             </div>
+                                            <div className="col-4">
+
+                                                <label>Auto Create SMS Service?</label>
+                                               <select className="form-control"
+                                                    onChange={this.handleChange} name="createSMSService" id="createSMSService">
+                                                   <option></option>
+                                                   <option value="true">True</option>
+                                                   <option value="false">False</option>
+                                               </select>
+
+                                            </div>
+                                           {this.state.formData.createSMSService &&
+                                            <div className="col-4">
+
+                                                <label>SMS Billing</label>
+                                               <select className="form-control"
+                                                    onChange={this.handleChange} name="smsserviceBillingType" id="smsserviceBillingType">
+                                                   <option></option>
+                                                   <option value="POSTPAID">POSTPAID</option>
+                                                   <option value="PREPAID">PREPAID</option>
+                                               </select>
+
+                                            </div>
+
+                                            }
+
                                         </div>
 
 

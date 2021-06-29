@@ -36,6 +36,7 @@ export default class Register extends Component {
                 "status": true,
                 "userName": undefined,
                 "createAdminUser": true,
+                "createSMSService": true,
             },
             emailError: '',
             passwordError: '',
@@ -50,7 +51,7 @@ export default class Register extends Component {
     }
 
     componentDidMount() {
-        $(".login").parsley();
+        $(".registerform").parsley();
     }
 
     componentDidUnMount() {
@@ -72,68 +73,68 @@ export default class Register extends Component {
     handleSubmit(event) {
 
         const { formData } = this.state;
+        if ($(".registerform").parsley().isValid()) {
+            this.setState({
+                loading: true,
+            });
 
-        this.setState({
-            loading: true,
-        });
-
-        $("form button").hide();
-        // console.log(AuthService.login(email,password)) ;
+            $("form button").hide();
+            // console.log(AuthService.login(email,password)) ;
 
 
-        this.setState({
-            emailError: "",
-            passwordError: "",
-            networkError: "",
-            credentialsError: ""
+            this.setState({
+                emailError: "",
+                passwordError: "",
+                networkError: "",
+                credentialsError: ""
 
-        });
+            });
 
-        event.preventDefault();
-        //submit here
+            event.preventDefault();
+            //submit here
 
-        
-        if(formData.clientType==="INDIVIDUAL")
-        formData.name = formData.firstName +" " + formData.lastName +" Client";
 
-        console.log(JSON.stringify(formData));
-        TenantService.createClients(formData).then(response => {
-            console.log(response);
+            if (formData.clientType === "INDIVIDUAL")
+                formData.name = formData.firstName + " " + formData.lastName;
 
-            if (response) {
+            console.log(JSON.stringify(formData));
+            TenantService.createClients(formData).then(response => {
+                console.log(response);
 
-                this.setState({
-                    networkError: false,
-                    loading: false,
-                });
+                if (response) {
 
-                // $("form button").show();
+                    this.setState({
+                        networkError: false,
+                        loading: false,
+                    });
 
-            }
-            if (response.data.status != "error") {
-                this.setState({
-                    credentialsError: "Your account has been setup successfully! We have sent you a link on your email to verify your data.",
-                    loading: false,
-                });
-                
+                    // $("form button").show();
 
-                setTimeout(function(){
-                    window.location.href ="/auth/login"
-                }, 5000);
+                }
+                if (response.data.status != "error") {
+                    this.setState({
+                        credentialsError: "Your account has been setup successfully! We have sent you a link on your email to verify your data.",
+                        loading: false,
+                    });
 
-            } else {
-                this.setState({
-                    networkError: response.data.data.message,
-                    loading: false,
-                });
 
-                $("form button").show();
-            }
+                    setTimeout(function () {
+                        window.location.href = "/auth/login"
+                    }, 5000);
 
-        }).catch(error => {
+                } else {
+                    this.setState({
+                        networkError: response.data.data.message,
+                        loading: false,
+                    });
 
-        });
+                    $("form button").show();
+                }
 
+            }).catch(error => {
+
+            });
+        }
     }
 
 
@@ -172,7 +173,7 @@ export default class Register extends Component {
                                         <small className="text-muted">Create an account to access all our features</small>
                                     </p>
 
-                                    <form className="" role="form" onSubmit={this.handleSubmit}>
+                                    <form className="registerform" role="form" data-plugin="parsley" onSubmit={this.handleSubmit}>
                                         {
                                             credentialsError != "" &&
 
@@ -211,22 +212,22 @@ export default class Register extends Component {
 
 
                                             {this.state.formData.clientType === "CORPORATE" ?
-                                            <div className="col-6">
+                                                <div className="col-6">
 
-                                                <label>Corporate Firm Name</label>
-                                                <input
-                                                    type="text" className="form-control"
-                                                    placeholder="Enter name"
-                                                    name="name"
-                                                    id="name"
-                                                    data-parsley-required="true"
-                                                    onChange={this.handleChange} />
+                                                    <label>Corporate Firm Name</label>
+                                                    <input
+                                                        type="text" className="form-control"
+                                                        placeholder="Enter name"
+                                                        name="name"
+                                                        id="name"
+                                                        data-parsley-required="true"
+                                                        onChange={this.handleChange} />
 
-                                            </div> : 
-                                            <div className="col-6">
+                                                </div> :
+                                                <div className="col-6">
 
 
-                                            </div>}
+                                                </div>}
                                             <div className="col-4">
 
                                                 <label>FirstName</label>

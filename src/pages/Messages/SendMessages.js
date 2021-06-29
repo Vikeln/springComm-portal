@@ -37,9 +37,10 @@ export default class SendMessages extends Component {
             template: null,
             message: "",
             uploading: false,
+            replying:this.getParameterByName("replyTo") != undefined,
             formData: {
                 parameters: [],
-                recipient: [],
+                recipient: [this.getParameterByName("replyTo")],
                 parameterValues: [],
                 sendFromTemplate: "false"
 
@@ -67,6 +68,7 @@ export default class SendMessages extends Component {
         this.setCharAt = this.setCharAt.bind(this);
         this.complete = this.complete.bind(this);
         this.updateStartDate = this.updateStartDate.bind(this);
+        this.getParameterByName = this.getParameterByName.bind(this);
         this.updateStartTime = this.updateStartTime.bind(this);
     }
 
@@ -81,6 +83,7 @@ export default class SendMessages extends Component {
 
         $(document).on("change", ".startdate", this.updateStartDate);
         $(document).on("blur", ".starttime", this.updateStartTime);
+
 
     }
 
@@ -171,7 +174,7 @@ export default class SendMessages extends Component {
             if (response.data.status != "error") {
 
 
-                var uniqueSources = response.data.data.filter((v, i, a) => a.findIndex(t => (t.alphanumeric === v.alphanumeric)) === i);
+                var uniqueSources = response.data.data !=undefined ? response.data.data.filter((v, i, a) => a.findIndex(t => (t.alphanumeric === v.alphanumeric)) === i) : [];
 
                 this.setState({
                     sources: uniqueSources != null ? uniqueSources : [],
@@ -695,6 +698,15 @@ export default class SendMessages extends Component {
 
     }
 
+    getParameterByName(name, url = window.location.href) {
+        name = name.replace(/[\[\]]/g, '\\$&');
+        var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, ' '));
+    }
+
     render() {
 
         const { format, createSchedule, timeNow, filterContacts, contactGroups, sendToGroup, messageTemplates, uploading, sources, sendOnce, sendTime, sendFromTemplate, selectFromAddressBook, contacts, message, successfulSubmission, networkError, submissionMessage } = this.state;
@@ -708,7 +720,7 @@ export default class SendMessages extends Component {
 
                         <div className="page-title padding pb-0 ">
 
-                            <h2 className="text-md mb-0">Send Message</h2>
+                            <h2 className="text-md mb-0">{!this.state.replying ? "Send Message" : "Replying to " + this.getParameterByName("replyTo")}</h2>
 
                         </div>
 
@@ -799,10 +811,11 @@ export default class SendMessages extends Component {
                                         className="col-12">
                                         <div
                                             className="row">
+                                            {!this.state.replying &&
                                             <div className="col-4">
 
                                                 <label>Select Recipients From </label>
-                                                <select
+                                                <select 
                                                     className="form-control"
                                                     onChange={this.handleChange}
                                                     data-parsley-required="true"
@@ -814,7 +827,7 @@ export default class SendMessages extends Component {
 
                                                 </select>
 
-                                            </div>
+                                            </div>}
                                             {selectFromAddressBook == "AddressBook" && <div className="col-4">
 
                                                 <label>Filter Contacts by Group? </label>

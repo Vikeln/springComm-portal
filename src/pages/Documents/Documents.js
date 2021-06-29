@@ -278,8 +278,8 @@ export default class Documents extends Component {
                                     <thead>
                                         <tr>
                                             <th>ID</th>
-                                            <th>Document Type</th>
-                                            <th>Document Name</th>
+                                            <th>Document</th>
+                                            {/* <th>Document Name</th> */}
                                             <th></th>
                                         </tr>
                                     </thead>
@@ -304,12 +304,12 @@ export default class Documents extends Component {
                                                             <span className="text-muted">{mes.docType}</span>
                                                         </td>
 
-                                                        <td>
+                                                        {/* <td>
                                                             <span className="text-muted">{mes.documentName}</span>
-                                                        </td>
+                                                        </td> */}
 
                                                         <td>
-                                                            <a href={clientBaseUrl + "documents/download?docName=" + mes.documentName} target="blank">Download</a>
+                                                            <a href={clientBaseUrl + "documents/download?docName=" + mes.documentName}>Download</a>
 
                                                         </td>
 

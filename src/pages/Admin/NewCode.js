@@ -198,6 +198,20 @@ export default class NewCodes extends Component {
                                             id="callbackUrl" />
 
                                     </div>
+                                    
+                                    <div className="col-6">
+
+                                        <label>Billing</label>
+                                        <select className="form-control"
+                                            onChange={this.handleChange}
+                                            name="billingType"
+                                            id="billingType">
+                                            <option></option>
+                                            <option value="POSTPAID">POSTPAID</option>
+                                            <option value="PREPAID">PREPAID</option>
+                                        </select>
+
+                                    </div>
                                     <div
                                         className="col-6">
 

@@ -20,7 +20,7 @@ export default class PageNotFound extends Component{
 
         setTimeout(() => {
 
-          window.location.href="/dashboard";
+          window.location.href="/dashboard/adminProfile";
 
       }, 2000);
     }

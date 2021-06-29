@@ -48,11 +48,35 @@ class TenantService {
     reviseUnitCosts(formData) {
         return axiosInstance.post(clientBaseUrl + "unit-costs/defaults/create-update",formData);
     }
+    
+    assignClientServiceUnitCosts(clientService, formData) {
+        return axiosInstance.post(clientBaseUrl + "services/assignUnitCost/"+clientService,formData);
+    }
+
+    updateServiceStandingCharge(client, formData) {
+        return axiosInstance.post(clientBaseUrl + "services/updateServiceStandingCharge/"+client,formData);
+    }
+
+    getClientServiceUsageReport(clientService, startDate,endDate) {
+        return axiosInstance.get(clientBaseUrl + "services/getClientServiceUsageReport/"+clientService +"?startDate=" +startDate+"&endDate="+endDate);
+    }
+
+    reviseUnitCosts(formData) {
+        return axiosInstance.post(clientBaseUrl + "unit-costs/defaults/create-update",formData);
+    }
 
     getUSSDCodes(client) {
         if (client != undefined)
             return axiosInstance.get(clientBaseUrl + "ussd/codes?client=" + client);
         return axiosInstance.get(clientBaseUrl + "ussd/codes");
+    }
+
+    getClientServices(client) {
+        return axiosInstance.get(clientBaseUrl + "services/client/" + client);
+    }
+
+    getClientService(clientService) {
+        return axiosInstance.get(clientBaseUrl + "services/view/" + clientService);
     }
 
     applyNewUSSDCodes(formData) {

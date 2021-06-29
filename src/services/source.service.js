@@ -1,11 +1,13 @@
-import { axiosInstance,baseUrl } from '../API';
+import { axiosInstance, baseUrl } from '../API';
 
 class SourceService {
 
     /*Get all Sources from endpoint*/
-    getAllSources() {
-        return axiosInstance.get(baseUrl + "bridge/source");
-
+    getAllSources(clientKey) {
+        if (clientKey != undefined)
+            return axiosInstance.get(baseUrl + "bridge/source/" + clientKey);
+        else
+            return axiosInstance.get(baseUrl + "bridge/source");
     }
 
     /*Get all active and status=COMPLETE Sources from endpoint*/
@@ -22,9 +24,9 @@ class SourceService {
     }
 
     /*Update single source*/
-    updateSource(alphanum, activate, formData) {
+    activateSource(sourceId,status) {
 
-        return axiosInstance.post(baseUrl + "bridge/source/activate/" + alphanum + "?activate=" + activate, formData);
+        return axiosInstance.post(baseUrl + "bridge/source/activate/" + sourceId+"?status="+status);
 
     }
 }

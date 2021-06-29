@@ -26,7 +26,7 @@ export default class NewCode extends Component {
             value: this.props.value,
             sources: [],
             showHide: false,
-            products: [],
+            parents: [],
             formData: {
                 client: parseInt(authService.getCurrentClientId()),
             },
@@ -40,6 +40,7 @@ export default class NewCode extends Component {
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmission = this.handleSubmission.bind(this);
+        this.fetchParentCodes = this.fetchParentCodes.bind(this);
 
     }
 
@@ -64,7 +65,13 @@ export default class NewCode extends Component {
 
         let stateCopy = Object.assign({}, this.state);
 
-        if (inputName === "providers") {
+
+        if (inputName === "parent") {
+            stateCopy.formData[inputName] = parseInt(inputValue);
+        } else if (inputName === "type") {
+            this.fetchParentCodes();
+            stateCopy.formData[inputName] = inputValue;
+        } else if (inputName === "providers") {
             var userGroups = [];
 
             for (var i = 0, l = options.length; i < l; i++) {
@@ -80,8 +87,8 @@ export default class NewCode extends Component {
             stateCopy.formData[inputName] = inputValue;
 
         }
-        this.setState(stateCopy);
 
+        this.setState(stateCopy);
 
     }
 
@@ -139,6 +146,47 @@ export default class NewCode extends Component {
         }
     }
 
+    fetchParentCodes() {
+
+        TenantService.getUSSDCodes(1).then(response => {
+
+            if (response.data.successMessage != "error") {
+
+                var uniqueSources = response.data.data != undefined ? response.data.data.filter((v, i, a) => a.findIndex(t => (t.code.value === v.code.value)) === i) : [];
+
+
+                this.setState({
+                    parents: uniqueSources != null ? uniqueSources : [],
+                });
+                $(".table").bootstrapTable();
+
+
+            } else {
+                confirmAlert({
+                    title: 'Error fetching parent USSD codes',
+                    message: response.data.message,
+                    buttons: [
+                        {
+                            label: 'ok',
+                        }
+                    ]
+                });
+            }
+
+
+        }).catch(error => {
+            confirmAlert({
+                title: 'Error occurred',
+                message: error.message,
+                buttons: [
+                    {
+                        label: 'ok',
+                    }
+                ]
+            });
+        });
+
+    }
 
     render() {
 
@@ -165,21 +213,98 @@ export default class NewCode extends Component {
                             <div className="view viewall">
 
                                 <form className="createSource" id="createSource" data-plugin="parsley" onSubmit={this.handleSubmission}>
+
+
                                     <div
                                         className="col-6">
 
-                                        <label>Desired USSD Code</label>
+                                        <label>Type</label>
 
-                                        <input
+                                        <select
                                             type="text"
-                                            placeholder=""
+                                            name="type"
+                                            id="type"
                                             className="form-control"
                                             data-parsley-required="true"
-                                            data-parsley-minlength='3'
-                                            data-parsley-maxlength='8'
+                                            onChange={this.handleChange} >
+                                            <option></option>
+                                            <option value="shared">Shared</option>
+                                            <option value="sole">Sole</option>
+                                        </select>
+                                    </div>
+
+
+                                    {this.state.formData.type === "sole" &&
+                                        <div
+                                            className="col-6">
+
+                                            <label>Desired USSD Code</label>
+
+                                            <input
+                                                type="text"
+                                                placeholder=""
+                                                className="form-control"
+                                                data-parsley-required="true"
+                                                data-parsley-minlength='3'
+                                                data-parsley-maxlength='8'
+                                                onChange={this.handleChange}
+                                                name="code"
+                                                id="code" />
+
+                                        </div>
+                                    }
+                                    {this.state.formData.type === "shared" &&
+                                        <>
+                                            <div
+                                                className="col-6">
+
+                                                <label>Select USSD to share</label>
+
+                                                <select
+                                                    type="text"
+                                                    name="parent"
+                                                    id="parent"
+                                                    className="form-control"
+                                                    data-parsley-required="true"
+                                                    onChange={this.handleChange} >
+                                                    <option></option>
+                                                    {this.state.parents != "" &&
+                                                        this.state.parents.map((parent, index) => (
+                                                            <option key={"option" + index} value={parent.service.id}>{parent.code.value}</option>
+                                                        ))
+                                                    }
+                                                </select>
+                                            </div>
+                                            <div
+                                                className="col-6">
+
+                                                <label>Desired Extension</label>
+
+                                                <input
+                                                    type="text"
+                                                    placeholder=""
+                                                    className="form-control"
+                                                    data-parsley-required="true"
+                                                    data-parsley-minlength='3'
+                                                    data-parsley-maxlength='8'
+                                                    onChange={this.handleChange}
+                                                    name="code"
+                                                    id="code" />
+
+                                            </div>
+                                        </>
+                                    }
+                                    <div className="col-6">
+
+                                        <label>Billing</label>
+                                        <select className="form-control"
                                             onChange={this.handleChange}
-                                            name="code"
-                                            id="code" />
+                                            name="billingType"
+                                            id="billingType">
+                                            <option></option>
+                                            <option value="POSTPAID">POSTPAID</option>
+                                            <option value="PREPAID">PREPAID</option>
+                                        </select>
 
                                     </div>
                                     <div
@@ -220,7 +345,7 @@ export default class NewCode extends Component {
                                 </form>
 
                                 {loading &&
-                                    <Loader type="dots"/>
+                                    <Loader type="dots" />
                                 }
                             </div>
 

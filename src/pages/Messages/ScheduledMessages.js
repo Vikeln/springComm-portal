@@ -586,7 +586,7 @@ export default class Messages extends Component {
                             <Modal show={this.state.editSchedule}>
 
                                 <Modal.Header closeButton onClick={() => this.openEditScheduleModal()}>
-                                    <Modal.Title>Toogle Customer Borrowing</Modal.Title>
+                                    <Modal.Title>Edit Message Schedule</Modal.Title>
                                 </Modal.Header>
                                 <Modal.Body>
                                     <div className="row">
@@ -750,7 +750,7 @@ export default class Messages extends Component {
                                                     </td>
 
                                                     <td>
-                                                        <span className="text-muted">{mes.payload}</span>
+                                                        <span className="text-muted">{mes.payload.substring(0,45)}</span>
                                                     </td>
 
                                                     <td>

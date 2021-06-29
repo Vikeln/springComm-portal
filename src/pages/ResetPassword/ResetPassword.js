@@ -1,6 +1,6 @@
 /* global $ */
 
-import React,{Component} from 'react';
+import React, { Component } from 'react';
 
 import AuthService from '../../services/auth.service';
 import Notification from '../../components/notifications/Notifications';
@@ -8,24 +8,24 @@ import Notification from '../../components/notifications/Notifications';
 import Loader from '../../components/loaders/Loader';
 
 
-export default class ResetPassword extends Component{
+export default class ResetPassword extends Component {
 
-    constructor(props){
+    constructor(props) {
 
         super(props);
 
-        this.state ={
+        this.state = {
 
-            formData:{
-                userID:this.props.match.params.userID,
-                password:"",
+            formData: {
+                userID: this.props.match.params.userID,
+                password: "",
                 verifyEmail: false
             },
-            networkError:false,
-            networkErrorMessage:"",
-            successfulSubmission:false,
-            submissionMessage:"",
-            loading:false
+            networkError: false,
+            networkErrorMessage: "",
+            successfulSubmission: false,
+            submissionMessage: "",
+            loading: false
 
         }
 
@@ -34,11 +34,11 @@ export default class ResetPassword extends Component{
 
     }
 
-    componentDidMount(){
+    componentDidMount() {
 
-        if(this.state.formData.userID != "" || this.state.formData.userID != null ){
+        if (this.state.formData.userID != "" || this.state.formData.userID != null) {
 
-            this.setState({ formData: { ...this.state.formData, verifyEmail: true} });
+            this.setState({ formData: { ...this.state.formData, verifyEmail: true } });
 
         }
 
@@ -46,7 +46,7 @@ export default class ResetPassword extends Component{
 
     }
 
-    componentDidUnMount(){
+    componentDidUnMount() {
 
     }
 
@@ -68,14 +68,14 @@ export default class ResetPassword extends Component{
 
 
 
-        const {formData} = this.state;
+        const { formData } = this.state;
 
         event.preventDefault();
 
-        if( $(".resetPassword").parsley().isValid() ){
+        if ($(".resetPassword").parsley().isValid()) {
 
             this.setState({
-                loading:true,
+                loading: true,
             });
 
             $("form button").hide();
@@ -84,40 +84,40 @@ export default class ResetPassword extends Component{
 
                 console.log(response);
 
-                if(response){
+                if (response) {
 
                     this.setState({
-                        networkError:false,
-                        loading:false,
-                        networkErrorMessage:"",
+                        networkError: false,
+                        loading: false,
+                        networkErrorMessage: "",
                     });
 
                     $("form button").show();
 
                 }
 
-                if(response.data.status == "success"){
+                if (response.data.status == "success") {
 
                     this.setState({
-                        successfulSubmission:true,
-                        submissionMessage : response.data.message,
-                        loading:false,
-                        networkError:false,
-                        networkErrorMessage:"",
+                        successfulSubmission: true,
+                        submissionMessage: response.data.message,
+                        loading: false,
+                        networkError: false,
+                        networkErrorMessage: "",
                     });
 
-                    setTimeout(function(){
-                        window.location.href ="/auth/login"
+                    setTimeout(function () {
+                        window.location.href = "/auth/login"
                     }, 3000);
 
-                }else{
+                } else {
 
                     this.setState({
-                        successfulSubmission:false,
-                        submissionMessage : "",
-                        loading:false,
-                        networkError:true,
-                        networkErrorMessage:response.data.message,
+                        successfulSubmission: false,
+                        submissionMessage: "",
+                        loading: false,
+                        networkError: true,
+                        networkErrorMessage: response.data.message,
                     });
 
                     $("form button").show();
@@ -128,9 +128,9 @@ export default class ResetPassword extends Component{
 
                 console.log(error);
                 this.setState({
-                    networkError:true,
-                    networkErrorMessage:error.message,
-                    loading:false
+                    networkError: true,
+                    networkErrorMessage: error.message,
+                    loading: false
 
                 });
 
@@ -144,99 +144,91 @@ export default class ResetPassword extends Component{
 
     }
 
-    render(){
+    render() {
 
-        const {successfulSubmission,networkError,submissionMessage,loading,networkErrorMessage} = this.state;
+        const { successfulSubmission, networkError, submissionMessage, loading, networkErrorMessage } = this.state;
 
-        return(
+        return (
 
             <>
-            <div id="" className="authentication ">
 
-                <div className="page-container" id="page-container">
 
-                    <div className="row">
-                        {/* Left Hightlight */}
-                        <div className="col-md-6 authenticationBackground r-l">
-                            <div className="formTitle">
-                                <article>
-                                    <img src="/assets/img/logo.png" />
-                                    <h3>Admin Dashboard</h3>
-                                </article>
-                            </div>
+
+                <div className="authenticationBackground auth-wrapper">
+
+                    <div className="auth-inner" >
+                        <div className="row authenticationBackgroundInner">
+
+                            <img src="/logo2.png" />
                         </div>
-                        {/* EndLeft Hightlight */}
+                        <div className="formcontainer">
 
-                        {/* Reset Form */}
-                        <div className="col-md-6 formBody" id="content-body">
+                            <p>
+                                <small className="text-muted">Enter new password to reset your account</small>
+                            </p>
 
-                            <div className="formcontainer">
+                            {successfulSubmission &&
+                                <Notification
+                                    type="success"
+                                    description={submissionMessage}
+                                />
+                            }
 
-                                <h5>Reset Password</h5>
+                            {networkError &&
+                                <Notification
+                                    type="network"
+                                    description={networkErrorMessage}
+                                />
+                            }
 
-                                {successfulSubmission &&
-                                    <Notification
-                                        type="success"
-                                        description={submissionMessage}
-                                    />
-                                }
+                            <form
+                                className="resetPassword" role="form"
+                                onSubmit={this.handleUserSubmission}>
 
-                                {networkError &&
-                                    <Notification
-                                        type="network"
-                                        description={networkErrorMessage}
-                                    />
-                                }
+                                <div className="form-group">
 
-                                <form
-                                    className="resetPassword" role="form"
-                                    onSubmit={this.handleUserSubmission}>
+                                    <label>Password</label>
+                                    <input
+                                        type="password"
+                                        name="password"
+                                        id="password"
+                                        className="form-control"
+                                        data-parsley-required="true"
+                                        onChange={this.handleChange}
+                                        data-parsley-minlength="8" placeholder="Password" />
 
-                                    <div className="form-group">
+                                </div>
 
-                                        <label>Password</label>
-                                        <input
-                                            type="password"
-                                            name="password"
-                                            id="password"
-                                            className="form-control"
-                                            data-parsley-required="true"
-                                            onChange={this.handleChange}
-                                            data-parsley-minlength="8" placeholder="Password" />
+                                <div className="form-group">
+                                    <label>Confirm Password</label>
+                                    <input
+                                        type="password" className="form-control"
+                                        data-parsley-equalto="#password"
+                                        name="password2"
+                                        id="password2"
+                                        data-parsley-required="true"
+                                        data-parsley-minlength="8" placeholder="Confirm Password" />
 
-                                    </div>
-
-                                    <div className="form-group">
-                                        <label>Confirm Password</label>
-                                        <input
-                                            type="password" className="form-control"
-                                            data-parsley-equalto="#password"
-                                            name="password2"
-                                            id="password2"
-                                            data-parsley-required="true"
-                                            data-parsley-minlength="8" placeholder="Confirm Password" />
-
-                                    </div>
+                                </div>
 
 
 
 
-                                    <button
-                                        type="submit" className="btn btn-primary mb-4"
-                                        type="submit">Reset Password</button>
+                                <button
+                                    type="submit" className="btn btn-primary mb-4"
+                                    type="submit">Reset Password</button>
 
-                                </form>
+                            </form>
 
-                                {loading &&
-                                    <Loader type="dots"/>
-                                }
-                            </div>
+                            {loading &&
+                                <Loader type="dots" />
+                            }
                         </div>
-                        {/* End Reset Form*/}
 
                     </div>
+
                 </div>
-            </div>
+
             </>
 
         )

@@ -68,7 +68,7 @@ export default class Header extends Component{
 
                     {/* Site Logo */}
                     <Link className="navbar-brand" to="/dashboard">
-                        <img src="/assets/img/logo2.jpeg" />
+                        <img src="/logo2.png" />
                     </Link>
                     {/* End Site Logo*/}
 

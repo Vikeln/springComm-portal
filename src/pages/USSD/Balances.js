@@ -15,7 +15,7 @@ import Notification from '../../components/notifications/Notifications';
 import Loader from '../../components/loaders/Loader';
 import authService from '../../services/auth.service';
 
-export default class Codes extends Component {
+export default class Balances extends Component {
 
     constructor(props) {
 
@@ -68,7 +68,7 @@ export default class Codes extends Component {
 
     async fetchMyCodes() {
 
-        TenantService.getUSSDCodes(authService.getCurrentClientId()).then(response => {
+        TenantService.getClientServices(authService.getCurrentClientId()).then(response => {
 
             if (response.data.successMessage != "error") {
 
@@ -134,7 +134,7 @@ export default class Codes extends Component {
 
                         <div className="page-title padding pb-0 ">
 
-                            <h2 className="text-md mb-0">My USSD Codes</h2>
+                            <h2 className="text-md mb-0">My Service Balances</h2>
 
                         </div>
 
@@ -143,8 +143,8 @@ export default class Codes extends Component {
 
 
 
-                            <div className="view viewall"> 
-                            
+                            <div className="view viewall">
+
                                 <table
                                     className="table table-theme v-middle table-row"
                                     id="table"
@@ -161,12 +161,13 @@ export default class Codes extends Component {
 
                                     <thead>
                                         <tr>
-                                            <th>ID</th>
-                                            <th>Type</th>
-                                            <th>Code</th>
-                                            <th>Provider</th>
+                                            
+                                            <th>#</th>
+                                            <th>Service Type</th>
+                                            <th>Billing Type</th>
                                             <th>Status</th>
-                                            <th>Callback Url</th>
+                                            <th>Balance</th>
+                                            <th></th>
                                         </tr>
                                     </thead>
 
@@ -182,28 +183,29 @@ export default class Codes extends Component {
                                                     <tr className=" " key={mes.id} >
 
 
+
                                                         <td>
-                                                            <span className="text-muted">{mes.code.id}</span>
+                                                            <span className="text-muted">{index+1}</span>
                                                         </td>
 
                                                         <td>
-                                                            <span className="text-muted">{mes.code.parent != null ? "Shared" :"Sole"}</span>
+                                                            <span className="text-muted">{(mes.code !=null ? (mes.code.parent != null ? "Shared ": "") :"") + mes.service.service + (mes.service.service == "USSD" ? (" Code : " + mes.code.value) : "")}</span>
                                                         </td>
 
                                                         <td>
-                                                            <span className="text-muted">{mes.code.parent != null ? (mes.code.parent.value + "*" + mes.code.value) : mes.code.value}</span>
+                                                            <span className="text-muted">{mes.service.billingType}</span>
                                                         </td>
 
                                                         <td>
-                                                            <span className="text-muted">{mes.code.provider}</span>
+                                                            <span className="text-muted">{mes.service.status}</span>
                                                         </td>
 
                                                         <td>
-                                                            <span className="text-muted">{mes.code.status}</span>
+                                                            <span className="text-muted">{mes.service.runningBalance} units</span>
                                                         </td>
 
                                                         <td>
-                                                            <span className="text-muted">{mes.code.callbackUrl}</span>
+                                                            <Link to={"/dashboard/transactions/" + mes.service.id} className="dropdown-item Link">Transactions</Link>
                                                         </td>
 
                                                     </tr>
@@ -218,7 +220,7 @@ export default class Codes extends Component {
                                 </table>
 
                                 {loading &&
-                                    <Loader type="dots"/>
+                                    <Loader type="dots" />
                                 }
                             </div>
 
