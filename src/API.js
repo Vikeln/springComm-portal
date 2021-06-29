@@ -27,7 +27,6 @@ export const axiosInstance = axios.create({
 export const baseUrl = "http://localhost:8080/";
 export const clientBaseUrl = "http://localhost:8081/";
 // export const baseUrl = "http://10.38.83.54:30560/";
-=======
 //export const baseUrl = "http://localhost:8080/";
 //export const baseUrl = "http://54.82.177.49:8888/";
   
