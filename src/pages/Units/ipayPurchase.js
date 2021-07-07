@@ -19,6 +19,7 @@ import { clientBaseUrl, ipayKeyString } from '../../API';
 import Axios from 'axios';
 
 import CryptoJS from 'crypto-js';
+import crypto from 'crypto';
 
 export default class IpayPurchase extends Component {
 
@@ -181,7 +182,14 @@ export default class IpayPurchase extends Component {
             }
 
             console.log("requestBody => " + requestBody);
-            var hashstring = this.HMAC(ipayKeyString, requestBody);
+
+            var hashstring = crypto.createHmac('sha1', ipayKeyString)
+            .update(requestBody)
+            .digest('hex');
+
+
+
+            // var hashstring = this.HMAC(ipayKeyString, requestBody);
             iPayPurchaseUnitsBody.hsh = hashstring;
             console.log("hashstring => " + iPayPurchaseUnitsBody.hsh);
 
