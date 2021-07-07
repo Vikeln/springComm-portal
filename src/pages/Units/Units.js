@@ -49,13 +49,22 @@ export default class Units extends Component {
         this.fetchMyTransactions = this.fetchMyTransactions.bind(this);
         this.handleSubmission = this.handleSubmission.bind(this);
         this.purchase = this.purchase.bind(this);
+        this.ipayPurchase = this.ipayPurchase.bind(this);
 
     }
     purchase(){
 
+        
+        // window.location.href="/dashboard/ipay-purchase-units/"+this.state.clientService
         window.location.href="/dashboard/purchase-units/"+this.state.clientService
     }
 
+   ipayPurchase(){
+
+        
+        window.location.href="/dashboard/ipay-purchase-units/"+this.state.clientService
+        // window.location.href="/dashboard/purchase-units/"+this.state.clientService
+    }
     componentDidMount() {
 
         $(".view").hide();
@@ -143,9 +152,13 @@ export default class Units extends Component {
 
                             <div className="view viewall">
                             {sources.clientService.service == "SMS" &&
+                            <>
                                     <Button variant="primary" className="pull-right float-right" onClick={() => this.purchase()}>
-                                        Purchase {sources.clientService.service} Units
+                                        Purchase {sources.clientService.service} Units via Mpesa
                                     </Button>
+                                    <Button variant="primary" className="pull-right float-right" onClick={() => this.ipayPurchase()}>
+                                        Purchase {sources.clientService.service} Units via iPay
+                                    </Button></>
                                 }
                                 <br />
                                 <br />

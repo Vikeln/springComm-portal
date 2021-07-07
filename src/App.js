@@ -61,6 +61,7 @@ import LoginRedirect from './pages/404/LoginRedirect';
 // Units
 import Units from './pages/Units/Units';
 import Purchase from './pages/Units/Purchase';
+import IpayPurchase from './pages/Units/IpayPurchase';
 
 // Codes
 import Codes from './pages/USSD/Codes';
@@ -355,6 +356,7 @@ function Dashboard(props) {
           <Route exact path="/dashboard/transactions/:id" component={Units} />
 
           <Route exact path="/dashboard/purchase-units/:id" component={Purchase} />
+          <Route exact path="/dashboard/ipay-purchase-units/:id" component={IpayPurchase} />
 
           <Route exact path="/dashboard/my-codes">
             <Codes />

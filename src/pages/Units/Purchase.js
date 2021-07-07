@@ -35,6 +35,27 @@ export default class Purchase extends Component {
             },
             prepared: false,
             defaultUnitCosts: [],
+            purchaseBody: {
+                "sid": "1DEM3144F153139077763213806DEMO_invalid",
+                "oid": "1",
+                "amount": "10",
+                "account": "failed_to_creat",
+                "payment_channels": [
+                    {
+                        "name": "MPESA",
+                        "paybill": "510800"
+                    },
+                    {
+                        "name": "AIRTEL",
+                        "paybill": "510800"
+                    },
+                    {
+                        "name": "EQUITEL",
+                        "paybill": "510800"
+                    }
+                ],
+                "hash": "d9ffb6ef2291a3e10f515cc642daec50af15df9435a8b34f4a013e49167a25d1"
+            },
             formData: {
                 phone: null,
                 units: null
@@ -46,7 +67,7 @@ export default class Purchase extends Component {
                 "customerTel": undefined,
                 "paymentChannel": undefined,
                 "units": 0,
-                "callback":clientBaseUrl+"payments/callback"
+                "callback": clientBaseUrl + "payments/callback"
             },
             errors: "",
             networkError: false,
@@ -61,6 +82,7 @@ export default class Purchase extends Component {
         this.handleSubmission = this.handleSubmission.bind(this);
         this.handleModalShowHide = this.handleModalShowHide.bind(this);
         this.calculateTotalAmount = this.calculateTotalAmount.bind(this);
+        this.openAdvancedSearch = this.openAdvancedSearch.bind(this);
         this.handleSubmitPaymentTransaction = this.handleSubmitPaymentTransaction.bind(this);
         this.getDefaultUnitCosts = this.getDefaultUnitCosts.bind(this);
 
@@ -73,10 +95,27 @@ export default class Purchase extends Component {
         $(".view:first").show();
         this.fetchMyTransactions();
         this.getDefaultUnitCosts();
+        for (var i = 0; i < 5; i++) {
+            var placement = ".advancedSearchButton" + i;
+            $(placement).click(this.openAdvancedSearch(i));
+        }
 
     }
+    openAdvancedSearch(i) {
 
+        var placement = ".advancedSearch" + i;
+        $(placement).stop().slideToggle();
+
+    }
     componentDidUnMount() {
+
+    }
+    componentDidUpdate() {
+        
+        for (var i = 0; i < 5; i++) {
+            var placement = ".advancedSearchButton" + i;
+            $(placement).click(this.openAdvancedSearch(i));
+        }
 
     }
 
@@ -122,11 +161,12 @@ export default class Purchase extends Component {
             TenantService.prepareBillingTransaction(authService.getCurrentClientId(), iPayPurchaseUnitsBody).then(response => {
 
                 if (response.data.status != "error") {
-console.log(response.data.data)
+                    console.log(response.data.data)
 
-                    // this.setState({
-                    //     defaultUnitCosts: response.data.data != null ? response.data.data : [],
-                    // });
+                    this.setState({
+                        purchaseBody: response.data.data != null ? response.data.data.data : {},
+                        prepared: true
+                    });
 
                 } else {
                     confirmAlert({
@@ -155,10 +195,10 @@ console.log(response.data.data)
 
 
         }
-            if(iPayPurchaseUnitsBody.paymentChannel != "MPESA"){
+        if (iPayPurchaseUnitsBody.paymentChannel != "MPESA") {
 
-            }
-          
+        }
+
     }
 
     getDefaultUnitCosts() {
@@ -394,8 +434,47 @@ console.log(response.data.data)
                                         }
 
                                         {this.state.prepared &&
-                                            <p>Please use the following information for your payment</p>
+                                            <>
+                                                <p>Please use the following information for your payment</p>
 
+                                                {this.state.purchaseBody.payment_channels != "" &&
+                                                    this.state.purchaseBody.payment_channels.map((channel, index) => (
+                                                        <>
+                                                            <div className="row advancedSearchOptions ">
+                                                                <div className="col-6 searchToggle">
+
+                                                                    <button className={"advancedSearchButton" + index + " btn-rounded"}>
+
+                                                                        <span className="">
+                                                                            <i className="i-con i-con-minus">
+                                                                                <i></i>
+                                                                            </i>
+                                                                        </span>
+
+                                                                        {channel.name}
+
+                                                                    </button>
+
+                                                                </div>
+
+
+
+                                                            </div>
+
+                                                            <div className={"advancedSearch" + index + " padding pb-0 pt-4"} style={{ display: 'none' }}>
+
+                                                                <div className="col-lg-12 pb-2 pl-0 pr-0">
+
+                                                                    <p>Paybill Number: {channel.paybill}</p>
+                                                                    <p>Account Number: {this.state.purchaseBody.account}</p>
+                                                                    <p>Total Amount : {this.state.purchaseBody.amount}</p>
+                                                                </div>
+                                                            </div>
+
+                                                        </>
+                                                    ))
+                                                }
+                                            </>
                                         }
                                     </div>
                                 </div>
