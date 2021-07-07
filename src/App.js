@@ -356,6 +356,7 @@ function Dashboard(props) {
           <Route exact path="/dashboard/transactions/:id" component={Units} />
 
           <Route exact path="/dashboard/purchase-units/:id" component={Purchase} />
+          
           <Route exact path="/dashboard/ipay-purchase-units/:id" component={IpayPurchase} />
 
           <Route exact path="/dashboard/my-codes">

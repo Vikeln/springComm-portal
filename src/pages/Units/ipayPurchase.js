@@ -212,7 +212,7 @@ export default class IpayPurchase extends Component {
                         if (response1.data.status != "error") {
                             console.log(response.data.data)
 
-                            //open the new window and write your HTML to it
+                            //open the new window and  write your HTML to it
                             var myWindow = window.open("", "response", "resizable=yes");
                             myWindow.document.write(response.data);
 
