@@ -84,8 +84,8 @@ class TenantService {
     }
 
     // purchase Units
-    purchaseUnits(formData) {
-        return axiosInstance.post(clientBaseUrl + "tenants/purchase-units", formData);
+    prepareBillingTransaction(client,formData) {
+        return axiosInstance.post(clientBaseUrl + "payments/prepareBillingTransaction/" +client, formData);
     }
 
 }

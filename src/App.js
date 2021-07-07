@@ -60,6 +60,7 @@ import LoginRedirect from './pages/404/LoginRedirect';
 
 // Units
 import Units from './pages/Units/Units';
+import Purchase from './pages/Units/Purchase';
 
 // Codes
 import Codes from './pages/USSD/Codes';
@@ -352,6 +353,8 @@ function Dashboard(props) {
           </Route>
 
           <Route exact path="/dashboard/transactions/:id" component={Units} />
+
+          <Route exact path="/dashboard/purchase-units/:id" component={Purchase} />
 
           <Route exact path="/dashboard/my-codes">
             <Codes />
