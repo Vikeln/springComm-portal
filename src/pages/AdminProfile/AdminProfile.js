@@ -403,11 +403,11 @@ export default class AdminProfile extends Component {
 
                 <div id="content" className="flex ">
 
-                    <div className="page-container adminProfile" id="page-container">
+                    <div className="page-container" id="page-container">
 
                         <div className="row">
                             {/* Admin Details */}
-                            <div className="adminDetails">
+                            {/* <div className="adminDetails">
 
                                 <div className="userInfo">
 
@@ -439,24 +439,24 @@ export default class AdminProfile extends Component {
                                         0712121212
                                     </p>
 
-                                    {/*
+                                   
                                     <button className="btn-primary">Update Profile</button>
 
-                                    */}
+                                  
 
                                 </div>
                             </div>
                             {/* End Admin Details*/}
 
                             {/* Admin Summary */}
-                            <div className="col-10 adminSummary">
+                            <div className="col-12 adminSummary">
 
                                 {/* Tabs Header */}
                                 <div className="card">
 
-                                    <div className="card-header bg-dark bg-img p-0 no-border" data-stellar-background-ratio="0.1" data-plugin="stellar">
+                                    <div className="card-header" data-plugin="stellar">
 
-                                        <div className="bg-dark-overlay r-2x no-r-b">
+                                        <div className=" r-2x no-r-b">
 
                                             <div className="d-md-flex">
 
@@ -464,16 +464,17 @@ export default class AdminProfile extends Component {
 
                                                     <div className="d-flex">
 
-                                                        <a href="#">
+                                                   
+                                                        {/* <a href="#">
                                                             <span className="avatar w-64">
-                                                                <img src="../assets/img/a1.jpg" alt="." />
+                                                                <img src="../logo4.jpeg" alt="." />
                                                                 <i className="on"></i>
                                                             </span>
-                                                        </a>
+                                                        </a> */}
 
                                                         <div className="mx-3">
 
-                                                            <h4 className="mt-2">{authService.getCurrentClientName() != undefined ? authService.getCurrentClientName() : "TRENDYMEDIA"}</h4>
+                                                            <h4 className="mt-2">{(authService.getCurrentClientName() != undefined ? authService.getCurrentClientName() : "TRENDYMEDIA") + " Dashboard"}</h4>
                                                             {/* <div className=""><small><i className="fa fa-map-marker mr-2"></i>Capital West Building, Westlands, Nairobi</small></div> */}
                                                         </div>
                                                     </div>

@@ -348,7 +348,7 @@ export default class AdminProfile extends Component {
             this.setState({
                 loading: false,
             });
-        }, 5000);
+        }, 10000);
 
     }
 
@@ -405,7 +405,7 @@ export default class AdminProfile extends Component {
                     <div className="page-container adminProfile" id="page-container">
 
                         <div className="row">
-                            {/* Admin Details */}
+                            {/* Admin Details 
                             <div className="adminDetails">
 
                                 <div className="userInfo">
@@ -441,34 +441,26 @@ export default class AdminProfile extends Component {
                                     {/*
                                     <button className="btn-primary">Update Profile</button>
 
-                                    */}
 
                                 </div>
                             </div>
-                            {/* End Admin Details*/}
+                            {/* End Admin Details */}
 
                             {/* Admin Summary */}
-                            <div className="col-10 adminSummary">
+                            <div className="col-12 adminSummary">
 
                                 {/* Tabs Header */}
                                 <div className="card">
 
-                                    <div className="card-header bg-dark bg-img p-0 no-border" data-stellar-background-ratio="0.1" data-plugin="stellar">
+                                    <div className="card-header" data-plugin="stellar">
 
-                                        <div className="bg-dark-overlay r-2x no-r-b">
+                                        <div className="r-2x no-r-b">
 
                                             <div className="d-md-flex">
 
                                                 <div className="p-4">
 
                                                     <div className="d-flex">
-
-                                                        <a href="#">
-                                                            <span className="avatar w-64">
-                                                                <img src="../assets/img/a1.jpg" alt="." />
-                                                                <i className="on"></i>
-                                                            </span>
-                                                        </a>
 
                                                         <div className="mx-3">
 
