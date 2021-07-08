@@ -129,18 +129,7 @@ export default class App extends Component {
 
 
       setTimeout(function () {
-        confirmAlert({
-          title: "Session Timed Out",
-          message: 'Your session has timed out and you will be logged out now.',
-          closeOnEscape: false,
-          closeOnClickOutside: false,
-          buttons: [
-            {
-              label: 'Ok',
-              onClick: () => window.location.href = '/logout'
-            }
-          ]
-        });
+        window.location.href = '/logout'
 
       }, AuthService.getUserLoggedInAt() - Math.floor(Date.now()));
 
@@ -353,7 +342,7 @@ function Dashboard(props) {
             <ManageSenders />
           </Route>
 
-          <Route exact path="/dashboard/transactions/:id" component={Units} />
+          <Route exact path="/dashboard/transactions/:id" component={IpayPurchase} />
 
           <Route exact path="/dashboard/purchase-units/:id" component={Purchase} />
           

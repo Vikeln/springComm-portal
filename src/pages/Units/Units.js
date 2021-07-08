@@ -153,9 +153,9 @@ export default class Units extends Component {
                             <div className="view viewall">
                             {sources.clientService.service == "SMS" &&
                             <>
-                                    <Button variant="primary" className="pull-right float-right" onClick={() => this.purchase()}>
+                                    {/* <Button variant="primary" className="pull-right float-right" onClick={() => this.purchase()}>
                                         Purchase {sources.clientService.service} Units via Mpesa
-                                    </Button>
+                                    </Button> */}
                                     <Button variant="primary" className="pull-right float-right" onClick={() => this.ipayPurchase()}>
                                         Purchase {sources.clientService.service} Units via iPay
                                     </Button></>

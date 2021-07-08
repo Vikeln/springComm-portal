@@ -90,6 +90,9 @@ class TenantService {
     prepareWebTransaction(clientService,units,amount,invoiceId) {
         return axiosInstance.post(clientBaseUrl + "payments/prepareWebTransaction/" +clientService+"?units="+units+"&invoiceNo="+invoiceId+"amount="+amount);
     }
+    prepareInvoice(clientService,units,formData) {
+        return axiosInstance.post(clientBaseUrl + "payments/prepareInvoice/" +clientService+"?units="+units,formData);
+    }
 
 }
 

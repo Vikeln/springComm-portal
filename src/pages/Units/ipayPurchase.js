@@ -15,10 +15,8 @@ import Notification from '../../components/notifications/Notifications';
 
 import Loader from '../../components/loaders/Loader';
 import utils from '../../utils/utils';
-import { clientBaseUrl, ipayKeyString } from '../../API';
-import Axios from 'axios';
+import { clientBaseUrl } from '../../API';
 
-import CryptoJS from 'crypto-js';
 import crypto from 'crypto';
 
 export default class IpayPurchase extends Component {
@@ -37,6 +35,7 @@ export default class IpayPurchase extends Component {
                 clientService: {}
             },
             showHide: false,
+            sendEmails:"no",
             defaultUnitCosts: [],
             formData: {
                 phone: null,
@@ -57,7 +56,7 @@ export default class IpayPurchase extends Component {
                 tel: "256712375678", // customer phone number
                 eml: "kajuej@gmailo.com", // customer email
                 vid: "demo", // value is always "demo" or some vender id assigned by ipay
-                curr: "KES", // currency "KES"
+                curr: "kes", // currency "KES"
                 p1: "", // optional fields with custom entries that will be passed back in callback
                 p2: "", //
                 p3: "", //
@@ -77,14 +76,13 @@ export default class IpayPurchase extends Component {
         }
 
         this.handleChange = this.handleChange.bind(this);
+        this.handleChanges = this.handleChanges.bind(this);
         this.fetchMyTransactions = this.fetchMyTransactions.bind(this);
         this.handleSubmission = this.handleSubmission.bind(this);
         this.handleModalShowHide = this.handleModalShowHide.bind(this);
         this.getiPayCorrelator = this.getiPayCorrelator.bind(this);
         this.calculateTotalAmount = this.calculateTotalAmount.bind(this);
-        this.HMAC = this.HMAC.bind(this);
         this.handleSubmitPaymentTransaction = this.handleSubmitPaymentTransaction.bind(this);
-        this.handlePrepareTransaction = this.handlePrepareTransaction.bind(this);
         this.getDefaultUnitCosts = this.getDefaultUnitCosts.bind(this);
 
     }
@@ -103,7 +101,7 @@ export default class IpayPurchase extends Component {
 
     }
     getiPayCorrelator() {
-        return 'TR' + Date.now();
+        return "TR" + Date.now();
     }
 
 
@@ -125,6 +123,19 @@ export default class IpayPurchase extends Component {
 
     }
 
+    handleChanges(el) {
+
+        let inputName = el.target.name;
+        let inputValue = el.target.value;
+        let stateCopy = Object.assign({}, this.state);
+
+        this.setState({
+            sendEmails:inputValue
+        })
+
+
+    }
+
     calculateTotalAmount(units) {
         var costs = this.state.sources.unitCosts.length > 0 ? this.state.sources.unitCosts
             :
@@ -135,8 +146,10 @@ export default class IpayPurchase extends Component {
                 total = units * costs[i].value;
         let stateCopy = Object.assign({}, this.state);
 
-        stateCopy.iPayPurchaseUnitsBody.ttl = total;
-        stateCopy.prepareTransactionBody.amount = total;
+        stateCopy.iPayPurchaseUnitsBody.ttl = "'"+Math.round(total)+"'";
+        stateCopy.prepareTransactionBody.amount = Math.round(total);
+        stateCopy.iPayPurchaseUnitsBody.ttl = stateCopy.iPayPurchaseUnitsBody.ttl.replace("'","");
+        stateCopy.iPayPurchaseUnitsBody.ttl = stateCopy.iPayPurchaseUnitsBody.ttl.replace("'","");
 
         this.setState(stateCopy);
     }
@@ -148,86 +161,51 @@ export default class IpayPurchase extends Component {
         const { iPayPurchaseUnitsBody, paymentOrderId } = this.state;
         if ($(".selectProductForm").parsley().isValid()) {
 
-            iPayPurchaseUnitsBody.oid = paymentOrderId;
-            iPayPurchaseUnitsBody.inv = paymentOrderId;
-            let hash = "";
-            var params = [
-                ["live", iPayPurchaseUnitsBody.live]
-                , ["oid", iPayPurchaseUnitsBody.oid],
-                ["inv", iPayPurchaseUnitsBody.inv],
-                ["ttl", iPayPurchaseUnitsBody.ttl],
-                ["tel", iPayPurchaseUnitsBody.tel],
-                ["eml", iPayPurchaseUnitsBody.eml],
-                ["vid", iPayPurchaseUnitsBody.vid],
-                ["curr", iPayPurchaseUnitsBody.curr],
-                ["p1", iPayPurchaseUnitsBody.p1],
-                ["p2", iPayPurchaseUnitsBody.p2],
-                ["p3", iPayPurchaseUnitsBody.p3],
-                ["p4", iPayPurchaseUnitsBody.p4],
-                ["cst", iPayPurchaseUnitsBody.cst],
-                ["crl", iPayPurchaseUnitsBody.crl],
-                ["cbk", iPayPurchaseUnitsBody.cbk],
-
-            ];
-
-            // Build the request body string from the Postman request.data object
-            var requestBody = "";
-            var firstpass = true;
-            for (var i = 0; i < params.length; i++) {
-                if (!firstpass) {
-                    requestBody += "&";
-                }
-                requestBody += params[i][0] + "=" + params[i][1];
-                firstpass = false;
-            }
+            iPayPurchaseUnitsBody.oid = paymentOrderId.substring(0,paymentOrderId.length-3);
+            iPayPurchaseUnitsBody.inv = paymentOrderId.substring(0,paymentOrderId.length-3);
+            // let hash = "";
+           
+            // Build the request body string from the 
+            // var requestBody = iPayPurchaseUnitsBody.live+iPayPurchaseUnitsBody.oid+iPayPurchaseUnitsBody.inv+iPayPurchaseUnitsBody.ttl+iPayPurchaseUnitsBody.tel+iPayPurchaseUnitsBody.eml+iPayPurchaseUnitsBody.vid+iPayPurchaseUnitsBody.curr+iPayPurchaseUnitsBody.p1+iPayPurchaseUnitsBody.p2+iPayPurchaseUnitsBody.p3+iPayPurchaseUnitsBody.p4+iPayPurchaseUnitsBody.cbk+iPayPurchaseUnitsBody.cst+iPayPurchaseUnitsBody.crl;
+            var requestBody = iPayPurchaseUnitsBody.live+
+            iPayPurchaseUnitsBody.oid+
+            iPayPurchaseUnitsBody.inv+
+            iPayPurchaseUnitsBody.ttl+
+            iPayPurchaseUnitsBody.tel+
+            iPayPurchaseUnitsBody.eml+
+            iPayPurchaseUnitsBody.vid+
+            iPayPurchaseUnitsBody.curr+
+            iPayPurchaseUnitsBody.p1+
+            iPayPurchaseUnitsBody.p2+
+            iPayPurchaseUnitsBody.p3+
+            iPayPurchaseUnitsBody.p4+
+            iPayPurchaseUnitsBody.cbk+
+            iPayPurchaseUnitsBody.cst+
+            iPayPurchaseUnitsBody.crl ;
 
             console.log("requestBody => " + requestBody);
 
-            var hashstring = crypto.createHmac('sha1', ipayKeyString)
-            .update(requestBody)
-            .digest('hex');
+            var hashstring = crypto.createHmac('sha1', "demoCHANGED").update(requestBody).digest('hex');
 
-
-
-            // var hashstring = this.HMAC(ipayKeyString, requestBody);
-            iPayPurchaseUnitsBody.hsh = hashstring;
+            iPayPurchaseUnitsBody.hsh = hashstring; 
             console.log("hashstring => " + iPayPurchaseUnitsBody.hsh);
 
-            console.log("iPayPurchaseUnitsBody => " + JSON.stringify(iPayPurchaseUnitsBody));
+         
 
-            var bodyFormData = new FormData();
+            console.log("submitting data to client => " + JSON.stringify(iPayPurchaseUnitsBody));
 
-            Object.keys(iPayPurchaseUnitsBody).map((key, index) => (bodyFormData.append(key, iPayPurchaseUnitsBody[key])))
+                    TenantService.prepareInvoice(this.state.clientService, this.state.prepareTransactionBody.units, iPayPurchaseUnitsBody).then(response => {
 
-
-            console.log("submitting data to iPay => " + JSON.stringify(bodyFormData));
-
-            Axios({
-                method: "post",
-                url: "https://payments.ipayafrica.com/v3/ke",
-                data: bodyFormData,
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                    // "Access-Control-Allow-Origin": '*'
-                },
-            })
-                .then(function (response) {
-                    //handle success
-                    console.log(JSON.stringify(response.data));
-
-                    TenantService.prepareWebTransaction(this.state.clientService, this.state.prepareTransactionBody.units, iPayPurchaseUnitsBody.ttl, iPayPurchaseUnitsBody.inv).then(response1 => {
-
-                        if (response1.data.status != "error") {
-                            console.log(response.data.data)
-
+                        if (response.data.status != "error") {
                             //open the new window and  write your HTML to it
-                            var myWindow = window.open("", "response", "resizable=yes");
-                            myWindow.document.write(response.data);
+                            this.handleModalShowHide();
+                            var myWindow = window.open(response.data, 'location=yes,height=570,width=520,scrollbars=yes,status=yes',"response", "resizable=yes");
+                            
 
                         } else {
                             confirmAlert({
                                 title: 'Error',
-                                message: response1.data.message,
+                                message: response.data.message,
                                 buttons: [
                                     {
                                         label: 'ok',
@@ -248,46 +226,9 @@ export default class IpayPurchase extends Component {
                             ]
                         });
                     });
-
-                })
-                .catch(function (response) {
-                    //handle error
-                    console.log(JSON.stringify(response));
-                });
-
-            // Axios.post("https://payments.ipayafrica.com/v3/ke", iPayPurchaseUnitsBody,
-            // {
-            // headers: {
-            // "Access-Control-Allow-Origin": '*',
-            // "Accept": "*/*",
-            // "Host": "https://payments.ipayafrica.com",
-            // "Origin": "http://localhost:3000",
-            // 'Content-Type': `multipart/form-data; boundary=${form._boundary}`,
-            // }
-            // }).then(response => {
-            // console.log(JSON.stringify(response.data));
-
-            //open the new window and write your HTML to it
-            // var myWindow = window.open("", "response", "resizable=yes");
-            // myWindow.document.write(this.state.response.data);
-            // myWindow.document.write(this.state.responseBody);
-            // }).catch(error => {
-            // console.log(JSON.stringify(error));
-
-            // });
         }
     }
 
-    HMAC(key, message) {
-        return CryptoJS.SHA1(message);
-    }
-
-    handlePrepareTransaction() {
-        const { prepareTransactionBody, paymentOrderId } = this.state;
-        prepareTransactionBody.ipayCorrelator = paymentOrderId;
-        prepareTransactionBody.clientService = this.state.sources.clientService.id;
-
-    }
 
     getDefaultUnitCosts() {
 
@@ -485,7 +426,7 @@ export default class IpayPurchase extends Component {
 
                                                 <label>Receive Email Invoice</label>
                                                 <select name="sendEmails" className="form-control"
-                                                    onChange={this.handleChange}>
+                                                    onChange={this.handleChanges}>
                                                     <option></option>
                                                     <option value="yes">Yes</option>
                                                     <option value="no">No</option>
@@ -493,7 +434,7 @@ export default class IpayPurchase extends Component {
                                                 </select>
 
                                             </div>
-                                            {this.state.iPayPurchaseUnitsBody.sendEmails === "yes" &&
+                                            {this.state.sendEmails === "yes" &&
                                                 <div
                                                     className="col-6">
 
