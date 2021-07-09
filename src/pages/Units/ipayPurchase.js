@@ -3,10 +3,13 @@
 
 import React, { Component } from 'react';
 
+import Iframe from 'react-iframe';
+
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import TenantService from '../../services/tenant.service';
 import { Button, Modal } from 'react-bootstrap'
+
 import {
     Link
 } from "react-router-dom";
@@ -35,7 +38,9 @@ export default class IpayPurchase extends Component {
                 clientService: {}
             },
             showHide: false,
-            sendEmails:"no",
+            showHidePayment: false,
+            sendEmails: "no",
+            redirectUrl: undefined,
             defaultUnitCosts: [],
             formData: {
                 phone: null,
@@ -84,6 +89,7 @@ export default class IpayPurchase extends Component {
         this.calculateTotalAmount = this.calculateTotalAmount.bind(this);
         this.handleSubmitPaymentTransaction = this.handleSubmitPaymentTransaction.bind(this);
         this.getDefaultUnitCosts = this.getDefaultUnitCosts.bind(this);
+        this.handleModalShowHidePayment = this.handleModalShowHidePayment.bind(this);
 
     }
 
@@ -130,7 +136,7 @@ export default class IpayPurchase extends Component {
         let stateCopy = Object.assign({}, this.state);
 
         this.setState({
-            sendEmails:inputValue
+            sendEmails: inputValue
         })
 
 
@@ -146,10 +152,10 @@ export default class IpayPurchase extends Component {
                 total = units * costs[i].value;
         let stateCopy = Object.assign({}, this.state);
 
-        stateCopy.iPayPurchaseUnitsBody.ttl = "'"+Math.round(total)+"'";
+        stateCopy.iPayPurchaseUnitsBody.ttl = "'" + Math.round(total) + "'";
         stateCopy.prepareTransactionBody.amount = Math.round(total);
-        stateCopy.iPayPurchaseUnitsBody.ttl = stateCopy.iPayPurchaseUnitsBody.ttl.replace("'","");
-        stateCopy.iPayPurchaseUnitsBody.ttl = stateCopy.iPayPurchaseUnitsBody.ttl.replace("'","");
+        stateCopy.iPayPurchaseUnitsBody.ttl = stateCopy.iPayPurchaseUnitsBody.ttl.replace("'", "");
+        stateCopy.iPayPurchaseUnitsBody.ttl = stateCopy.iPayPurchaseUnitsBody.ttl.replace("'", "");
 
         this.setState(stateCopy);
     }
@@ -161,71 +167,81 @@ export default class IpayPurchase extends Component {
         const { iPayPurchaseUnitsBody, paymentOrderId } = this.state;
         if ($(".selectProductForm").parsley().isValid()) {
 
-            iPayPurchaseUnitsBody.oid = paymentOrderId.substring(0,paymentOrderId.length-3);
-            iPayPurchaseUnitsBody.inv = paymentOrderId.substring(0,paymentOrderId.length-3);
+            iPayPurchaseUnitsBody.oid = paymentOrderId.substring(0, paymentOrderId.length - 3);
+            iPayPurchaseUnitsBody.inv = paymentOrderId.substring(0, paymentOrderId.length - 3);
             // let hash = "";
-           
+
             // Build the request body string from the 
             // var requestBody = iPayPurchaseUnitsBody.live+iPayPurchaseUnitsBody.oid+iPayPurchaseUnitsBody.inv+iPayPurchaseUnitsBody.ttl+iPayPurchaseUnitsBody.tel+iPayPurchaseUnitsBody.eml+iPayPurchaseUnitsBody.vid+iPayPurchaseUnitsBody.curr+iPayPurchaseUnitsBody.p1+iPayPurchaseUnitsBody.p2+iPayPurchaseUnitsBody.p3+iPayPurchaseUnitsBody.p4+iPayPurchaseUnitsBody.cbk+iPayPurchaseUnitsBody.cst+iPayPurchaseUnitsBody.crl;
-            var requestBody = iPayPurchaseUnitsBody.live+
-            iPayPurchaseUnitsBody.oid+
-            iPayPurchaseUnitsBody.inv+
-            iPayPurchaseUnitsBody.ttl+
-            iPayPurchaseUnitsBody.tel+
-            iPayPurchaseUnitsBody.eml+
-            iPayPurchaseUnitsBody.vid+
-            iPayPurchaseUnitsBody.curr+
-            iPayPurchaseUnitsBody.p1+
-            iPayPurchaseUnitsBody.p2+
-            iPayPurchaseUnitsBody.p3+
-            iPayPurchaseUnitsBody.p4+
-            iPayPurchaseUnitsBody.cbk+
-            iPayPurchaseUnitsBody.cst+
-            iPayPurchaseUnitsBody.crl ;
+            var requestBody = iPayPurchaseUnitsBody.live +
+                iPayPurchaseUnitsBody.oid +
+                iPayPurchaseUnitsBody.inv +
+                iPayPurchaseUnitsBody.ttl +
+                iPayPurchaseUnitsBody.tel +
+                iPayPurchaseUnitsBody.eml +
+                iPayPurchaseUnitsBody.vid +
+                iPayPurchaseUnitsBody.curr +
+                iPayPurchaseUnitsBody.p1 +
+                iPayPurchaseUnitsBody.p2 +
+                iPayPurchaseUnitsBody.p3 +
+                iPayPurchaseUnitsBody.p4 +
+                iPayPurchaseUnitsBody.cbk +
+                iPayPurchaseUnitsBody.cst +
+                iPayPurchaseUnitsBody.crl;
 
             console.log("requestBody => " + requestBody);
 
             var hashstring = crypto.createHmac('sha1', "demoCHANGED").update(requestBody).digest('hex');
 
-            iPayPurchaseUnitsBody.hsh = hashstring; 
+            iPayPurchaseUnitsBody.hsh = hashstring;
             console.log("hashstring => " + iPayPurchaseUnitsBody.hsh);
 
-         
+
 
             console.log("submitting data to client => " + JSON.stringify(iPayPurchaseUnitsBody));
 
-                    TenantService.prepareInvoice(this.state.clientService, this.state.prepareTransactionBody.units, iPayPurchaseUnitsBody).then(response => {
+            TenantService.prepareInvoice(this.state.clientService, this.state.prepareTransactionBody.units, iPayPurchaseUnitsBody).then(response => {
 
-                        if (response.data.status != "error") {
-                            //open the new window and  write your HTML to it
-                            this.handleModalShowHide();
-                            var myWindow = window.open(response.data, 'location=yes,height=570,width=520,scrollbars=yes,status=yes',"response", "resizable=yes");
-                            
-
-                        } else {
-                            confirmAlert({
-                                title: 'Error',
-                                message: response.data.message,
-                                buttons: [
-                                    {
-                                        label: 'ok',
-                                    }
-                                ]
-                            });
-                        }
+                if (response.data.status != "error") {
+                    //open the new window and  write your HTML to it
+                    // this.handleModalShowHide();
+                    this.setState({
+                        redirectUrl: response.data
+                    })
 
 
-                    }).catch(error => {
-                        confirmAlert({
-                            title: 'Error occurred',
-                            message: error.message,
-                            buttons: [
-                                {
-                                    label: 'ok',
-                                }
-                            ]
-                        });
+                    localStorage.setItem("redirectUrl", response.data);
+
+                    // this.handleModalShowHidePayment();
+
+                    // window.location.href = "/dashboard/checkout/"+this.state.clientService
+
+                    // var myWindow = window.open(response.data, 'location=yes,height=570,width=520,scrollbars=yes,status=yes',"response", "resizable=yes");
+
+                } else {
+                    confirmAlert({
+                        title: 'Error',
+                        message: response.data.message,
+                        buttons: [
+                            {
+                                label: 'ok',
+                            }
+                        ]
                     });
+                }
+
+
+            }).catch(error => {
+                confirmAlert({
+                    title: 'Error occurred',
+                    message: error.message,
+                    buttons: [
+                        {
+                            label: 'ok',
+                        }
+                    ]
+                });
+            });
         }
     }
 
@@ -240,7 +256,8 @@ export default class IpayPurchase extends Component {
                 this.setState({
                     defaultUnitCosts: response.data.data != null ? response.data.data : [],
                 });
-                $(".table").bootstrapTable();
+
+                // $(".table").bootstrapTable();
 
             } else {
                 confirmAlert({
@@ -277,6 +294,10 @@ export default class IpayPurchase extends Component {
             });
         }
         this.setState({ showHide: !this.state.showHide })
+    }
+
+    handleModalShowHidePayment() {
+        this.setState({ paying: !this.state.paying })
     }
 
     async fetchMyTransactions() {
@@ -373,7 +394,7 @@ export default class IpayPurchase extends Component {
                                     <Modal.Body>
                                         <form className="selectProductForm" data-plugin="parsley" onSubmit={this.handleSubmitPaymentTransaction} >
                                             <div
-                                                className="col-6">
+                                                className="col-12">
 
                                                 <label>Phone (254..)</label>
 
@@ -390,7 +411,7 @@ export default class IpayPurchase extends Component {
 
                                             </div>
                                             <div
-                                                className="col-6">
+                                                className="col-12">
 
                                                 <label>Units</label>
 
@@ -406,7 +427,7 @@ export default class IpayPurchase extends Component {
 
                                             </div>
                                             <div
-                                                className="col-6">
+                                                className="col-12">
 
                                                 <label>Total Amount</label>
 
@@ -422,7 +443,7 @@ export default class IpayPurchase extends Component {
 
                                             </div>
                                             <div
-                                                className="col-6">
+                                                className="col-12">
 
                                                 <label>Receive Email Invoice</label>
                                                 <select name="sendEmails" className="form-control"
@@ -436,7 +457,7 @@ export default class IpayPurchase extends Component {
                                             </div>
                                             {this.state.sendEmails === "yes" &&
                                                 <div
-                                                    className="col-6">
+                                                    className="col-12">
 
                                                     <label>Email</label>
 
@@ -450,7 +471,13 @@ export default class IpayPurchase extends Component {
                                                         id="eml" />
 
                                                 </div>}
-                                            <button className="btn-primary" type="submit">Purchase</button>
+                                            {this.state.redirectUrl == undefined ?
+                                                <button className="btn-primary" type="submit">Purchase</button> :
+                                                <a href={this.state.redirectUrl} target='_blank'>
+                                                    <button className="btn-primary" type="button">Checkout</button>
+                                                </a>
+
+                                            }
                                         </form>
                                     </Modal.Body>
                                     <Modal.Footer>
@@ -460,7 +487,6 @@ export default class IpayPurchase extends Component {
 
                                     </Modal.Footer>
                                 </Modal>
-
 
                                 <table
                                     className="table table-theme v-middle table-row"
@@ -482,6 +508,7 @@ export default class IpayPurchase extends Component {
                                             <th>Amount</th>
                                             <th>Date Purchased</th>
                                             <th>Status</th>
+                                            <th></th>
                                         </tr>
                                     </thead>
 
@@ -515,6 +542,16 @@ export default class IpayPurchase extends Component {
 
                                                         <td>
                                                             <span className="text-muted">{mes.status}</span>
+                                                        </td>
+
+                                                        <td>
+                                                            {(mes.ipayCorrelator != undefined && mes.status === "NEW" && mes.ipayCorrelator.startsWith("http")) &&
+                                                                <a href={mes.ipayCorrelator} target='_blank'>
+                                                                    <button className="btn-primary" type="button">Complete Payment</button>
+                                                                    
+                                                                </a>
+
+                                                            }
                                                         </td>
 
                                                     </tr>

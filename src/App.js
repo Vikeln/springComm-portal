@@ -62,6 +62,7 @@ import LoginRedirect from './pages/404/LoginRedirect';
 import Units from './pages/Units/Units';
 import Purchase from './pages/Units/Purchase';
 import IpayPurchase from './pages/Units/IpayPurchase';
+import Checkout from './pages/Units/Checkout';
 
 // Codes
 import Codes from './pages/USSD/Codes';
@@ -343,6 +344,8 @@ function Dashboard(props) {
           </Route>
 
           <Route exact path="/dashboard/transactions/:id" component={IpayPurchase} />
+
+          <Route exact path="/dashboard/checkout/:id" component={Checkout} />
 
           <Route exact path="/dashboard/purchase-units/:id" component={Purchase} />
           
