@@ -20,6 +20,13 @@ class TenantService {
     viewTenant(key) {
         return axiosInstance.get(clientBaseUrl + "clients/view/"+key);
     }
+        
+    getAllDocumentTypes() {
+        return axiosInstance.get(clientBaseUrl + "documents/types/all");
+    }
+    addDocumentTypes(formData) {
+        return axiosInstance.post(clientBaseUrl + "documents/types/new",formData);
+    }
 
     getClientDocuments(client){
         return axiosInstance.get(clientBaseUrl + "documents?client="+client);

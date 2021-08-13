@@ -33,6 +33,7 @@ import AddClient from './pages/Admin/AddClient';
 import ViewCodes from './pages/Admin/Codes';
 import NewCodes from './pages/Admin/NewCode';
 import Pricing from './pages/Admin/Pricing';
+import DocumentTypes from './pages/Admin/DocumentTypes';
 import AdminAdminProfile from './pages/Admin/AdminProfile';
 import Countries from './pages/Admin/Countries';
 
@@ -247,6 +248,10 @@ function AdminDashboard() {
 
           <Route exact path="/dashboard/admin/countries">
             <Countries />
+          </Route>
+
+          <Route exact path="/dashboard/admin/documentTypes">
+            <DocumentTypes />
           </Route>
 
           <Route exact path="/dashboard/sendmessages">

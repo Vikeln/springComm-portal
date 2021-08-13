@@ -29,6 +29,7 @@ export default class Documents extends Component {
             sources: [],
             createSender: authService.checkIfRoleExists("CAN_CREATE_SENDER_ID"),
             products: [],
+            docTypes: [],
             formData: {
                 client: parseInt(authService.getCurrentClientId()),
                 document: undefined
@@ -46,6 +47,7 @@ export default class Documents extends Component {
         this.fetchDocuments = this.fetchDocuments.bind(this);
         this.handleSubmission = this.handleSubmission.bind(this);
         this.toggleView = this.toggleView.bind(this);
+        this.fetchMyTransactions = this.fetchMyTransactions.bind(this);
 
 
     }
@@ -55,6 +57,7 @@ export default class Documents extends Component {
         $(".view").hide();
         $(".view:first").show();
         this.fetchDocuments();
+        this.fetchMyTransactions();
         $(".createSource").parsley();
 
     }
@@ -144,6 +147,44 @@ export default class Documents extends Component {
 
     }
 
+    fetchMyTransactions() {
+        tenantService.getAllDocumentTypes().then(response => {
+
+            if (response.data.status != "error") {
+
+
+                this.setState({
+                    docTypes: response.data.data != null ? response.data.data : [],
+                });
+
+
+            } else {
+                confirmAlert({
+                    title: 'Error fetching your transactions',
+                    message: response.data.message,
+                    buttons: [
+                        {
+                            label: 'ok',
+                        }
+                    ]
+                });
+            }
+
+
+        }).catch(error => {
+            confirmAlert({
+                title: 'Error occurred',
+                message: error.message,
+                buttons: [
+                    {
+                        label: 'ok',
+                    }
+                ]
+            });
+        });
+
+    }
+
     handleSubmission(event) {
 
         const { formData } = this.state;
@@ -222,7 +263,7 @@ export default class Documents extends Component {
 
     render() {
 
-        const { sources, createSender, successfulSubmission, networkError, submissionMessage, products, loading } = this.state;
+        const { sources, docTypes, createSender, successfulSubmission, networkError, submissionMessage, products, loading } = this.state;
 
         return (
 
@@ -325,7 +366,7 @@ export default class Documents extends Component {
                                 </table>
 
                                 {loading &&
-                                    <Loader type="dots"/>
+                                    <Loader type="dots" />
                                 }
                             </div>
                             <div className=" view createForm">
@@ -349,9 +390,11 @@ export default class Documents extends Component {
                                                 data-parsley-required="true"
                                                 onChange={this.handleChange} >
                                                 <option></option>
-                                                <option value="NATIONAL_ID">NATIONAL_ID</option>
-                                                <option value="PASSPORT">PASSPORT</option>
-                                                <option value="CERTIFICATE_OF_INCORPORATION">CERTIFICATE_OF_INCORPORATION</option>
+                                                {docTypes != "" && docTypes.map((doc, index) =>
+                                                    <option value={doc.code}> {doc.name}</option>
+                                                )
+
+                                                }
                                             </select>
                                         </div>
                                     </div>

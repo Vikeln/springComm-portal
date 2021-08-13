@@ -351,9 +351,10 @@ export default class AdminProfile extends Component {
         }, 10000);
 
     }
-
-    componentDidUnMount() {
-
+    
+    componentWillUnmount() {
+        // Clear the interval right before component unmount
+        clearInterval(this.state.setInterval);
     }
 
 

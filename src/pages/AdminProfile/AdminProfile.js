@@ -305,8 +305,6 @@ export default class AdminProfile extends Component {
                         loading: false,
                     });
 
-                    $('.table').bootstrapTable();
-
 
                 } else {
 
@@ -353,9 +351,12 @@ export default class AdminProfile extends Component {
 
     }
 
-    componentDidUnMount() {
-        clearTimeout( this.state.setInterval );
+    componentWillUnmount() {
+        // Clear the interval right before component unmount
+        clearInterval(this.state.setInterval);
     }
+
+
 
 
     toggleUserView(event) {

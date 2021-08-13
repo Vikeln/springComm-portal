@@ -244,6 +244,13 @@ export default class SideBar extends Component {
                                                     <span className="nav-text">Countries</span>
                                                 </Link>
                                             </li>
+                                           
+                                            <li className="nav-item">
+                                                <Link to="/dashboard/admin/documentTypes">
+                                                    <FontAwesomeIcon icon={faUser} className="sidebarIcon" />
+                                                    <span className="nav-text">Document Types</span>
+                                                </Link>
+                                            </li>
 
                                             {/* </ul> */}
                                         </>
