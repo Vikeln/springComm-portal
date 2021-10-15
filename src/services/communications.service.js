@@ -4,7 +4,7 @@ class CommunicationsService {
 
 
     /*Get all messages from endpoint*/
-    getAllMessages(date1, date2, source, sentBy) {
+    getAllMessages(date1, date2, source, sentBy,tenant) {
 
         var part = "";
 
@@ -13,6 +13,9 @@ class CommunicationsService {
 
         if (sentBy !== "")
             part = part + "&sentBy=" + sentBy;
+        
+            if (tenant !== "")
+            part = part + "&tenant=" + tenant;
 
         return axiosInstance.get(baseUrl + "bridge/sent-sms?start=" + date1 + "&end=" + date2 + (part !== "" ? part : ""));
 

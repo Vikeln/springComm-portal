@@ -9,6 +9,7 @@ import authService from '../../services/auth.service';
 
 import CommunicationsService from '../../services/communications.service';
 import sourceService from '../../services/source.service';
+import tenantService from '../../services/tenant.service';
 import userService from '../../services/user.service';
 
 
@@ -24,10 +25,12 @@ export default class Messages extends Component {
             value: this.props.value,
             message: [],
             users: [],
+            tenants: [],
             sources: [],
             formData: {
                 source: "",
                 sentBy: "",
+                tenant: "",
             },
             startdate: "",
             enddate: "",
@@ -38,12 +41,15 @@ export default class Messages extends Component {
         }
 
         this.handleChange = this.handleChange.bind(this);
+        this.fetchTenants = this.fetchTenants.bind(this);
+
         this.fetchMessages = this.fetchMessages.bind(this);
         this.openAdvancedSearch = this.openAdvancedSearch.bind(this);
         this.updateStartDate = this.updateStartDate.bind(this);
         this.updateEndDate = this.updateEndDate.bind(this);
         this.fetchUsers = this.fetchUsers.bind(this);
         this.fetchMySenders = this.fetchMySenders.bind(this);
+        this.fetchTenants = this.fetchTenants.bind(this);
 
 
     }
@@ -74,6 +80,10 @@ export default class Messages extends Component {
         if (authService.checkIfRoleExists("CAN_VIEW_USERS"))
             this.fetchUsers();
         this.fetchMySenders();
+        console.log("authService.getCurrentClientId()" )
+        console.log(authService.getCurrentClientId() )
+        if (authService.getCurrentClientId() == 1){
+            this.fetchTenants();}
         this.openAdvancedSearch();
 
     }
@@ -110,11 +120,11 @@ export default class Messages extends Component {
     fetchMessages(event) {
 
         const { startdate, enddate } = this.state;
-        const { source, sentBy } = this.state.formData;
+        const { source, sentBy, tenant } = this.state.formData;
 
         event.preventDefault();
 
-        $(".table").bootstrapTable("destroy");  
+        $(".table").bootstrapTable("destroy");
 
         if (startdate == "") {
             alert("Please select a start date");
@@ -134,7 +144,7 @@ export default class Messages extends Component {
                 message: []
             });
 
-            CommunicationsService.getAllMessages(startdate, enddate, source, sentBy).then(response => {
+            CommunicationsService.getAllMessages(startdate, enddate, source, sentBy, tenant).then(response => {
                 if (response.data.status != "error") {
 
                     if ((response.data.data == null || response.data.data == undefined)) {
@@ -258,7 +268,7 @@ export default class Messages extends Component {
 
     fetchMySenders() {
 
-        sourceService.getAllSources().then(response => {
+        sourceService.getAllSources(undefined, this.state.formData.tenant).then(response => {
 
             if (response.data.status != "error") {
 
@@ -294,17 +304,61 @@ export default class Messages extends Component {
         });
 
     }
+    fetchTenants() {
+
+        tenantService.getAllBridgeTenants().then(response => {
+
+            if (response.data.status != "error") {
+
+
+                this.setState({
+                    tenants: response.data.data != null ? response.data.data : [],
+                });
+
+
+            } else {
+                confirmAlert({
+                    // title: 'Error fetching your sources',
+                    message: response.data.message,
+                    buttons: [
+                        {
+                            label: 'ok',
+                        }
+                    ]
+                });
+            }
+
+
+        }).catch(error => {
+            confirmAlert({
+                title: 'Error occurred',
+                message: error.message,
+                buttons: [
+                    {
+                        label: 'ok',
+                    }
+                ]
+            });
+        });
+
+    }
+
     handleChange(el) {
         let inputName = el.target.name;
         let inputValue = el.target.value;
         let stateCopy = Object.assign({}, this.state);
-        if (inputName == "source")
+        if (inputName === "source")
             stateCopy.formData[inputName] = parseInt(inputValue);
-        else if (inputName == "sentBy")
+        else if (inputName === "sentBy")
             stateCopy.formData[inputName] = inputValue;
+        else if (inputName === "tenant")
+            stateCopy.formData[inputName] = parseInt(inputValue);
         else
             stateCopy.formData[inputName] = this.formatDate(Date.parse(inputValue));
         this.setState(stateCopy);
+
+        if (inputName === "tenant")
+            this.fetchMySenders();
     }
 
     formatDate(date) {
@@ -322,7 +376,7 @@ export default class Messages extends Component {
     }
     render() {
 
-        const { message, loading,loadingData, filterMessages, users, sources } = this.state;
+        const { message, loading, tenants, loadingData, filterMessages, users, sources } = this.state;
 
         return (
 
@@ -353,9 +407,9 @@ export default class Messages extends Component {
                                                 </i>
                                             </span>
 
-        Advanced Search : Click Here to Show
+                                            Advanced Search : Click Here to Show
 
-    </button>
+                                        </button>
 
                                     </div>
 
@@ -412,7 +466,7 @@ export default class Messages extends Component {
                                                     id="enddate"
                                                     onChange={this.handleChange} />
                                             </div>
-                                            {filterMessages &&
+                                            {(filterMessages && authService.getCurrentClientId() > 1) &&
                                                 <div
                                                     className="col-3 ">
                                                     <label>Sent By</label>
@@ -432,6 +486,26 @@ export default class Messages extends Component {
                                                     </select>
                                                 </div>
                                             }
+                                            {authService.getCurrentClientId() == 1  &&
+                                            <div
+                                                className="col-3 ">
+                                                <label>Client</label>
+                                                <select
+                                                    className="form-control"
+                                                    name="tenant"
+                                                    id="tenant"
+                                                    data-parsley-required="true"
+                                                    onChange={this.handleChange}>
+                                                    <option value=""></option>
+                                                    {tenants != "" &&
+
+                                                        tenants.map((group, index) => (
+                                                            <option key={index} value={group.id}>{group.name}</option>  
+                                                        ))
+                                                    }
+                                                </select>
+                                            </div>
+                                            }
                                             <div
                                                 className="col-3 ">
                                                 <label>Sent Through</label>
@@ -445,7 +519,7 @@ export default class Messages extends Component {
                                                     {sources != "" &&
 
                                                         sources.map((group, index) => (
-                                                            <option key={index} value={group.id}>{group.senderId} : {group.provider != undefined ? group.provider : "SAFARICOM" }</option>
+                                                            <option key={index} value={group.id}>{group.senderId} : {group.provider != undefined ? group.provider : "SAFARICOM"}</option>
                                                         ))
                                                     }
                                                 </select>
@@ -468,73 +542,73 @@ export default class Messages extends Component {
 
 
                             {!loadingData ?
-                            <table
-                                className="table table-theme v-middle table-row"
-                                id="table"
-                                data-toolbar="#toolbar"
-                                data-search="true"
-                                data-search-align="left"
-                                data-show-columns="true"
-                                data-show-export="true"
-                                data-detail-view="false"
-                                data-mobile-responsive="true"
-                                data-pagination="true"
-                                data-page-list="[10, 25, 50, 100, ALL]"
-                            >
+                                <table
+                                    className="table table-theme v-middle table-row"
+                                    id="table"
+                                    data-toolbar="#toolbar"
+                                    data-search="true"
+                                    data-search-align="left"
+                                    data-show-columns="true"
+                                    data-show-export="true"
+                                    data-detail-view="false"
+                                    data-mobile-responsive="true"
+                                    data-pagination="true"
+                                    data-page-list="[10, 25, 50, 100, ALL]"
+                                >
 
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Recepient</th>
-                                        <th>Message</th>
-                                        <th>Request Status </th>
-                                        <th>Status </th>
-                                    </tr>
-                                </thead>
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Recepient</th>
+                                            <th>Message</th>
+                                            <th>Request Status </th>
+                                            <th>Status </th>
+                                        </tr>
+                                    </thead>
 
-                                <tbody>
+                                    <tbody>
 
-                                    {message != "" &&
-                                        message.map((mes, index) => {
+                                        {message != "" &&
+                                            message.map((mes, index) => {
 
-                                            return (
-
-
-                                                <tr className=" " key={index} >
+                                                return (
 
 
-                                                    <td>
-                                                        <span className="text-muted">{mes.id}</span>
-                                                    </td>
+                                                    <tr className=" " key={index} >
 
-                                                    <td>
-                                                        <span className="text-muted">{mes.recipient}</span>
-                                                    </td>
 
-                                                    <td>
-                                                        <span className="text-muted">{mes.message}</span>
-                                                    </td>
+                                                        <td>
+                                                            <span className="text-muted">{mes.id}</span>
+                                                        </td>
 
-                                                    <td>
-                                                        <span className="text-muted">{mes.sentResponseStatus}</span>
-                                                    </td>
+                                                        <td>
+                                                            <span className="text-muted">{mes.recipient}</span>
+                                                        </td>
 
-                                                    <td>
-                                                        <span className="text-muted">{mes.processedStatus}</span>
-                                                    </td>
+                                                        <td>
+                                                            <span className="text-muted">{mes.message}</span>
+                                                        </td>
 
-                                                </tr>
+                                                        <td>
+                                                            <span className="text-muted">{mes.sentResponseStatus}</span>
+                                                        </td>
 
-                                            );
+                                                        <td>
+                                                            <span className="text-muted">{mes.processedStatus}</span>
+                                                        </td>
 
-                                        })
-                                    }
+                                                    </tr>
 
-                                </tbody>
+                                                );
 
-                            </table>
- :
-                                <Loader type="dots"/>
+                                            })
+                                        }
+
+                                    </tbody>
+
+                                </table>
+                                :
+                                <Loader type="dots" />
                             }
 
                         </div>

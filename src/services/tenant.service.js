@@ -1,4 +1,4 @@
-import { axiosInstance, clientBaseUrl } from '../API';
+import { axiosInstance, baseUrl, clientBaseUrl } from '../API';
 
 class TenantService {
 
@@ -6,12 +6,19 @@ class TenantService {
     getAllClients() {
         return axiosInstance.get(clientBaseUrl + "clients");
     }
+
+    getAllBridgeTenants() {
+        return axiosInstance.get(baseUrl + "tenants");
+    }
     
     /*Create Tenant*/
     createClients(formData) {
         return axiosInstance.post(clientBaseUrl + "clients/create", formData);
     }
 
+    getAllClientUsers(tenant) {
+        return axiosInstance.get(clientBaseUrl + "clients/users/"+tenant);
+    }
 
     getClient(id) {
         return axiosInstance.get(clientBaseUrl + "clients/"+id);

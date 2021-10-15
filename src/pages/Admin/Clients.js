@@ -166,7 +166,9 @@ export default class Clients extends Component {
                                                     <tr className=" " key={user.id} >
 
                                                         <td>
-                                                            <span className="">{user.name}</span>
+                                                            <span className=""> <Link className="dropdown-item" to={'/dashboard/admin/viewclients/' + user.id}>
+                                                                {user.name}
+                                                            </Link></span>
                                                         </td>
 
                                                         <td>
@@ -185,8 +187,8 @@ export default class Clients extends Component {
                                                         <td>
                                                             <span className="">
                                                                 <Badge description={user.status.toString()}
-                                                                type={user.status.toString()} />
-                                                                </span>
+                                                                    type={user.status.toString()} />
+                                                            </span>
                                                         </td>
 
                                                         <td>

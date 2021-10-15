@@ -3,9 +3,11 @@ import { axiosInstance, baseUrl } from '../API';
 class SourceService {
 
     /*Get all Sources from endpoint*/
-    getAllSources(clientKey) {
+    getAllSources(clientKey,tenant) {
         if (clientKey != undefined)
             return axiosInstance.get(baseUrl + "bridge/source/" + clientKey);
+        else if (tenant != undefined && tenant != "")
+            return axiosInstance.get(baseUrl + "bridge/source/tenant/" + tenant);
         else
             return axiosInstance.get(baseUrl + "bridge/source");
     }
