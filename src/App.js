@@ -261,6 +261,9 @@ function Adminportal() {
             <UploadContacts />
           </Route>
 
+          <Route exact path="/portal/integration">
+            <Integration />
+          </Route>
           <Route exact path="/portal/addressBook">
             <ManageContacts />
           </Route>

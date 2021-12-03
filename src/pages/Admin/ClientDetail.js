@@ -271,7 +271,7 @@ export default class SingleClient extends Component {
         // if ($(".createSource").parsley().isValid()) {
         tenantService.completeClientTransaction(completeData).then(response => {
 
-            if (response.data.status != "error") {
+            if (response.data.successStatus != "error") {
                 confirmAlert({
                     message: response.data.message,
                     buttons: [

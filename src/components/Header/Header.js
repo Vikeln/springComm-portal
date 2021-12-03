@@ -91,7 +91,7 @@ export default class Header extends Component {
                     <nav class="navbar navbar-expand-lg ml-auto navbar-light " >
                         
                             <a href={adminPanel == true ? "/portal/adminprofile": "/portal/welcome"} className="navbar-brand">
-                                <img className="navbar-brand avatar" src="../logo.png" alt="." /> 
+                                <img className="navbar-brand avatar" src="../logo.png" alt="TAARIFA." /> 
                                 {/* TAARIFASMS */}
                             </a>
 
