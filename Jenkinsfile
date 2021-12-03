@@ -3,9 +3,9 @@ pipeline {
     environment {
         VERSION = "1.1"
         workspace = pwd()
-        serviceName = "TRENDYMEDIA-portal"
+        serviceName = "TAARIFA_KENYA-portal"
         registryCredential = "TmwauraHarb"
-        ImageName = "harb.diab.mfs.co.ke/total-TRENDYMEDIA/${serviceName}:${VERSION}.${BUILD_NUMBER}"
+        ImageName = "harb.diab.mfs.co.ke/total-TAARIFA_KENYA/${serviceName}:${VERSION}.${BUILD_NUMBER}"
     }
 
  

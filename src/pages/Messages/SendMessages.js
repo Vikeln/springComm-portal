@@ -37,12 +37,13 @@ export default class SendMessages extends Component {
             template: null,
             message: "",
             uploading: false,
-            replying:this.getParameterByName("replyTo") != undefined,
+            replying: this.getParameterByName("replyTo") != undefined,
             formData: {
                 parameters: [],
                 recipient: [this.getParameterByName("replyTo")],
                 parameterValues: [],
-                sendFromTemplate: "false"
+                sendFromTemplate: "false",
+                sendTime: "now"
 
             }, errors: "",
             parameters: "",
@@ -70,6 +71,8 @@ export default class SendMessages extends Component {
         this.updateStartDate = this.updateStartDate.bind(this);
         this.getParameterByName = this.getParameterByName.bind(this);
         this.updateStartTime = this.updateStartTime.bind(this);
+        this.handleshowTemplateMessageForm = this.handleshowTemplateMessageForm.bind(this);
+        this.handleshowScheduleMessageForm = this.handleshowScheduleMessageForm.bind(this);
     }
 
     componentDidMount() {
@@ -174,12 +177,12 @@ export default class SendMessages extends Component {
             if (response.data.status != "error") {
 
 
-                var uniqueSources = response.data.data !=undefined ? response.data.data.filter((v, i, a) => a.findIndex(t => (t.alphanumeric === v.alphanumeric)) === i) : [];
+                var uniqueSources = response.data.data != undefined ? response.data.data.filter((v, i, a) => a.findIndex(t => (t.alphanumeric === v.alphanumeric)) === i) : [];
 
                 this.setState({
                     sources: uniqueSources != null ? uniqueSources : [],
                 });
-                
+
 
             } else {
                 if (response.data.message == "No records found") {
@@ -189,7 +192,7 @@ export default class SendMessages extends Component {
                         buttons: [
                             {
                                 label: 'ok',
-                                onClick: () => window.location.href = "/dashboard/mysenderIds"
+                                onClick: () => window.location.href = "/portal/mysenderIds"
                             }
                         ]
                     });
@@ -636,9 +639,9 @@ export default class SendMessages extends Component {
                         buttons: [
                             {
                                 label: 'OK',
-                                onClick: () => this.state.formData.sendTime == "now" ? window.location.href = "/dashboard/messages"
+                                onClick: () => this.state.formData.sendTime == "now" ? window.location.href = "/portal/messages"
                                     :
-                                    window.location.href = "/dashboard/scheduled-messages"
+                                    window.location.href = "/portal/scheduled-messages"
                             }
                         ]
                     });
@@ -707,6 +710,25 @@ export default class SendMessages extends Component {
         return decodeURIComponent(results[2].replace(/\+/g, ' '));
     }
 
+    handleshowTemplateMessageForm() {
+        let stateCopy = Object.assign({}, this.state);
+
+        if (stateCopy.formData.sendFromTemplate == "true")
+            stateCopy.formData.sendFromTemplate = "false";
+        else
+            stateCopy.formData.sendFromTemplate = "true";
+        this.setState(stateCopy);
+    }
+
+    handleshowScheduleMessageForm() {
+        let stateCopy = Object.assign({}, this.state);
+        if (stateCopy.formData.sendTime == "now")
+            stateCopy.formData.sendTime = "later";
+        else
+            stateCopy.formData.sendTime = "now";
+        this.setState(stateCopy);
+    }
+
     render() {
 
         const { format, createSchedule, timeNow, filterContacts, contactGroups, sendToGroup, messageTemplates, uploading, sources, sendOnce, sendTime, sendFromTemplate, selectFromAddressBook, contacts, message, successfulSubmission, networkError, submissionMessage } = this.state;
@@ -727,6 +749,34 @@ export default class SendMessages extends Component {
 
                         <div className="padding">
 
+                            <div className="row  ">
+                                {this.state.messageTemplates.length > 0 &&
+                                    <>
+                                        <div className="col-sm">
+                                            <h5>Template Message</h5>
+                                            <label class="switch">
+                                                <input type="checkbox" onClick={() => this.handleshowTemplateMessageForm()} checked={this.state.formData.sendFromTemplate == "true"} />
+                                                <span class="slider round"></span>
+                                            </label>
+                                        </div>
+
+                                    </>
+                                }
+                                {createSchedule &&
+                                    <>
+                                        <div className="col-sm">
+                                            <h5>Schedule Message</h5>
+
+                                            <label class="switch">
+                                                <input type="checkbox" onClick={() => this.handleshowScheduleMessageForm()} checked={this.state.formData.sendTime == "later"} />
+                                                <span class="slider round"></span>
+                                            </label>
+                                        </div>
+
+                                    </>
+                                }
+                            </div>
+
                             <form
 
                                 className="sendMessage"
@@ -738,29 +788,215 @@ export default class SendMessages extends Component {
                                         className="col-12">
                                         <div
                                             className="row">
+                                            <div className="card col-sm">
+                                                <div className="row padding">
+                                                    <div
+                                                        className="col-12 row">
 
-                                            {this.state.messageTemplates.length > 0 &&
+                                                        <label>Select Source</label>
 
-                                                <div className="col-4">
+                                                        <select
+                                                            id="source"
+                                                            name="source"
+                                                            className="form-control"
+                                                            data-parsley-required="true"
+                                                            onChange={this.handleChange}>
 
-                                                    <label>Use Existing Template</label>
-                                                    <select
-                                                        className="form-control"
-                                                        onChange={this.handleChange}
-                                                        data-parsley-required="true"
-                                                        id="sendFromTemplate"
-                                                        name="sendFromTemplate">
-                                                        <option></option>
-                                                        <option value="true">Yes</option>
+                                                            <option></option>
+                                                            {sources != "" &&
 
-                                                        <option value="false">No</option>
+                                                                sources.map((group, index) => (
+                                                                    <option key={group.id} value={group.id}>{group.senderId}</option>
+                                                                ))
+                                                            }
 
-                                                    </select>
-                                                </div>}
-                                            {this.state.formData.sendFromTemplate == "true" &&
-                                                <div
-                                                    className="col-4">
+                                                        </select>
 
+                                                    </div>
+                                                    {!this.state.replying &&
+                                                        <div className="col-12 row">
+
+                                                            <label>Select Recipients From </label>
+                                                            <select
+                                                                className="form-control"
+                                                                onChange={this.handleChange}
+                                                                data-parsley-required="true"
+                                                                id="selectFromAddressBook"
+                                                                name="selectFromAddressBook">
+                                                                <option></option>
+                                                                {this.state.contacts.length > 0 && <option value="AddressBook">My AddressBook</option>}
+                                                                <option value="Manually">Enter Manually</option>
+
+                                                            </select>
+
+                                                        </div>}
+                                                    {selectFromAddressBook == "AddressBook" &&
+                                                        <div className="col-12 row">
+
+                                                            <label>Filter Contacts by Group? </label>
+                                                            <select
+                                                                className="form-control"
+                                                                onChange={this.handleChange}
+                                                                data-parsley-required="true"
+                                                                id="filterContacts"
+                                                                name="filterContacts">
+                                                                <option></option>
+                                                                <option value="Yes">Yes</option>
+                                                                <option value="No">No</option>
+
+                                                            </select>
+
+                                                        </div>}
+                                                    {filterContacts == "Yes" &&
+                                                        <>
+                                                            <div className="col-12 row">
+
+                                                                <label>Contact Groups</label>
+
+                                                                <select
+                                                                    className="form-control"
+                                                                    name="contactGroup"
+                                                                    id="contactGroup"
+
+                                                                    data-parsley-required="true"
+                                                                    onChange={this.handleChange}>
+                                                                    <option value=""></option>
+                                                                    {contactGroups != "" &&
+
+                                                                        contactGroups.map((contact, index) => (
+                                                                            <option key={contact} value={contact}>{contact}</option>
+                                                                        ))
+                                                                    }
+                                                                </select>
+
+                                                            </div>
+
+                                                            <div className="col-12 row">
+
+                                                                <label>Send To ALL contacts in Group</label>
+
+                                                                <select
+                                                                    className="form-control"
+                                                                    name="sendToGroup"
+                                                                    id="sendToGroup"
+
+                                                                    data-parsley-required="true"
+                                                                    onChange={this.handleChange}>
+                                                                    <option value=""></option>
+                                                                    <option value="YES">Yes</option>
+                                                                    <option value="No">No</option>
+                                                                </select>
+
+                                                            </div>
+                                                        </>
+                                                    }
+                                                    {(selectFromAddressBook == "AddressBook" && (sendToGroup == "No" || filterContacts == "No")) &&
+                                                        <div className="col-12 row">
+
+                                                            <label>Recipients <em>*Use ctr on Windows / Command on Mac to select multiple</em></label>
+
+                                                            <select
+                                                                className="form-control"
+                                                                name="recipient"
+                                                                id="recipient"
+                                                                multiple
+                                                                data-parsley-required="true"
+                                                                onChange={this.handleChange}>
+                                                                <option value=""></option>
+                                                                {contacts != "" &&
+
+                                                                    contacts.map((contact, index) => (
+                                                                        <option key={contact.id} value={contact.phone}>{contact.name} - {contact.phone}</option>
+                                                                    ))
+                                                                }
+                                                            </select>
+
+                                                        </div>
+
+                                                    }
+
+
+                                                    {selectFromAddressBook == "Manually" &&
+                                                        <div
+                                                            className="col-12 row">
+
+                                                            <label>Recipients<small>(comma separated 254...)</small></label>
+
+                                                            <input
+                                                                type="text"
+                                                                name="recipients"
+                                                                id="recipients"
+                                                                className="form-control"
+                                                                data-parsley-required="true"
+                                                                onChange={this.handleChange} />
+                                                        </div>
+
+                                                    }
+                                                    {selectFromAddressBook == "File" &&
+                                                        <div
+                                                            className="col-12">
+
+                                                            <label>Upload Recipients <small>Choose File To Upload as xls(excel)</small> </label>
+                                                            {this.state.uploads == "" && <div className="">
+                                                                <input type="file"
+                                                                    name="fileUpload"
+                                                                    id="fileUpload"
+                                                                    className="fileUpload"
+                                                                    placeholder="Upload Customer Template"
+                                                                    onChange={this.onFileChange}
+                                                                    accept=".xls,.xlsx,.csv" />
+
+
+                                                                <button
+                                                                    className="btn-primary" id="uploadButtons"
+                                                                    onClick={this.downloadTemplate}
+                                                                >
+                                                                    <a id="upload-download" href="http://10.38.83.54:30555/bridge/address-book/getContactsExcelTemplate" download="contactsUploadTemplate">
+
+                                                                        Download Template
+                                                                    </a>
+
+                                                                </button>
+                                                                <button
+                                                                    className="btn-primary uploadButton"
+                                                                    onClick={this.onFileUpload} hidden>
+                                                                    Upload!
+                                                                </button>
+
+                                                                {uploading &&
+                                                                    <Loader type="dots" />
+                                                                }
+
+                                                            </div>}
+                                                            {this.state.uploads != "" && <div className="">
+                                                                <label>Recipients <em>*Use ctr on Windows / Command on Mac to select multiple</em></label>
+
+                                                                <select
+                                                                    className="form-control"
+                                                                    name="recipient"
+                                                                    id="recipient"
+                                                                    multiple
+                                                                    data-parsley-required="true"
+                                                                    onChange={this.handleChange}>
+                                                                    <option value=""></option>
+                                                                    {this.state.uploads != "" &&
+
+                                                                        this.state.uploads.map((contact, index) => (
+                                                                            <option key={index} value={contact.phone}>{contact.name} - {contact.phone}</option>
+                                                                        ))
+                                                                    }
+                                                                </select>
+
+                                                            </div>}
+
+
+                                                        </div>
+
+                                                    }
+                                                </div>
+                                            </div>
+                                            {this.state.formData.sendFromTemplate === "true" &&
+                                                <div className="card col-sm padding">
                                                     <label>Select Template</label>
 
                                                     <select
@@ -780,457 +1016,226 @@ export default class SendMessages extends Component {
 
                                                     </select>
 
+
                                                 </div>
                                             }
+                                            <div className="card col-sm padding">
+                                                {this.state.formData.sendFromTemplate == "true" &&
+                                                    <div
+                                                        className="col-12">
+                                                        <label>Message</label>
+                                                        <textarea
+                                                            name="message"
+                                                            id="message"
+                                                            value={message}
+                                                            data-parsley-required="true"
+                                                            data-parsley-trigger="keyup" data-parsley-minlength="1" data-parsley-maxlength="1000"
+                                                            onChange={this.handleChange}
+                                                            cols=""
+                                                            rows="">
+                                                        </textarea>
+                                                    </div>}
+                                                {this.state.formData.sendFromTemplate == "false" &&
+                                                    <div
+                                                        className="col-12">
+                                                        <label>Message</label>
+                                                        <textarea
+                                                            name="message"
+                                                            id="message"
+                                                            data-parsley-required="true"
+                                                            data-parsley-trigger="keyup" data-parsley-minlength="1" data-parsley-maxlength="1000"
+                                                            onChange={this.handleChange}
+                                                            cols=""
+                                                            rows="">
+                                                        </textarea>
+                                                    </div>}
+                                            </div>
                                         </div>
                                     </div>
-                                    <div
-                                        className="col-4">
 
-                                        <label>Select Source</label>
-
-                                        <select
-                                            id="source"
-                                            name="source"
-                                            className="form-control"
-                                            data-parsley-required="true"
-                                            onChange={this.handleChange}>
-
-                                            <option></option>
-                                            {sources != "" &&
-
-                                                sources.map((group, index) => (
-                                                    <option key={group.id} value={group.id}>{group.senderId}</option>
-                                                ))
-                                            }
-
-                                        </select>
-
-                                    </div>
-                                    <div
-                                        className="col-12">
-                                        <div
-                                            className="row">
-                                            {!this.state.replying &&
+                                    {this.state.formData.sendTime == "later" &&
+                                        <>
                                             <div className="col-4">
 
-                                                <label>Select Recipients From </label>
-                                                <select 
-                                                    className="form-control"
-                                                    onChange={this.handleChange}
-                                                    data-parsley-required="true"
-                                                    id="selectFromAddressBook"
-                                                    name="selectFromAddressBook">
-                                                    <option></option>
-                                                    {this.state.contacts.length > 0 && <option value="AddressBook">My AddressBook</option>}
-                                                    <option value="Manually">Enter Manually</option>
-
-                                                </select>
-
-                                            </div>}
-                                            {selectFromAddressBook == "AddressBook" && <div className="col-4">
-
-                                                <label>Filter Contacts by Group? </label>
+                                                <label>Send Once</label>
                                                 <select
                                                     className="form-control"
                                                     onChange={this.handleChange}
                                                     data-parsley-required="true"
-                                                    id="filterContacts"
-                                                    name="filterContacts">
+                                                    id="sendOnce"
+                                                    name="sendOnce">
                                                     <option></option>
-                                                    <option value="Yes">Yes</option>
-                                                    <option value="No">No</option>
+                                                    <option value="true">Yes</option>
+
+                                                    <option value="false">No</option>
 
                                                 </select>
 
-                                            </div>}
-                                            {filterContacts == "Yes" &&
-                                                <>
+                                            </div>
+
+                                            {this.state.formData.sendOnce == "true" &&
+
+                                                <div className="col-12">
+
+                                                    <div
+                                                        className="row">
+                                                        <div
+                                                            className="col-6">
+
+                                                            <label>Date to Send
+                                                            </label>
+                                                            <div
+                                                                className=" messageFilter">
+
+                                                                <input
+                                                                    type="text"
+                                                                    className="form-control startdate"
+                                                                    name="dateToSend"
+                                                                    id="dateToSend"
+                                                                    data-parsley-required="true"
+                                                                />
+
+                                                            </div>
+                                                        </div>
+
+                                                        <div
+                                                            className="col-6">
+
+                                                            <label>Time to Send
+                                                            </label>
+                                                            <div
+                                                                className=" messageFilter">
+                                                                <TimePicker
+                                                                    style={{ width: 100 }}
+                                                                    showSecond={true}
+                                                                    defaultValue={moment()}
+                                                                    className="xxx"
+                                                                    onChange={this.updateStartTime}
+
+                                                                />
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            }
+                                            {this.state.formData.sendOnce == "false" &&
+
+                                                <div
+                                                    className="col-12">
+                                                    <div className=" row">
+
+                                                        <div className="col-4">
+
+                                                            <label>Schedule Name</label>
+                                                            <input
+                                                                type="text"
+                                                                name="name"
+                                                                id="name"
+                                                                className="form-control"
+                                                                data-parsley-required="true"
+                                                                onChange={this.handleChange}
+                                                            />
+
+                                                        </div>
+
+                                                        <div className="col-8">
+
+                                                            <label>Schedule Description</label>
+                                                            <input
+                                                                type="text"
+                                                                name="description"
+                                                                id="description"
+                                                                className="form-control"
+                                                                data-parsley-required="true"
+                                                                onChange={this.handleChange}
+                                                            />
+
+                                                        </div>
+                                                        <div className="col-4">
+
+                                                            <label>Frequency</label>
+                                                            <select
+                                                                className="form-control"
+                                                                onChange={this.handleChange}
+                                                                data-parsley-required="true"
+                                                                id="frequency"
+                                                                name="frequency">
+                                                                <option></option>
+                                                                <option value="HOURLY">HOURLY</option>
+                                                                <option value="DAILY">DAILY</option>
+                                                                <option value="MONTHLY">MONTHLY</option>
+                                                                <option value="YEARLY">YEARLY</option>
+                                                            </select>
+
+                                                        </div>
+                                                        <div className="col-4">
+
+                                                            <label>Frequency Count</label>
+                                                            <div
+                                                                className="row messageFilter">
+
+                                                                <input
+                                                                    type="number"
+                                                                    name="frequencyCount"
+                                                                    id="frequencyCount"
+                                                                    className="form-control"
+                                                                    data-parsley-required="true"
+                                                                    onChange={this.handleChange}
+                                                                />
+
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
                                                     <div className="col-4">
 
-                                                        <label>Contact Groups</label>
+                                                        <label>Date to Send
+                                                        </label>
+                                                        <div>
 
-                                                        <select
-                                                            className="form-control"
-                                                            name="contactGroup"
-                                                            id="contactGroup"
-
-                                                            data-parsley-required="true"
-                                                            onChange={this.handleChange}>
-                                                            <option value=""></option>
-                                                            {contactGroups != "" &&
-
-                                                                contactGroups.map((contact, index) => (
-                                                                    <option key={contact} value={contact}>{contact}</option>
-                                                                ))
-                                                            }
-                                                        </select>
-
+                                                            <input
+                                                                type="text"
+                                                                className="form-control startdate"
+                                                                name="dateToSend"
+                                                                id="dateToSend"
+                                                                data-parsley-required="true"
+                                                            />
+                                                        </div>
                                                     </div>
-
                                                     <div className="col-4">
-
-                                                        <label>Send To ALL contacts in Group</label>
-
-                                                        <select
-                                                            className="form-control"
-                                                            name="sendToGroup"
-                                                            id="sendToGroup"
-
-                                                            data-parsley-required="true"
-                                                            onChange={this.handleChange}>
-                                                            <option value=""></option>
-                                                            <option value="YES">Yes</option>
-                                                            <option value="No">No</option>
-                                                        </select>
-
-                                                    </div>
-                                                </>
-                                            }
-                                            {(selectFromAddressBook == "AddressBook" && sendToGroup == "No") &&
-                                                <div className="col-8">
-
-                                                    <label>Recipients <em>*Use ctr on Windows / Command on Mac to select multiple</em></label>
-
-                                                    <select
-                                                        className="form-control"
-                                                        name="recipient"
-                                                        id="recipient"
-                                                        multiple
-                                                        data-parsley-required="true"
-                                                        onChange={this.handleChange}>
-                                                        <option value=""></option>
-                                                        {contacts != "" &&
-
-                                                            contacts.map((contact, index) => (
-                                                                <option key={contact.id} value={contact.phone}>{contact.name} - {contact.phone}</option>
-                                                            ))
-                                                        }
-                                                    </select>
-
-                                                </div>
-
-                                            }
+                                                        <label>Time to Send
+                                                        </label>
+                                                        <div>
 
 
-                                            {selectFromAddressBook == "Manually" &&
-                                                <div
-                                                    className="col-8">
+                                                            <TimePicker
+                                                                style={{ width: 100 }}
+                                                                showSecond={true}
+                                                                defaultValue={moment()}
+                                                                className="xxx"
+                                                                onChange={this.updateStartTime}
 
-                                                    <label>Recipients<small>(comma separated 254...)</small></label>
+                                                            />
+                                                        </div>
 
-                                                    <input
-                                                        type="text"
-                                                        name="recipients"
-                                                        id="recipients"
-                                                        className="form-control"
-                                                        data-parsley-required="true"
-                                                        onChange={this.handleChange} />
-                                                </div>
-
-                                            }
-                                            {selectFromAddressBook == "File" &&
-                                                <div
-                                                    className="col-8">
-
-                                                    <label>Upload Recipients <small>Choose File To Upload as xls(excel)</small> </label>
-                                                    {this.state.uploads == "" && <div className="">
-                                                        <input type="file"
-                                                            name="fileUpload"
-                                                            id="fileUpload"
-                                                            className="fileUpload"
-                                                            placeholder="Upload Customer Template"
-                                                            onChange={this.onFileChange}
-                                                            accept=".xls,.xlsx,.csv" />
-
-
-                                                        <button
-                                                            className="btn-primary" id="uploadButtons"
-                                                            onClick={this.downloadTemplate}
-                                                        >
-                                                            <a id="upload-download" href="http://10.38.83.54:30555/bridge/address-book/getContactsExcelTemplate" download="contactsUploadTemplate">
-
-                                                                Download Template
-                                                    </a>
-
-                                                        </button>
-                                                        <button
-                                                            className="btn-primary uploadButton"
-                                                            onClick={this.onFileUpload} hidden>
-                                                            Upload!
-                                                    </button>
-
-                                                        {uploading &&
-                                                            <Loader type="dots"/>
-                                                        }
-
-                                                    </div>}
-                                                    {this.state.uploads != "" && <div className="">
-                                                        <label>Recipients <em>*Use ctr on Windows / Command on Mac to select multiple</em></label>
-
-                                                        <select
-                                                            className="form-control"
-                                                            name="recipient"
-                                                            id="recipient"
-                                                            multiple
-                                                            data-parsley-required="true"
-                                                            onChange={this.handleChange}>
-                                                            <option value=""></option>
-                                                            {this.state.uploads != "" &&
-
-                                                                this.state.uploads.map((contact, index) => (
-                                                                    <option key={index} value={contact.phone}>{contact.name} - {contact.phone}</option>
-                                                                ))
-                                                            }
-                                                        </select>
-
-                                                    </div>}
-
-
-                                                </div>
-
-                                            }
-                                        </div>
-                                    </div>
-                                    {this.state.formData.sendFromTemplate == "true" &&
-                                        <div
-                                            className="col-12">
-                                            <label>Message</label>
-                                            <textarea
-                                                name="message"
-                                                id="message"
-                                                value={message}
-                                                data-parsley-required="true"
-                                                data-parsley-trigger="keyup" data-parsley-minlength="1" data-parsley-maxlength="1000"
-                                                onChange={this.handleChange}
-                                                cols=""
-                                                rows="">
-                                            </textarea>
-                                        </div>}
-                                    {this.state.formData.sendFromTemplate == "false" &&
-                                        <div
-                                            className="col-12">
-                                            <label>Message</label>
-                                            <textarea
-                                                name="message"
-                                                id="message"
-                                                data-parsley-required="true"
-                                                data-parsley-trigger="keyup" data-parsley-minlength="1" data-parsley-maxlength="1000"
-                                                onChange={this.handleChange}
-                                                cols=""
-                                                rows="">
-                                            </textarea>
-                                        </div>}
-
-
-                                    <div className="col-4">
-
-                                        <label>Send At</label>
-                                        <select
-                                            className="form-control"
-                                            onChange={this.handleChange}
-                                            data-parsley-required="true"
-                                            id="sendTime"
-                                            name="sendTime">
-                                            <option></option>
-                                            <option value="now">Send Now</option>
-
-                                            {createSchedule && <option value="later">Send Later</option>
-                                            }
-                                        </select>
-
-                                    </div>
-
-                                    {this.state.formData.sendTime == "later" &&
-
-                                        <div className="col-4">
-
-                                            <label>Send Once</label>
-                                            <select
-                                                className="form-control"
-                                                onChange={this.handleChange}
-                                                data-parsley-required="true"
-                                                id="sendOnce"
-                                                name="sendOnce">
-                                                <option></option>
-                                                <option value="true">Yes</option>
-
-                                                <option value="false">No</option>
-
-                                            </select>
-
-                                        </div>
-
-
-                                    }
-
-                                    {this.state.formData.sendOnce == "true" &&
-
-                                        <div className="col-12">
-
-                                            <div
-                                                className="row">
-                                                <div
-                                                    className="col-6">
-
-                                                    <label>Date to Send
-                                                </label>
-                                                    <div
-                                                        className=" messageFilter">
-
-                                                        <input
-                                                            type="text"
-                                                            className="form-control startdate"
-                                                            name="dateToSend"
-                                                            id="dateToSend"
-                                                            data-parsley-required="true"
-                                                        />
 
                                                     </div>
                                                 </div>
+                                            }
 
-                                                <div
-                                                    className="col-6">
-
-                                                    <label>Time to Send
-                                                </label>
-                                                    <div
-                                                        className=" messageFilter">
-                                                        <TimePicker
-                                                            style={{ width: 100 }}
-                                                            showSecond={true}
-                                                            defaultValue={moment()}
-                                                            className="xxx"
-                                                            onChange={this.updateStartTime}
-
-                                                        />
-
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    }
-                                    {this.state.formData.sendOnce == "false" &&
-
-                                        <div
-                                            className="col-12">
-                                            <div className=" row">
-
-                                                <div className="col-4">
-
-                                                    <label>Schedule Name</label>
-                                                    <input
-                                                        type="text"
-                                                        name="name"
-                                                        id="name"
-                                                        className="form-control"
-                                                        data-parsley-required="true"
-                                                        onChange={this.handleChange}
-                                                    />
-
-                                                </div>
-
-                                                <div className="col-8">
-
-                                                    <label>Schedule Description</label>
-                                                    <input
-                                                        type="text"
-                                                        name="description"
-                                                        id="description"
-                                                        className="form-control"
-                                                        data-parsley-required="true"
-                                                        onChange={this.handleChange}
-                                                    />
-
-                                                </div>
-                                                <div className="col-4">
-
-                                                    <label>Frequency</label>
-                                                    <select
-                                                        className="form-control"
-                                                        onChange={this.handleChange}
-                                                        data-parsley-required="true"
-                                                        id="frequency"
-                                                        name="frequency">
-                                                        <option></option>
-                                                        <option value="HOURLY">HOURLY</option>
-                                                        <option value="DAILY">DAILY</option>
-                                                        <option value="MONTHLY">MONTHLY</option>
-                                                        <option value="YEARLY">YEARLY</option>
-                                                    </select>
-
-                                                </div>
-                                                <div className="col-4">
-
-                                                    <label>Frequency Count</label>
-                                                    <div
-                                                        className="row messageFilter">
-
-                                                        <input
-                                                            type="number"
-                                                            name="frequencyCount"
-                                                            id="frequencyCount"
-                                                            className="form-control"
-                                                            data-parsley-required="true"
-                                                            onChange={this.handleChange}
-                                                        />
-
-                                                    </div>
-                                                </div>
-
-                                            </div>
-
-                                            <div className="col-4">
-
-                                                <label>Date to Send
-                                                </label>
-                                                <div>
-
-                                                    <input
-                                                        type="text"
-                                                        className="form-control startdate"
-                                                        name="dateToSend"
-                                                        id="dateToSend"
-                                                        data-parsley-required="true"
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div className="col-4">
-                                                <label>Time to Send
-                                                </label>
-                                                <div>
-
-
-                                                    <TimePicker
-                                                        style={{ width: 100 }}
-                                                        showSecond={true}
-                                                        defaultValue={moment()}
-                                                        className="xxx"
-                                                        onChange={this.updateStartTime}
-
-                                                    />
-                                                </div>
-
-
-                                            </div>
-                                        </div>
-                                    }
-
-
+                                        </>}
                                     <div
                                         className="col-12">
                                         <div className="row">
 
                                             <div className="col-12">
 
-                                                {this.state.formData.sendTime == "now" && <button
+                                                <button
                                                     className="btn-primary"
-                                                    type="submit">Send Message</button>}
-
-                                                {this.state.formData.sendTime == "later" && <button
-                                                    className="btn-primary"
-                                                    type="submit">Schedule Message</button>}
+                                                    type="submit">Submit</button>
 
                                                 <button
                                                     className="btn-primary"

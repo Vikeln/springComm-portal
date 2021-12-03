@@ -13,6 +13,8 @@ import 'react-confirm-alert/src/react-confirm-alert.css';
 
 import Loader from '../../components/loaders/Loader';
 import authService from '../../services/auth.service';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faPen } from '@fortawesome/free-solid-svg-icons';
 
 
 export default class ViewRoles extends Component{
@@ -114,6 +116,12 @@ export default class ViewRoles extends Component{
 
                             <div className="padding">
 
+                            <a class="float-right" href="/portal/addroles">
+                                <button className="btn btn-primary"><i className="fa fa-pen">Add New</i></button></a>
+
+
+<br/>
+<br/>
                                 <div id="toolbar">
                                     <button id="trash" className="btn btn-icon btn-white i-con-h-a mr-1"><i className="i-con i-con-trash text-muted"><i></i></i></button>
                                 </div>
@@ -162,22 +170,37 @@ export default class ViewRoles extends Component{
 
 
                                                     <td>
-                                                        <div className="item-action dropdown">
+                                                         {/*  <div className="item-action dropdown">
                                                             <a href="#" data-toggle="dropdown" className="text-muted"><i className="i-con i-con-more"><i></i></i></a>
 
                                                             <div className="dropdown-menu dropdown-menu-right bg-dark" role="menu">
 
-                                                                <Link className="dropdown-item" to={'/dashboard/singlerole/'+role.id}>
+                                                           
+
+
+                                                              <Link className="dropdown-item" to={'/portal/singlerole/'+role.id}>
                                                                     See detail
                                                                 </Link>
 
-                                                                { editRoles && <Link className="dropdown-item" to={'/dashboard/editrole/'+role.id}>
+                                                                { editRoles && <Link className="dropdown-item" to={'/portal/editrole/'+role.id}>
                                                                     Edit
                                                                 </Link>}
 
                                                             </div>
 
-                                                        </div>
+                                                        </div> */}
+                                                         <span className="padding">
+                                                                <a href={'/portal/singlerole/' + role.id} >
+                                                                    <FontAwesomeIcon icon={faEye} color="#49bcd7"></FontAwesomeIcon>
+                                                                </a>
+                                                            </span>
+                                                            {editRoles &&
+                                                                <span className="padding">
+                                                                    <a href={'/portal/editrole/' + role.id} >
+                                                                        <FontAwesomeIcon icon={faPen} color="#49bcd7"></FontAwesomeIcon>
+                                                                    </a>
+                                                                </span>
+                                                            }
                                                     </td>
 
                                                 </tr>

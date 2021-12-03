@@ -44,6 +44,14 @@ class TenantService {
 
 
     // get transactions
+    getClientTransactions(client) {
+        return axiosInstance.get(clientBaseUrl + "payments/transactions?client="+client);
+    }
+
+    completeClientTransaction(data) {
+        return axiosInstance.get(clientBaseUrl + "payments/callback?ivm="+data.ivm+"&status="+data.status+"&txncd="+data.txncd);
+    }
+
     getAllTransactions() {
         return axiosInstance.post(clientBaseUrl + "tenants/transactions");
     }

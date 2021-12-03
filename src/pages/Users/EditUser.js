@@ -362,7 +362,7 @@ export default class EditUser extends Component {
                         buttons: [
                             {
                                 label: 'Yes',
-                                onClick: () => window.location.href = "/dashboard/viewuser/"+ formData.id
+                                onClick: () => window.location.href = "/portal/viewuser/"+ formData.id
                             }
                         ]
                     });

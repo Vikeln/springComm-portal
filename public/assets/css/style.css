@@ -145,12 +145,12 @@ a{
 /***** END Sidebar *******/
 
 
-/***** Admin Dashboard *******/
-.dashboard{
+/***** Admin portal *******/
+.portal{
 
 }
 
-.dashboard .row{
+.portal .row{
     margin-left: 0px;
 }
 
@@ -215,7 +215,7 @@ a{
 
 }
 
-/***** END Admin Dashboard *******/
+/***** END Admin portal *******/
 
 
 

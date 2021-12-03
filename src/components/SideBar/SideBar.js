@@ -6,7 +6,7 @@ import {
 import authService from '../../services/auth.service';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUserCircle, faCommentDots, faShareAlt, faExchangeAlt, faPaperPlane, faTasks, faUser, faBook, faCashRegister } from '@fortawesome/free-solid-svg-icons';
+import { faUserCircle, faCommentDots, faShareAlt, faExchangeAlt, faPaperPlane, faTasks, faUser, faBook, faCashRegister, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 
 
 export default class SideBar extends Component {
@@ -69,10 +69,10 @@ export default class SideBar extends Component {
 
             <>
                 {/* Main Side Bar */}
-                <div id="aside" className="page-sidenav no-shrink  nav-expand " aria-hidden="true">
+                <div id="aside" className="page-sidenav no-shrink  nav-expand " >
 
                     {/* Main Side Bar */}
-                    <div className="sidenav h-100 modal-dialog bg-white box-shadow">
+                    <div className="sidenav h-100 modal-dialog bg-white box-shadow ">
 
                         <div className="flex scrollable hover">
                             <div className="nav-border b-primary" data-nav>
@@ -82,20 +82,20 @@ export default class SideBar extends Component {
 
                                     {adminPanel == true ?
                                         <li className="nav-item">
-                                            <Link to="/dashboard/adminprofile">
+                                            <Link to="/portal/adminprofile">
 
                                                 <FontAwesomeIcon icon={faUserCircle} className="sidebarIcon" />
 
-                                                <span className="nav-text">Admin Profile</span>
+                                                <span className="nav-text newColorLink">Admin Profile</span>
                                             </Link>
                                         </li>
                                         :
                                         <li className="nav-item">
-                                            <Link to="/dashboard/welcome">
+                                            <Link to="/portal/welcome">
 
                                                 <FontAwesomeIcon icon={faUserCircle} className="sidebarIcon" />
 
-                                                <span className="nav-text">Home</span>
+                                                <span className="nav-text newColorLink">Home</span>
                                             </Link>
                                         </li>}
                                     {authService.getCurrentClientId() === "1" ?
@@ -105,23 +105,23 @@ export default class SideBar extends Component {
 
                                                     <FontAwesomeIcon icon={faUser} className="sidebarIcon" />
 
-                                                    <span className="nav-text">System Admins</span>
+                                                    <span className="nav-text newColorLink">System Admins</span>
                                                     <span className="nav-caret"></span>
                                                 </a>
                                                 <ul className="nav-sub">
                                                     {viewUsers &&
                                                         <li className="nav-item">
-                                                            <Link to="/dashboard/users">
+                                                            <Link to="/portal/users">
                                                                 <FontAwesomeIcon icon={faUser} className="sidebarIcon" />
-                                                                <span className="nav-text">All Admin Users</span>
+                                                                <span className="nav-text newColorLink">All Admin Users</span>
                                                             </Link>
                                                         </li>}
 
                                                     {createUsers &&
                                                         <li className="nav-item">
-                                                            <Link to="/dashboard/addusers">
+                                                            <Link to="/portal/addusers">
                                                                 <FontAwesomeIcon icon={faUser} className="sidebarIcon" />
-                                                                <span className="nav-text">New Admin</span>
+                                                                <span className="nav-text newColorLink">New Admin</span>
                                                             </Link>
                                                         </li>
                                                     }
@@ -146,21 +146,21 @@ export default class SideBar extends Component {
 
 
                                                     <li className="nav-item">
-                                                        <Link to="/dashboard/admin/clients">
+                                                        <Link to="/portal/admin/clients">
                                                             <FontAwesomeIcon icon={faUser} className="sidebarIcon" />
                                                             <span className="nav-text">View Clients</span>
                                                         </Link>
                                                     </li>
 
                                                     <li className="nav-item">
-                                                        <Link to="/dashboard/admin/clients/new">
+                                                        <Link to="/portal/admin/clients/new">
                                                             <FontAwesomeIcon icon={faUser} className="sidebarIcon" />
                                                             <span className="nav-text">New Client</span>
                                                         </Link>
                                                     </li>
                                                 </ul>
                                             </li>
-                                            <li className="nav-item accordion">
+                                            {/* <li className="nav-item accordion">
                                                 <a href="#" className="i-con-h-a">
 
                                                     <FontAwesomeIcon icon={faUser} className="sidebarIcon" />
@@ -172,23 +172,23 @@ export default class SideBar extends Component {
 
                                                     <li className="nav-item">
 
-                                                        <Link to="/dashboard/admin/ussd-codes">
+                                                        <Link to="/portal/admin/ussd-codes">
                                                             <FontAwesomeIcon icon={faUser} className="sidebarIcon" />
                                                             <span className="nav-text">View Codes</span>
                                                         </Link>
                                                     </li>
                                                     <li className="nav-item">
 
-                                                        <Link to="/dashboard/admin/ussd-codes/new">
+                                                        <Link to="/portal/admin/ussd-codes/new">
                                                             <FontAwesomeIcon icon={faUser} className="sidebarIcon" />
                                                             <span className="nav-text">New Code</span>
                                                         </Link>
                                                     </li>
                                                 </ul>
-                                            </li>
+                                            </li> */}
 
                                             <li className="nav-item">
-                                                <Link to="/dashboard/admin/sources">
+                                                <Link to="/portal/admin/sources">
                                                     <FontAwesomeIcon icon={faUser} className="sidebarIcon" />
                                                     <span className="nav-text">Sender IDs</span>
                                                 </Link>
@@ -206,13 +206,13 @@ export default class SideBar extends Component {
                                                 <ul className="nav-sub">
 
                                                     <li className="nav-item">
-                                                        <Link to="/dashboard/sendmessages">
+                                                        <Link to="/portal/sendmessages">
                                                             <FontAwesomeIcon icon={faCommentDots} className="sidebarIcon" />
                                                             <span className="nav-text">New Message</span>
                                                         </Link>
                                                     </li>
                                                     <li className="nav-item">
-                                                        <Link to="/dashboard/messages">
+                                                        <Link to="/portal/messages">
 
                                                             <FontAwesomeIcon icon={faCommentDots} className="sidebarIcon" />
 
@@ -220,7 +220,7 @@ export default class SideBar extends Component {
                                                         </Link>
                                                     </li>
                                                     <li className="nav-item">
-                                                        <Link to="/dashboard/inbox">
+                                                        <Link to="/portal/inbox">
 
                                                             <FontAwesomeIcon icon={faCommentDots} className="sidebarIcon" />
 
@@ -232,21 +232,21 @@ export default class SideBar extends Component {
                                                 </ul>
                                             </li>
                                             <li className="nav-item">
-                                                <Link to="/dashboard/admin/pricing">
+                                                <Link to="/portal/admin/pricing">
                                                     <FontAwesomeIcon icon={faUser} className="sidebarIcon" />
                                                     <span className="nav-text">Default Pricing</span>
                                                 </Link>
                                             </li>
 
                                             <li className="nav-item">
-                                                <Link to="/dashboard/admin/countries">
+                                                <Link to="/portal/admin/countries">
                                                     <FontAwesomeIcon icon={faUser} className="sidebarIcon" />
                                                     <span className="nav-text">Countries</span>
                                                 </Link>
                                             </li>
-                                           
+
                                             <li className="nav-item">
-                                                <Link to="/dashboard/admin/documentTypes">
+                                                <Link to="/portal/admin/documentTypes">
                                                     <FontAwesomeIcon icon={faUser} className="sidebarIcon" />
                                                     <span className="nav-text">Document Types</span>
                                                 </Link>
@@ -263,7 +263,7 @@ export default class SideBar extends Component {
 
                                                 ""}
                                             <li className="nav-item">
-                                                <Link to="/dashboard/integration">
+                                                <Link to="/portal/integration">
 
                                                     <FontAwesomeIcon icon={faShareAlt} className="sidebarIcon" />
 
@@ -284,7 +284,7 @@ export default class SideBar extends Component {
                                                 <ul className="nav-sub">
 
                                                     <li className="nav-item">
-                                                        <Link to="/dashboard/mysenderIds">
+                                                        <Link to="/portal/mysenderIds">
 
                                                             <FontAwesomeIcon icon={faPaperPlane} className="sidebarIcon" />
 
@@ -295,13 +295,13 @@ export default class SideBar extends Component {
                                                     {sendMessages == true &&
                                                         <>
                                                             <li className="nav-item">
-                                                                <Link to="/dashboard/sendmessages">
+                                                                <Link to="/portal/sendmessages">
                                                                     <FontAwesomeIcon icon={faCommentDots} className="sidebarIcon" />
                                                                     <span className="nav-text">New Message</span>
                                                                 </Link>
                                                             </li>
                                                             <li className="nav-item">
-                                                                <Link to="/dashboard/custommessages">
+                                                                <Link to="/portal/custommessages">
                                                                     <FontAwesomeIcon icon={faCommentDots} className="sidebarIcon" />
                                                                     <span className="nav-text">Custom Message</span>
                                                                 </Link>
@@ -310,7 +310,7 @@ export default class SideBar extends Component {
                                                     }
                                                     {viewOutbox &&
                                                         <li className="nav-item">
-                                                            <Link to="/dashboard/messages">
+                                                            <Link to="/portal/messages">
 
                                                                 <FontAwesomeIcon icon={faCommentDots} className="sidebarIcon" />
 
@@ -320,7 +320,7 @@ export default class SideBar extends Component {
 
                                                     {viewSchedules &&
                                                         <li className="nav-item">
-                                                            <Link to="/dashboard/scheduled-messages">
+                                                            <Link to="/portal/scheduled-messages">
 
                                                                 <FontAwesomeIcon icon={faCommentDots} className="sidebarIcon" />
 
@@ -330,27 +330,42 @@ export default class SideBar extends Component {
 
                                                     {viewMessageTemplates &&
                                                         <li className="nav-item">
-                                                            <Link to="/dashboard/messagetemplates">
+                                                            <Link to="/portal/messagetemplates">
 
                                                                 <FontAwesomeIcon icon={faCommentDots} className="sidebarIcon" />
 
                                                                 <span className="nav-text">Message Templates</span>
                                                             </Link>
                                                         </li>}
+                                                </ul>
+                                            </li>
 
+
+
+                                            <li className="accordion">
+
+                                                <a href="#" className="i-con-h-a">
+
+                                                    <FontAwesomeIcon icon={faBook} className="sidebarIcon" />
+
+                                                    <span className="nav-text">Saved Contacts</span>
+                                                    <span className="nav-caret"></span>
+                                                </a>
+
+                                                <ul className="nav-sub">
                                                     {createAddressBook &&
                                                         <li className="nav-item">
-                                                            <Link to="/dashboard/addressBook/upload">
-                                                                <FontAwesomeIcon icon={faUser} className="sidebarIcon" />
-                                                                <span className="nav-text">Upload Contacts</span>
+                                                            <Link to="/portal/addressBook/upload">
+                                                                <FontAwesomeIcon icon={faPencilAlt} className="sidebarIcon" />
+                                                                <span className="nav-text">Upload New</span>
                                                             </Link>
                                                         </li>}
 
                                                     {manageAddressBook &&
                                                         <li className="nav-item">
-                                                            <Link to="/dashboard/addressBook">
-                                                                <FontAwesomeIcon icon={faUser} className="sidebarIcon" />
-                                                                <span className="nav-text">Manage Contacts</span>
+                                                            <Link to="/portal/addressBook">
+                                                                <FontAwesomeIcon icon={faBook} className="sidebarIcon" />
+                                                                <span className="nav-text">View All</span>
                                                             </Link>
                                                         </li>
                                                     }
@@ -359,7 +374,8 @@ export default class SideBar extends Component {
 
                                                 </ul>
                                             </li>
-                                            <li className="accordion">
+
+                                            {/* <li className="accordion">
 
                                                 <a href="#" className="i-con-h-a">
 
@@ -371,7 +387,7 @@ export default class SideBar extends Component {
                                                 <ul className="nav-sub">
 
                                                     <li className="nav-item">
-                                                        <Link to="/dashboard/my-codes">
+                                                        <Link to="/portal/my-codes">
 
                                                             <FontAwesomeIcon icon={faPaperPlane} className="sidebarIcon" />
 
@@ -379,7 +395,7 @@ export default class SideBar extends Component {
                                                         </Link>
                                                     </li>
                                                     <li className="nav-item">
-                                                        <Link to="/dashboard/new-code">
+                                                        <Link to="/portal/new-code">
 
                                                             <FontAwesomeIcon icon={faPaperPlane} className="sidebarIcon" />
 
@@ -387,10 +403,10 @@ export default class SideBar extends Component {
                                                         </Link>
                                                     </li>
                                                 </ul>
-                                            </li>
+                                            </li> */}
 
                                             <li className="nav-item">
-                                                <Link to="/dashboard/my-documents">
+                                                <Link to="/portal/my-documents">
 
                                                     <FontAwesomeIcon icon={faPaperPlane} className="sidebarIcon" />
 
@@ -399,7 +415,7 @@ export default class SideBar extends Component {
                                             </li>
 
                                             <li className="nav-item">
-                                                <Link to="/dashboard/my-balances">
+                                                <Link to="/portal/my-balances">
 
                                                     <FontAwesomeIcon icon={faCashRegister} className="sidebarIcon" />
 
@@ -427,7 +443,7 @@ export default class SideBar extends Component {
 
                                                             {viewUsers &&
                                                                 <li className="nav-item">
-                                                                    <Link to="/dashboard/users">
+                                                                    <Link to="/portal/users">
                                                                         <FontAwesomeIcon icon={faUser} className="sidebarIcon" />
                                                                         <span className="nav-text">All Users</span>
                                                                     </Link>
@@ -435,7 +451,7 @@ export default class SideBar extends Component {
 
                                                             {createUsers &&
                                                                 <li className="nav-item">
-                                                                    <Link to="/dashboard/addusers">
+                                                                    <Link to="/portal/addusers">
                                                                         <FontAwesomeIcon icon={faUser} className="sidebarIcon" />
                                                                         <span className="nav-text">Add Users</span>
                                                                     </Link>
@@ -444,7 +460,7 @@ export default class SideBar extends Component {
 
                                                             {viewRoles &&
                                                                 <li className="nav-item">
-                                                                    <Link to="/dashboard/viewroles">
+                                                                    <Link to="/portal/viewroles">
                                                                         <FontAwesomeIcon icon={faUser} className="sidebarIcon" />
                                                                         <span className="nav-text">View Roles</span>
                                                                     </Link>
@@ -452,7 +468,7 @@ export default class SideBar extends Component {
 
                                                             {createRoles &&
                                                                 <li className="nav-item">
-                                                                    <Link to="/dashboard/addroles">
+                                                                    <Link to="/portal/addroles">
                                                                         <FontAwesomeIcon icon={faUser} className="sidebarIcon" />
                                                                         <span className="nav-text">Add Roles</span>
                                                                     </Link>

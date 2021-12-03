@@ -63,7 +63,7 @@ export default class Welcome extends Component{
 
                         <div className="mx-3">
 
-                            <h4 className="mt-2">TRENDYMEDIA</h4>
+                            <h4 className="mt-2">TAARIFA_KENYA</h4>
                             {/* <div className=""><small><i className="fa fa-map-marker mr-2"></i>Capital West Building, Westlands, Nairobi</small></div> */}
                         </div>
                     </div>

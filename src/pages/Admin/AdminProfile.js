@@ -92,7 +92,7 @@ export default class AdminProfile extends Component {
         var key = undefined;
         if (authService.getCurrentClientId() != 1)
             key = authService.getCurrentClientKey();
-        CommunicationsService.getDashboardData(key).then(response => {
+        CommunicationsService.getportalData(key).then(response => {
 
             if (response.data.status != "error") {
 
@@ -143,7 +143,7 @@ export default class AdminProfile extends Component {
 
 
 
-        CommunicationsService.getDashboardGraphData().then(response => {
+        CommunicationsService.getportalGraphData().then(response => {
 
             if (response.data.status != "error") {
 
@@ -152,11 +152,11 @@ export default class AdminProfile extends Component {
                     datasets: [
                         {
                             label: 'SMS Usage',
-                            backgroundColor: '#204066',
-                            borderColor: '#204066',
+                            backgroundColor: '#49bcd7',
+                            borderColor: '#49bcd7',
                             borderWidth: 1,
-                            hoverBackgroundColor: '#204066',
-                            hoverBorderColor: '#204066',
+                            hoverBackgroundColor: '#49bcd7',
+                            hoverBorderColor: '#49bcd7',
                             data: [response.data.data.today, response.data.data.week, response.data.data.month, response.data.data.year]
                         }
                     ]
@@ -221,137 +221,9 @@ export default class AdminProfile extends Component {
         await this.getData();
 
         $(".createUser").parsley();
-        var that = this;
-        setInterval(() => {
-
-            this.setState({
-                loading: true,
-            });
-            CommunicationsService.getDashboardData().then(response => {
-
-                if (response.data.status != "error") {
-
-
-                    this.setState({
-                        sentSms: response.data.data.sentSms,
-                        scheduledSms: response.data.data.scheduledSms,
-                        smsBalance: response.data.data.smsBalance,
-                        sentScheduledSms: response.data.data.sentScheduledSms,
-                        loading: false,
-                    });
-                } else {
-
-                    confirmAlert({
-                        title: 'Error occurred',
-                        message: response.data.message,
-                        buttons: [
-                            {
-                                label: 'ok',
-                            }
-                        ]
-                    });
-
-                    this.setState({
-                        loading: false,
-                    });
-
-                }
-
-
-            }).catch(error => {
-
-                confirmAlert({
-                    title: 'Error occurred',
-                    message: error.message,
-                    buttons: [
-                        {
-                            label: 'ok',
-                        }
-                    ]
-                });
-
-                this.setState({
-                    loading: false,
-                });
-
-            });
-
-
-
-            CommunicationsService.getDashboardGraphData().then(response => {
-
-                if (response.data.status != "error") {
-
-                    const data = {
-                        labels: ['Today', 'This Week', 'This Month', 'This Year'],
-                        datasets: [
-                            {
-                                label: 'SMS Usage',
-                                backgroundColor: '#ff901f',
-                                borderColor: '#AFD9FF',
-                                borderWidth: 1,
-                                hoverBackgroundColor: '#AFD9FF',
-                                hoverBorderColor: '#AFD9FF',
-                                data: [response.data.data.today, response.data.data.week, response.data.data.month, response.data.data.year]
-                            }
-                        ]
-                    };
-
-
-
-                    this.setState({
-                        chartdata: data,
-                        loading: false,
-                    });
-
-                    $('.table').bootstrapTable();
-
-
-                } else {
-
-                    confirmAlert({
-                        title: 'Error occurred',
-                        message: response.data.message,
-                        buttons: [
-                            {
-                                label: 'ok',
-                            }
-                        ]
-                    });
-
-                    this.setState({
-                        loading: false,
-                    });
-
-                }
-
-
-            }).catch(error => {
-
-                confirmAlert({
-                    title: 'Error occurred',
-                    message: error.message,
-                    buttons: [
-                        {
-                            label: 'ok',
-                        }
-                    ]
-                });
-
-                this.setState({
-                    loading: false,
-                });
-
-            });
-
-
-            this.setState({
-                loading: false,
-            });
-        }, 10000);
 
     }
-    
+
     componentWillUnmount() {
         // Clear the interval right before component unmount
         clearInterval(this.state.setInterval);
@@ -406,140 +278,60 @@ export default class AdminProfile extends Component {
                     <div className="page-container adminProfile" id="page-container">
 
                         <div className="row">
-                            {/* Admin Details 
-                            <div className="adminDetails">
 
-                                <div className="userInfo">
-
-                                    <figure className="avatar w-64">
-                                        <img src="/assets/img/a1.jpg" alt="." />
-                                    </figure>
-
-                                    <h5>{this.state.userFullName}</h5>
+                            <div className="col-sm-12 col-lg-12 padding">
 
 
-                                </div>
+                                <div className="tab-content row">
+                                    {/* Tab 1 */}
 
-                                <div className="loginDetails">
+                                    <div className="tab-pane col-12 active" id="tab_1">
 
-                                    <span>Last Login</span>
-                                    <h5>{lastLoggedInAt}</h5>
+                                        {!loading &&
+                                            <div className="row">
+                                                {smsBalance != undefined && <SummaryIcon
+                                                    amount={"KES " + utils.formatNumber(smsBalance)}
+                                                    title="SMS Balance"
+                                                    icon={faHandHoldingUsd}
+                                                />}
 
-                                </div>
+                                                {/* Summary Icon */}
+                                                {sentSms != undefined && <SummaryIcon
+                                                    amount={sentSms}
+                                                    title="Total SMS Sent"
+                                                    icon={faCalculator}
+                                                />}
 
-                                <div className="bioinfo">
+                                                {/* End Summary Icon*/}
 
-                                    <p className="email">
-                                        <FontAwesomeIcon icon={faEnvelope} />
-                                        {this.state.userEmail}
-                                    </p>
+                                                {/* Summary Icon */}
+                                                {scheduledSms != undefined && <SummaryIcon
+                                                    amount={scheduledSms}
+                                                    title="Scheduled SMS"
+                                                    icon={faTimesCircle}
+                                                />}
+                                                {/* End Summary Icon*/}
 
-                                    <p className="phone">
-                                        <FontAwesomeIcon icon={faMobileAlt} />
-                                        0712121212
-                                    </p>
-
-                                    {/*
-                                    <button className="btn-primary">Update Profile</button>
-
-
-                                </div>
-                            </div>
-                            {/* End Admin Details */}
-
-                            {/* Admin Summary */}
-                            <div className="col-12 adminSummary">
-
-                                {/* Tabs Header */}
-                                <div className="card">
-
-                                    <div className="card-header" data-plugin="stellar">
-
-                                        <div className="r-2x no-r-b">
-
-                                            <div className="d-md-flex">
-
-                                                <div className="p-4">
-
-                                                    <div className="d-flex">
-
-                                                        <div className="mx-3">
-
-                                                            <h4 className="mt-2">{authService.getCurrentClientName() != undefined ? authService.getCurrentClientName() : "TRENDYMEDIA"}</h4>
-                                                            {/* <div className=""><small><i className="fa fa-map-marker mr-2"></i>Capital West Building, Westlands, Nairobi</small></div> */}
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-
-
-
+                                                {/* Summary Icon */}
+                                                {sentScheduledSms != undefined && <SummaryIcon
+                                                    amount={sentScheduledSms}
+                                                    title="Sent Scheduled SMS   "
+                                                    icon={faHourglass}
+                                                />}
+                                                {/* End Summary Icon*/}
                                             </div>
-
-                                        </div>
-                                    </div>
-
-                                </div>
-                                {/* End Tabs Header*/}
-
-                                {/* Tab Container  */}
-                                <div className="row">
-
-                                    <div className="col-sm-12 col-lg-12">
-
-                                        {/* Tab Content  */}
-                                        <div className="tab-content">
-                                            {/* Tab 1 */}
-
-                                            <div className="tab-pane active" id="tab_1">
-
-                                                {!loading &&
-                                                    <div className="row">
-                                                        {smsBalance != undefined && <SummaryIcon
-                                                            amount={"KES " + utils.formatNumber(smsBalance)}
-                                                            title="SMS Balance"
-                                                            icon={faHandHoldingUsd}
-                                                        />}
-
-                                                        {/* Summary Icon */}
-                                                        {sentSms != undefined && <SummaryIcon
-                                                            amount={sentSms}
-                                                            title="Total SMS Sent"
-                                                            icon={faCalculator}
-                                                        />}
-
-                                                        {/* End Summary Icon*/}
-
-                                                        {/* Summary Icon */}
-                                                        {scheduledSms != undefined && <SummaryIcon
-                                                            amount={scheduledSms}
-                                                            title="Scheduled SMS"
-                                                            icon={faTimesCircle}
-                                                        />}
-                                                        {/* End Summary Icon*/}
-
-                                                        {/* Summary Icon */}
-                                                        {sentScheduledSms != undefined && <SummaryIcon
-                                                            amount={sentScheduledSms}
-                                                            title="Sent Scheduled SMS   "
-                                                            icon={faHourglass}
-                                                        />}
-                                                        {/* End Summary Icon*/}
-                                                    </div>
-                                                }
-                                                {/* 
+                                        }
+                                        {/* 
                                                 <h3>Latest Loan Requests</h3> */}
-                                                {loading == true &&
-                                                    <Loader type="dots" />
-                                                }
+                                        {loading == true &&
+                                            <Loader type="dots" />
+                                        }
 
-                                            </div>
-                                            {/* End Tab 1*/}
-
-                                        </div>
-                                        {/* End Tab Content  */}
                                     </div>
+                                    {/* End Tab 1*/}
+
                                 </div>
+
                                 {(!loading && this.state.chartdata != "") &&
                                     <div className="row">
 

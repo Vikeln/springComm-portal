@@ -312,7 +312,7 @@ export default class ViewUser extends Component {
                     });
 
                     setTimeout(function () {
-                        window.location.href = "/dashboard/users"
+                        window.location.href = "/portal/users"
                     }, 4000);
 
                 }
@@ -620,7 +620,7 @@ export default class ViewUser extends Component {
 
                                         <div className="col-12">
 
-                                            <Link to="/dashboard/users" className="btn-primary">Back to users</Link>
+                                            <Link to="/portal/users" className="btn-primary">Back to users</Link>
 
 
 

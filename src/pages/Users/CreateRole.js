@@ -137,7 +137,7 @@ export default class CreateRole extends Component {
                         buttons: [
                             {
                                 label: 'Yes',
-                                onClick: () => window.location.href = "/dashboard/viewroles"
+                                onClick: () => window.location.href = "/portal/viewroles"
                             }
                         ]
                     });

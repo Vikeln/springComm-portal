@@ -107,9 +107,9 @@ export default class Login extends Component {
                 }
                 console.log("response.data.data " + JSON.stringify(response.data))
 
-                if (response.data.data != undefined && response.data.data.accessToken != undefined) {
+                if (response.data != undefined && response.data.accessToken != undefined) {
 
-                    var data = jwt_decode(response.data.data.accessToken);
+                    var data = jwt_decode(response.data.accessToken);
 
                     console.log(data);
 
@@ -117,48 +117,20 @@ export default class Login extends Component {
                     localStorage.setItem("client", data.user.client);
                     localStorage.setItem("email", data.user.accountOwner.emailAddress);
                     localStorage.setItem("name", data.user.accountOwner.firstName + " " + data.user.accountOwner.lastName);
-                    localStorage.setItem("loginTime", Math.floor(response.data.data.expiry));
+                    localStorage.setItem("clientName", data.user.clientName);
+                    localStorage.setItem("clientId", data.user.clientId);
+                    localStorage.setItem("loginTime", Math.floor(response.data.expiry));
                     localStorage.setItem("data", JSON.stringify(data));
                     localStorage.setItem("roles", JSON.stringify(data.user.account.permissions.map(perm => perm.name)));
-                    localStorage.setItem("accessToken", response.data.data.accessToken);
-                    // if(authService.getCurrentClientId() == undefined){
+                    localStorage.setItem("accessToken", response.data.accessToken);
 
-
-                    // }             
                     loggedInSuccess = true;
-
-                    axiosInstance.get(clientBaseUrl + "clients/view/"+data.user.client,{
-                        headers: {
-                            'Content-Type': 'application/json',
-                            "access-control-allow-origin" : "*",
-                            "Authorization" : "Bearer " + response.data.data.accessToken,
-                        }
-                    }).then(response => {
-                    console.log("viewTenant data " + JSON.stringify(response.data))
-
-                    localStorage.setItem("clientId", response.data.data.id);
-                    localStorage.setItem("clientName", response.data.data.name);
                     window.location.reload();
-                })
-                    .catch((error) => {
 
-                        console.log(error);
-
-                        this.setState({
-                            networkError: true,
-                            networkErrorMessage: error.message,
-                            loading: false,
-                        });
-
-                        // $("form button").show();
-
-                    })
-
-
-                } else if (response.data.data != undefined && response.data.data.message != undefined) {
+                } else if (response.data != undefined && response.data.message != undefined) {
 
                     this.setState({
-                        credentialsError: response.data.data.message,
+                        credentialsError: response.data.message,
                         loading: false,
                     });
 
@@ -212,83 +184,81 @@ export default class Login extends Component {
         return (
 
             <>
-                        <div className="authenticationBackground auth-wrapper">
+                <div className="authenticationBackground auth-wrapper">
 
-                            <div className="auth-inner" >
-                            <div className="row authenticationBackgroundInner">
-                                
-                                <img src="/logo2.png" />
-                            </div>
+                    <div className="auth-inner" >
 
-                                <div className="formcontainer">
-
-                                    <p>
-                                        <small className="text-muted">Login to manage your account</small>
-                                    </p>
-
-                                    <form className="login" role="form" onSubmit={this.handleSubmit}>
-                                        {
-                                            credentialsError != "" &&
-
-                                            <Notification
-                                                type="error"
-                                                description={credentialsError} />
-                                        }
-
-                                        {
-                                            networkError != "" &&
-
-                                            <Notification
-                                                type="network"
-                                                description={networkErrorMessage} />
-                                        }
-                                        <div className="form-group">
-
-                                            <label>Username</label>
-                                            <input
-                                                type="text" className="form-control"
-                                                placeholder="Enter Username"
-                                                data-parsley-required="true"
-                                                value={this.state.email}
-                                                onChange={this.handleEmailChange} />
-
-                                        </div>
-
-                                        <div className="form-group">
-
-                                            <label>Password</label>
-
-                                            <input
-                                                type="password" className="form-control" placeholder="Password"
-                                                data-parsley-required="true"
-                                                minLength="4"
-                                                value={this.state.password}
-                                                onChange={this.handlePasswordChange} />
+                        <div className="formcontainer">
+                        <img className="avatar w-100" src="../logo.png" alt="." />
 
 
+                            <p>
+                                <small className="text-muted">SIGN IN</small>
+                            </p>
 
-                                            <div className="my-3">
-                                                <span className=" text-left"><Link to="/auth/forgotpassword" className="text-muted">Forgot password?</Link> </span> <br></br>
-                                                <span className=" text-right">Don't have an account? <Link to="/auth/register" className="text-muted"> Register</Link> </span>
+                            <form className="login" role="form" onSubmit={this.handleSubmit}>
+                                {
+                                    credentialsError != "" &&
 
+                                    <Notification
+                                        type="error"
+                                        description={credentialsError} />
+                                }
 
-                                            </div>
+                                {
+                                    networkError != "" &&
 
+                                    <Notification
+                                        type="network"
+                                        description={networkErrorMessage} />
+                                }
+                                <div className="form-group">
 
-                                        </div>
+                                    <label>Username</label>
+                                    <input
+                                        type="text" className="form-control"
+                                        placeholder="Enter Username"
+                                        data-parsley-required="true"
+                                        value={this.state.email}
+                                        onChange={this.handleEmailChange} />
 
-
-                                        <button type="submit" className="btn btn-primary mb-4">Sign in</button>
-
-                                    </form>
-
-                                    {loading &&
-                                        <Loader type="dots" />
-                                    }
                                 </div>
-                            </div>
 
+                                <div className="form-group">
+
+                                    <label>Password</label>
+
+                                    <input
+                                        type="password" className="form-control" placeholder="Password"
+                                        data-parsley-required="true"
+                                        minLength="4"
+                                        value={this.state.password}
+                                        onChange={this.handlePasswordChange} />
+
+
+
+                                    <div className="my-3">
+                                        <span className=" text-left"><Link to="/auth/forgotpassword" className="text-muted">Forgot password?</Link> </span> <br></br>
+                                        {/* <span className=" text-right">Don't have an account? <Link to="/auth/register" className="text-muted"> Register</Link> </span> */}
+
+
+                                    </div>
+
+
+                                </div>
+
+
+                                <button type="submit" className="btn btn-primary mb-4">Sign in</button>
+
+                            </form>
+
+                            {loading &&
+                                <Loader type="dots" />
+                            }
                         </div>
+                    </div>
+
+                </div>
 
             </>
 

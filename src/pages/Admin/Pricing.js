@@ -92,7 +92,7 @@ export default class Pricing extends Component {
 
             } else {
                 confirmAlert({
-                    title: 'Error',
+                    // title: 'Error',
                     message: response.data.message,
                     buttons: [
                         {
@@ -105,7 +105,7 @@ export default class Pricing extends Component {
 
         }).catch(error => {
             confirmAlert({
-                title: 'Error occurred',
+                // title: 'Error occurred',
                 message: error.message,
                 buttons: [
                     {
@@ -177,8 +177,8 @@ export default class Pricing extends Component {
 
                 if (response.data.status != "error") {
                     confirmAlert({
-                        title: 'Success!',
-                        message: response.data.message,
+                        message: 'Success!',
+                        // message: response.data.message,
                         buttons: [
                             {
                                 label: 'OK',
@@ -189,7 +189,7 @@ export default class Pricing extends Component {
 
                 } else {
                     confirmAlert({
-                        title: 'Error making request',
+                        // title: 'Error making request',
                         message: response.data.message,
                         buttons: [
                             {
@@ -236,14 +236,18 @@ export default class Pricing extends Component {
                         </div>
 
 
+                        <div className="padding-left">
+
+                        <Button variant="primary" className="pull-right float-right" onClick={() => this.handleReviseCosts()}>
+                                    Revise Pricing
+                                </Button>
+                            </div>
                         <div className="padding">
 
 
 
                             <div className="view viewall">
-                                <Button variant="primary" className="pull-right float-right" onClick={() => this.handleReviseCosts()}>
-                                    Revise Pricing
-                                </Button>
+                               
 
                                 <div id="toolbar">
                                     <button id="trash" className="btn btn-icon btn-white i-con-h-a mr-1"><i className="i-con i-con-trash text-muted"><i></i></i></button>
@@ -361,7 +365,6 @@ export default class Pricing extends Component {
                                         </Button>
                                     </Modal.Footer>
                                 </Modal>
-
 
                                 <table
                                     className="table table-theme v-middle table-row"

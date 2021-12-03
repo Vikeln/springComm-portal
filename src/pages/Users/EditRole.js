@@ -34,7 +34,7 @@ export default class EditRole extends Component {
     }
     goBack(event) {
         event.preventDefault();
-        window.location.href = "/dashboard/viewroles"
+        window.location.href = "/portal/viewroles"
     }
     async componentDidMount() {
 
@@ -185,7 +185,7 @@ export default class EditRole extends Component {
                     });
 
                     setTimeout(function () {
-                        window.location.href = "/dashboard/viewroles"
+                        window.location.href = "/portal/viewroles"
                     }, 4000);
 
                 } else {

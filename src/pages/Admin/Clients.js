@@ -16,6 +16,8 @@ import Loader from '../../components/loaders/Loader';
 import Badge from '../../components/notifications/Badge';
 
 import tenantService from '../../services/tenant.service';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye } from '@fortawesome/free-solid-svg-icons';
 
 
 export default class Clients extends Component {
@@ -166,7 +168,7 @@ export default class Clients extends Component {
                                                     <tr className=" " key={user.id} >
 
                                                         <td>
-                                                            <span className=""> <Link className="dropdown-item" to={'/dashboard/admin/viewclients/' + user.id}>
+                                                            <span className=""> <Link to={'/portal/admin/viewclients/' + user.id}>
                                                                 {user.name}
                                                             </Link></span>
                                                         </td>
@@ -192,17 +194,11 @@ export default class Clients extends Component {
                                                         </td>
 
                                                         <td>
-                                                            <div className="item-action dropdown">
-                                                                <a href="#" data-toggle="dropdown" className="text-muted"><i className="i-con i-con-more"><i></i></i></a>
-
-                                                                <div className="dropdown-menu dropdown-menu-right bg-dark" role="menu">
-
-                                                                    <Link className="dropdown-item" to={'/dashboard/admin/viewclients/' + user.id}>
-                                                                        See detail
-                                                                    </Link>
-                                                                </div>
-
-                                                            </div>
+                                                            <span className="padding">
+                                                                <a href={'/portal/admin/viewclients/' + user.id} >
+                                                                    <FontAwesomeIcon icon={faEye} color="#49bcd7"></FontAwesomeIcon>
+                                                                </a>
+                                                            </span>
                                                         </td>
 
                                                     </tr>

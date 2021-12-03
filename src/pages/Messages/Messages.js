@@ -1,6 +1,7 @@
 /* global $ */
 
 import React, { Component } from 'react';
+import Badge from '../../components/notifications/Badge';
 
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
@@ -480,7 +481,7 @@ export default class Messages extends Component {
                                                         {users != "" &&
 
                                                             users.map((group, index) => (
-                                                                <option key={group.user.id} value={group.user.userName}>{group.user.firstName + " " + group.user.lastName + (group.apiUser ? " - Api User" : "")}</option>
+                                                                <option key={group.id} value={group.userName}>{group.firstName + " " + group.lastName + (group.apiUser ? " - Api User" : "")}</option>
                                                             ))
                                                         }
                                                     </select>
@@ -563,6 +564,7 @@ export default class Messages extends Component {
                                             <th>Message</th>
                                             <th>Request Status </th>
                                             <th>Status </th>
+                                            <th></th>
                                         </tr>
                                     </thead>
 
@@ -594,7 +596,11 @@ export default class Messages extends Component {
                                                         </td>
 
                                                         <td>
-                                                            <span className="text-muted">{mes.processedStatus}</span>
+                                                            <Badge type={mes.processedStatus} description={mes.processedStatus}></Badge>
+                                                        </td>
+
+                                                        <td>
+                                                            {mes.failureReason ? mes.failureReason : ""}
                                                         </td>
 
                                                     </tr>

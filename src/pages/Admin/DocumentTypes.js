@@ -82,7 +82,7 @@ export default class DocumentTypes extends Component {
 
             } else {
                 confirmAlert({
-                    title: 'Error fetching your transactions',
+                    // title: 'Error fetching your transactions',
                     message: response.data.message,
                     buttons: [
                         {
@@ -142,8 +142,8 @@ export default class DocumentTypes extends Component {
 
                 if (response.data.status != "error") {
                     confirmAlert({
-                        title: 'Success!',
-                        message: response.data.message,
+                        message: 'Success!',
+                        // message: response.data.message,
                         buttons: [
                             {
                                 label: 'OK',
@@ -154,7 +154,7 @@ export default class DocumentTypes extends Component {
 
                 } else {
                     confirmAlert({
-                        title: 'Error',
+                        // title: 'Error',
                         message: response.data.message,
                         buttons: [
                             {

@@ -31,14 +31,14 @@ class CommunicationsService {
 
     }
 
-    getDashboardData(clientKey) {
+    getportalData(clientKey) {
         if (clientKey != undefined)
             return axiosInstance.get(baseUrl + "bridge/sent-sms/my-smsdetails?client=" + clientKey);
         else
             return axiosInstance.get(baseUrl + "bridge/sent-sms/my-smsdetails");
     }
 
-    getDashboardGraphData(clientKey) {
+    getportalGraphData(clientKey) {
         if (clientKey != undefined)
             return axiosInstance.get(baseUrl + "bridge/sent-sms/my-sms-graph?client=" + clientKey);
         else

@@ -99,7 +99,7 @@ export default class AdvancedSearch extends Component{
 
                             <div className="col-6 secondaryActions">
 
-                                <Link to="/dashboard/createloan" className="addCustomer btn-rounded">
+                                <Link to="/portal/createloan" className="addCustomer btn-rounded">
                                     <span className="">
                                         <i className="i-con i-con-plus">
                                             <i></i>

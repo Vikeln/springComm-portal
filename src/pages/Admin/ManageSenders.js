@@ -74,7 +74,7 @@ export default class Senders extends Component {
                 $(".table").bootstrapTable();
             } else {
                 confirmAlert({
-                    title: 'Error fetching your sources',
+                    // title: 'Error fetching your sources',
                     message: response.data.message,
                     buttons: [
                         {
@@ -87,7 +87,7 @@ export default class Senders extends Component {
 
         }).catch(error => {
             confirmAlert({
-                title: 'Error occurred',
+                // title: 'Error occurred',
                 message: error.message,
                 buttons: [
                     {
@@ -142,8 +142,7 @@ export default class Senders extends Component {
 
                 if (response.data.status != "error") {
                     confirmAlert({
-                        title: 'Succesfully Created your source!',
-                        message: response.data.message,
+                        message: 'Success!',
                         buttons: [
                             {
                                 label: 'OK',
@@ -154,7 +153,6 @@ export default class Senders extends Component {
 
                 } else {
                     confirmAlert({
-                        title: 'Error Submitting Data for your source',
                         message: response.data.message,
                         buttons: [
                             {
@@ -166,7 +164,6 @@ export default class Senders extends Component {
 
             }).catch(error => {
                 confirmAlert({
-                    title: 'Following Error Occurred',
                     message: error.message,
                     buttons: [
                         {
@@ -318,7 +315,7 @@ export default class Senders extends Component {
 
                                                                 <div className="dropdown-menu dropdown-menu-right bg-dark" role="menu">
 
-                                                                    <Link className="dropdown-item" to={'/dashboard/edittimelinestates/' + mes.stateId}>
+                                                                    <Link className="dropdown-item" to={'/portal/edittimelinestates/' + mes.stateId}>
                                                                         Edit
                                                                         </Link>
 

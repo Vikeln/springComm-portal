@@ -455,7 +455,7 @@ export default class InboxMessages extends Component {
                                                         <span className="text-muted">{mes.content.length >45 ? (mes.content.substring(0,45) + "...") : mes.content }</span>
                                                     </td>
                                                     <td>
-                                                        <Link to={"/dashboard/sendmessages?replyTo=" + mes.sender}>Reply</Link>
+                                                        <Link to={"/portal/sendmessages?replyTo=" + mes.sender}>Reply</Link>
                                                     </td>
 
                                                 </tr>

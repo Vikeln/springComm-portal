@@ -20,7 +20,7 @@ export default class PageNotFound extends Component{
 
         setTimeout(() => {
 
-          window.location.href="/dashboard/adminProfile";
+          window.location.href="/portal/adminProfile";
 
       }, 2000);
     }
@@ -44,7 +44,7 @@ export default class PageNotFound extends Component{
 
                             <h2>Page Not Found</h2>
 
-                            <p>Will Redirect you to the dashboard</p>
+                            <p>Will Redirect you to the portal</p>
                         </div>
 
 

@@ -106,7 +106,7 @@ export default class NewCodes extends Component {
                         buttons: [
                             {
                                 label: 'OK',
-                                onClick: () => window.location.href = "/dashboard/my-codes"
+                                onClick: () => window.location.href = "/portal/my-codes"
                             }
                         ]
                     });

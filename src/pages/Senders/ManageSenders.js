@@ -108,9 +108,9 @@ export default class ManageSenders extends Component {
 
         let stateCopy = Object.assign({}, this.state);
 
-        if  (inputName === "provider"){
-            var userGroups=[];
-            
+        if (inputName === "provider") {
+            var userGroups = [];
+
             for (var i = 0, l = options.length; i < l; i++) {
 
                 if (options[i].selected) {
@@ -120,8 +120,8 @@ export default class ManageSenders extends Component {
             }
             stateCopy.formData[inputName] = userGroups;
 
-        }else{
-        stateCopy.formData[inputName] = inputValue;
+        } else {
+            stateCopy.formData[inputName] = inputValue;
 
         }
 
@@ -255,7 +255,6 @@ export default class ManageSenders extends Component {
                                     data-search-align="left"
                                     data-show-columns="true"
                                     data-show-export="true"
-                                    data-detail-view="true"
                                     data-mobile-responsive="true"
                                     data-pagination="true"
                                     data-page-list="[10, 25, 50, 100, ALL]"
@@ -318,7 +317,7 @@ export default class ManageSenders extends Component {
 
                                                                 <div className="dropdown-menu dropdown-menu-right bg-dark" role="menu">
 
-                                                                    <Link className="dropdown-item" to={'/dashboard/edittimelinestates/' + mes.stateId}>
+                                                                    <Link className="dropdown-item" to={'/portal/edittimelinestates/' + mes.stateId}>
                                                                         Edit
                                                                         </Link>
 
@@ -340,7 +339,7 @@ export default class ManageSenders extends Component {
                                 </table>
 
                                 {loading &&
-                                    <Loader type="dots"/>
+                                    <Loader type="dots" />
                                 }
                             </div>
 
@@ -367,12 +366,12 @@ export default class ManageSenders extends Component {
                                         </select>
                                     </div>
                                 </div>
-                                <div
-                                    className="row">
 
-                                    {this.state.formData.type == "SENDER_ID" &&
-                                        <>
+                                {this.state.formData.type == "SENDER_ID" &&
+                                    <>
 
+                                        <div
+                                            className="row">
                                             <div
                                                 className="col-6">
 
@@ -387,6 +386,9 @@ export default class ManageSenders extends Component {
                                                     onChange={this.handleChange} />
                                             </div>
 
+                                        </div>
+                                        <div
+                                            className="row">
                                             <div
                                                 className="col-6">
 
@@ -400,9 +402,12 @@ export default class ManageSenders extends Component {
                                                     data-parsley-required="true"
                                                     onChange={this.handleChange} />
                                             </div>
-                                        </>
+                                        </div>
+                                    </>
 
-                                    }
+                                }
+                                <div
+                                    className="row">
                                     {this.state.formData.type == "TWO_WAY_SHORTCODE" &&
                                         <div
                                             className="col-6">
@@ -419,13 +424,10 @@ export default class ManageSenders extends Component {
                                         </div>
                                     }
 
-
-
-
                                 </div>
-                                
+
                                 <div
-                                        className="row">
+                                    className="row">
                                     <div
                                         className="col-6">
 
@@ -444,7 +446,7 @@ export default class ManageSenders extends Component {
                                             <option></option>
                                         </select>
                                     </div>
-                                    </div>
+                                </div>
 
                                 <div className="row">
 

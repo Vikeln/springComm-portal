@@ -58,8 +58,8 @@ export default class Badge extends Component{
                     </div>
                 );
 
-            case 'black':
-
+                case 'black':
+                    case 'FAILED':
             case 'AMOUNT_DECLINED':
             case 'inactive':
                 return(

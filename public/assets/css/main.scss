@@ -206,7 +206,8 @@ html{
 body{
 
     padding-top:0px;
-    background: #fff;
+    background: rgb(255, 253, 253)  url('../logo3.png')  repeat;
+    // color:#49bcd7;
 
 }
 
@@ -225,25 +226,24 @@ button{
 .btn-primary{
 
 
-    background:#204066;
-    color: #ffffff;
+    background:#ffffff;
+    color: #49bcd7;
     padding-left: 20px;
     padding-right: 20px;
     margin-right: 20px;
     padding-top: 7px;
     padding-bottom: 5px;
 
-    @include borderRadius(15px);
 
 }
+ .nav-link { color:#49bcd7 !important}
 
 .btn-rounded{
-    @include borderRadius(20px);
     max-height: 40px;
 }
 
 .btn-primary:hover, .btn-primary.active,.btn-primary.disabled{
-    background: #204066 !important;
+    background: #49bcd7 !important;
     color: #ffffff;
     border: none;
     border:1px solid #ffffff;
@@ -262,7 +262,7 @@ button{
 
 .badge-warning{
 
-    background:#204066;
+    background:#ffde24;
 
 
 }
@@ -280,7 +280,7 @@ button{
 
 .profileheader{
 
-    background: #204066;
+    background: #49bcd7;
 
 }
 
@@ -297,7 +297,7 @@ button{
 
 .active > .active-bg-success{
 
-    background-color: #204066 !important;
+    background-color: #49bcd7 !important;
 
 }
 
@@ -368,8 +368,8 @@ form{
         display: block;
         width: 100%;
         margin-bottom: 25px;
-        color: #204066;
-        border-bottom: 1px solid #204066;
+        color: #49bcd7;
+        border-bottom: 1px solid #49bcd7;
         padding-bottom: 15px;
         padding-left: 0px;
         margin-left: 0px;
@@ -452,7 +452,7 @@ form{
 
     h1{
         font-size: 120px;
-        color:#204066;
+        color:#49bcd7;
     }
 
     h2{
@@ -505,7 +505,7 @@ form{
   }
   
   .auth-inner {
-    width: 510px;
+    width: 400px;
     margin: auto;
     background: #ffffff;
     box-shadow: 0px 14px 80px rgba(34, 35, 58, 0.2);
@@ -516,11 +516,11 @@ form{
 
 .authenticationBackgroundInner{
 
-    background:#204066  ;
+    background:#49bcd7  ;
 }
 .authenticationBackground{
 
-    background:#204066  url('../img/login/bg.jpg')  no-repeat center center fixed;
+    background:#49bcd7 center center fixed;
     height: 100vh;
     background-size:70%;    
   -webkit-background-size: cover;
@@ -551,7 +551,7 @@ form{
 
 .page-header .nav-item .dropdown-item{
 
-    color: #204066;
+    color: #49bcd7;
 
 }
 
@@ -603,7 +603,7 @@ form{
             }
 
             li.active{
-                background-color: rgba(251, 144, 32, 0.22);
+                background-color: #49bcd7;
             }
         }
 
@@ -622,8 +622,8 @@ form{
 
     .nav > li.active{
 
-        border-left:2px solid #204066;
-        background-color: rgb(218 0 33 / 20%);
+        border-left:2px solid #49bcd7;
+        background-color: #49bcd7;
 
     }
 
@@ -632,7 +632,7 @@ form{
 
 /***** END Sidebar *******/
 
-/***** Admin Dashboard *******/
+/***** Admin portal *******/
 
 .adminProfile{
 
@@ -640,7 +640,7 @@ form{
         box-shadow: none;
     }
 }
-.dashboard{
+.portal{
 
     .row{
         margin-left: 0px;
@@ -648,20 +648,79 @@ form{
 
 }
 
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
 
 
 .summaryIcon{
 
-    width: 25%;
-    margin-right: 2%;
-    padding:20px 0.5%;
+    // width: 25%;
+    margin-right:5%;
+    padding:20px;
     position: relative;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 -1px 0px rgba(0, 0, 0, 0.015) !important;
+    box-shadow: 0 1px 3px rgba(54, 165, 240, 0.05), 0 -1px 0px rgba(0, 0, 0, 0.015) !important;
 
     h2{
 
         margin-left: 20px;
-        color: #204066;
+        color: #49bcd7;
         font-weight: bold;
         padding-bottom: 1px solid #efefef;
 
@@ -678,8 +737,8 @@ form{
         position: absolute;
         top: 20px;
         right:15px;
-        color: #204066;
-        border:1px solid #204066;
+        color: #49bcd7;
+        border:1px solid #49bcd7;
         padding:10px;
         border-radius:50%;
         width: 60px;
@@ -727,7 +786,7 @@ form{
 
 .nav-active-border li > a.active:before, .nav-active-border .nav-link.active:before{
 
-    border-bottom: 5px solid #204066;
+    border-bottom: 5px solid #49bcd7;
 
 }
 
@@ -741,7 +800,7 @@ form{
 
 }
 
-/***** END Admin Dashboard *******/
+/***** END Admin portal *******/
 
 /*****  Bootstrap Table*******/
 .paymentCheckout .paymentCheckoutDiv{
@@ -766,7 +825,7 @@ form{
 
     td,th{
         a{
-            color:#204066;
+            color:#49bcd7;
         }
     }
 }
@@ -794,7 +853,7 @@ form{
 .bg-status-lt{
 
     color: #ffffff;
-    background:#204066;
+    background:#49bcd7;
 
 }
 
@@ -803,15 +862,17 @@ form{
     cursor: pointer;
     background: none;
     padding:10px 20px;
-    border:1px solid #204066;
-    color: #204066;
+    border:1px solid #49bcd7;
+    color: #49bcd7;
     margin-right: 10px;
 
 }
-
+.dashbuttons {
+    border:1px solid #49bcd7;
+}
 .page-header{
     .bg-mobiloan {
-        background-color: #204066 !important;
+        background-color: #49bcd7 !important;
     }
 }
 
@@ -823,7 +884,7 @@ form{
 .uploadFile{
 
     width: 100%;
-    border:2px dashed #204066;
+    border:2px dashed #49bcd7;
     height: 70px;
     @include borderRadius(5px);
     margin-top: 10px;
@@ -845,7 +906,7 @@ form{
         line-height: 70px;
         cursor: pointer;
         font-size: 20px;
-        color: #204066;
+        color: #49bcd7;
     }
 
 
@@ -875,7 +936,7 @@ form{
     display: flex;
 
     button,a{
-        border:1px solid #204066;
+        border:1px solid #49bcd7;
         display: inline-block;
         padding-top: 10px;
         padding-bottom: 10px;
@@ -921,7 +982,7 @@ form{
 
     .advancedSearchButton{
 
-        border:1px solid #204066;
+        border:1px solid #49bcd7;
         background: none;
         padding-top: 10px;
         padding-bottom: 10px;
@@ -934,7 +995,7 @@ form{
 
     .addCustomer,.btn-primary{
 
-        background:#204066;
+        background:#49bcd7;
         color: #ffffff;
         padding-left: 30px;
         margin-right: 20px;
@@ -943,7 +1004,7 @@ form{
 
     .addCustomer{
 
-        background:#204066;
+        background:#49bcd7;
         color: #ffffff;
         padding-left: 30px;
         margin-right: 20px;
@@ -958,7 +1019,7 @@ form{
 
     .upload{
 
-        background:#204066;
+        background:#49bcd7;
         color: #ffffff;
         border:none;
         padding-left: 30px;
@@ -989,7 +1050,7 @@ form{
 
     form{
 
-       border-top: 4px solid #204066;
+       border-top: 4px solid #49bcd7;
 
        .col-6{
            margin-bottom: 20px;
@@ -1023,8 +1084,8 @@ form{
           cursor: pointer;
           background: none;
           padding:10px 20px;
-          border:1px solid #204066;
-          color: #204066;
+          border:1px solid #49bcd7;
+          color: #49bcd7;
           margin-right: 10px;
 
       }
@@ -1063,7 +1124,7 @@ form{
         top: 10%;
         padding:20px;
         width: 60%;
-        background:#204066;
+        background:#49bcd7;
         text-align: right;
 
         h1,p{
@@ -1080,7 +1141,7 @@ form{
 }
 .bg-dark,.bg-dark-overlay{
 
-    background: #204066;
+    background: #49bcd7;
 
     .buttonContainer{
 
@@ -1096,7 +1157,7 @@ form{
         button:hover{
 
             background:#ffffff;
-            color: #204066;
+            color: #49bcd7;
 
         }
 
@@ -1116,7 +1177,7 @@ form{
 
             .customerLink{
 
-                color: #204066;
+                color: #49bcd7;
 
             }
 
@@ -1153,7 +1214,7 @@ form{
 
     .paginate_button{
 
-        color: #204066 !important;
+        color: #49bcd7 !important;
         background-color: #ffffff !important;
         padding:5px 15px;
         margin-right: 5px;
@@ -1162,8 +1223,8 @@ form{
     }
 
     .current{
-        background-color: #204066 !important;
-        border-color: #204066 !important;
+        background-color: #49bcd7 !important;
+        border-color: #49bcd7 !important;
         color: #ffffff !important;
     }
 
@@ -1177,7 +1238,7 @@ form{
 
     .page-link{
 
-        color: #204066 !important;
+        color: #49bcd7 !important;
         background-color: #ffffff !important;
         padding:5px 15px;
         margin-right: 5px;
@@ -1288,7 +1349,7 @@ form{
         .badge-warning{
             // background: #584b3d;
             background: #fff;
-            color: #204066 !important;
+            color: #49bcd7 !important;
         }
 
         strong{
@@ -1304,7 +1365,7 @@ form{
 
         .accordionTitle{
 
-            background:#204066;
+            background:#49bcd7;
             padding-top: 15px;
             padding-bottom: 15px;
             padding-left: 15px;
@@ -1430,7 +1491,7 @@ form{
                 padding-left: 10px;
                 padding-top: 14px;
                 padding-bottom: 14px;
-                border-bottom: 1px dashed #204066;
+                border-bottom: 1px dashed #49bcd7;
 
                 span{
 
@@ -1497,8 +1558,8 @@ form{
             margin-bottom: 0px;
             margin-left: 0px;
             padding-left: 0px;
-            border-top: 1px solid #204066;
-            border-right: 1px solid #204066;
+            border-top: 1px solid #49bcd7;
+            border-right: 1px solid #49bcd7;
         }
 
         li{
@@ -1509,13 +1570,13 @@ form{
             cursor: pointer;
             padding-left: 20px;
             border-bottom: 1px solid gray;
-            border-left: 5px solid #204066;
+            border-left: 5px solid #49bcd7;
             position:relative;
 
         }
 
         li.active{
-            border-left: 5px solid #204066;
+            border-left: 5px solid #49bcd7;
             padding-left: 20px;
             background-color: rgba(251, 144, 32, 0.22);
 
@@ -1542,7 +1603,7 @@ form{
 
     .loancharge{
 
-        border-bottom: 1px dashed #204066;
+        border-bottom: 1px dashed #49bcd7;
         margin-bottom: 20px;
 
         .chargeHeading{
@@ -1632,7 +1693,8 @@ form{
     }
 
     .summaryIcon{
-        width: 47%
+        // width: 25%
+
     }
 
 
@@ -1718,7 +1780,7 @@ form{
 
         h1{
             font-size: 48px;
-            color:#204066;
+            color:#49bcd7;
         }
 
         h2{
@@ -1897,7 +1959,8 @@ form{
     }
 
     .summaryIcon{
-        width: 97%
+        // width: 25%
+
     }
 
     .fixed-table-toolbar{

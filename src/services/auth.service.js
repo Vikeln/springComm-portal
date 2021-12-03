@@ -6,14 +6,14 @@ class AuthService {
     forgotPassword(formData) {
 
         //return axiosInstanceInstance.post(baseUrl + "auth"+"/resetpassword", formData);
-        return axiosInstance.post(baseUrl + "auth" + "/forgotpassword", formData);
+        return axiosInstance.post(baseUrl + "accounts" + "/forgotpassword", formData);
 
     }
 
     resetPassword(formData) {
 
         //return axiosInstanceInstance.post(baseUrl + "auth"+"/resetpassword", formData);
-        return axiosInstance.post(baseUrl + "auth" + "/resetpassword", formData);
+        return axiosInstance.post(baseUrl + "accounts" + "/resetpassword", formData);
 
 
     }

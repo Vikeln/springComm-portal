@@ -17,6 +17,8 @@ import Badge from '../../components/notifications/Badge';
 
 import UserService from '../../services/user.service';
 import authService from '../../services/auth.service';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faLockOpen, faPen, faToggleOff, faToggleOn } from '@fortawesome/free-solid-svg-icons';
 
 
 export default class AllUsers extends Component {
@@ -50,9 +52,9 @@ export default class AllUsers extends Component {
 
         await this.fetchUsers();
 
-        $("body").on("click",".enableUser",this.enableUser);
-        $("body").on("click",".disableUser",this.deactivateUser);
-        $("body").on("click",".unlockUser",this.unlockUserAccount);
+        $("body").on("click", ".enableUser", this.enableUser);
+        $("body").on("click", ".disableUser", this.deactivateUser);
+        $("body").on("click", ".unlockUser", this.unlockUserAccount);
 
 
     }
@@ -123,13 +125,13 @@ export default class AllUsers extends Component {
 
     enableUser(el) {
 
-        
+
         var username = el.target.dataset.name;
 
 
         confirmAlert({
-            title: 'Are you sure you want to enable ' + username,
-            message: 'Please proceed.',
+            message: 'Are you sure you want to enable ' + username,
+            // message: 'Please proceed.',
             buttons: [
                 {
                     label: 'Yes',
@@ -193,13 +195,13 @@ export default class AllUsers extends Component {
 
 
     }
+
     unlockUserAccount(el) {
 
-        
+
         var id = el.target.dataset.id;
         confirmAlert({
-            title: "Are you sure you want to unlock this user's account? ",
-            message: 'Please proceed.',
+            message: "Are you sure you want to unlock this user's account? ",
             buttons: [
                 {
                     label: 'Yes',
@@ -261,54 +263,59 @@ export default class AllUsers extends Component {
 
     }
 
-    deactivateUser(el) {        
+    deactivateUser(el) {
         var id = el.target.dataset.id;
+        confirmAlert({
+            message: "Are you sure you want to disable this user's account? ",
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: () => {
+                        UserService.deactivate(id).then(response => {
 
-        UserService.deactivate(id).then(response => {
+                            if (response.data.status == "success") {
+
+                                this.setState({
+
+                                    emailSuccessful: response.data.message
+
+                                });
+                                window.location.reload()
 
 
+                            } else {
+                                confirmAlert({
+                                    title: 'Error occurred on user deactivation',
+                                    message: response.data.message,
+                                    buttons: [
+                                        {
+                                            label: 'ok',
+                                        }
+                                    ]
+                                });
+                            }
 
-            if (response.data.status == "success") {
+                        }).catch(error => {
 
-                this.setState({
+                            confirmAlert({
+                                title: 'Error occurred',
+                                message: error.message,
+                                buttons: [
+                                    {
+                                        label: 'ok',
+                                    }
+                                ]
+                            });
 
-                    emailSuccessful: response.data.message
-
-                });
-                window.location.reload()
-
-
-            } else {
-                confirmAlert({
-                    title: 'Error occurred on user deactivation',
-                    message: response.data.message,
-                    buttons: [
-                        {
-                            label: 'ok',
-                        }
-                    ]
-                });
-            }
-
-        }).catch(error => {
-
-            confirmAlert({
-                title: 'Error occurred',
-                message: error.message,
-                buttons: [
-                    {
-                        label: 'ok',
+                        });
                     }
-                ]
-            });
-
+                }]
         });
-
     }
 
     render() {
 
-        const { users, viewUsers, loading, editUsers, enableUser,disableUser, unlockUser } = this.state;
+        const { users, viewUsers, loading, editUsers, enableUser, disableUser, unlockUser } = this.state;
 
         return (
 
@@ -328,23 +335,24 @@ export default class AllUsers extends Component {
                             <div className="padding">
 
 
-{/* <div id="toolbar">
-                                <button id="trash" className="btn btn-icon btn-white i-con-h-a mr-1"><i className="i-con i-con-trash text-muted"><i></i></i></button>
-                            </div> */}
+                               
+<a class="float-right" href="/portal/addusers">
+                                <button className="btn btn-primary"><i className="fa fa-pen">Add New</i></button></a>
 
-
+<br/>
+<br/>
                                 <table
-                                className="table table-theme v-middle table-row"
-                                id="table"
-                                data-toolbar="#toolbar"
-                                data-search="true"
-                                data-search-align="left"
-                                data-show-columns="true"
-                                data-show-export="true"
-                                data-detail-view="false"
-                                data-mobile-responsive="true"
-                                data-pagination="true"
-                                data-page-list="[10, 25, 50, 100, ALL]"
+                                    className="table table-theme v-middle table-row"
+                                    id="table"
+                                    data-toolbar="#toolbar"
+                                    data-search="true"
+                                    data-search-align="left"
+                                    data-show-columns="true"
+                                    data-show-export="true"
+                                    data-detail-view="false"
+                                    data-mobile-responsive="true"
+                                    data-pagination="true"
+                                    data-page-list="[10, 25, 50, 100, ALL]"
                                 >
 
                                     <thead>
@@ -354,7 +362,6 @@ export default class AllUsers extends Component {
                                             <th>Last Name</th>
                                             <th>API User </th>
                                             <th>Role </th>
-
                                             <th>Email </th>
                                             <th>Activated </th>
                                             <th>Actions </th>
@@ -372,19 +379,21 @@ export default class AllUsers extends Component {
                                                 return (
 
 
-                                                    <tr className=" " key={user.user.id} >
+                                                    <tr className=" " key={user.id} >
 
 
                                                         <td>
-                                                            <span className="">{user.user.userName}</span>
+                                                            <Link className="link" to={'/portal/viewuser/' + user.id}>
+                                                                {user.userName}
+                                                            </Link>
                                                         </td>
 
                                                         <td>
-                                                            <span className="">{user.user.firstName}</span>
+                                                            <span className="">{user.firstName}</span>
                                                         </td>
 
                                                         <td>
-                                                            <span className="">{user.user.lastName}</span>
+                                                            <span className="">{user.lastName}</span>
                                                         </td>
 
                                                         <td>
@@ -392,58 +401,96 @@ export default class AllUsers extends Component {
                                                         </td>
 
                                                         <td>
-                                                            { <span className="">{user.user.role.name}</span> }
+                                                            {<span className="">{user.role.name}</span>}
                                                         </td>
 
 
                                                         <td>
-                                                            <span className="">{user.user.email}</span>
+                                                            <span className="">{user.email}</span>
                                                         </td>
 
                                                         <td>
-                                                            <span className=""><Badge description={user.user.enabled.toString()}
-                                                                type={user.user.enabled.toString()} /></span>
+                                                            <span className="">
+                                                                <Badge description={user.enabled.toString()}
+                                                                    type={user.enabled.toString()} />
+                                                            </span>
                                                         </td>
 
                                                         <td>
-                                                            <div className="item-action dropdown">
+
+                                                            <span className="padding">
+                                                                <a href={'/portal/viewuser/' + user.id} >
+                                                                    <FontAwesomeIcon icon={faEye} color="#49bcd7"></FontAwesomeIcon>
+                                                                </a>
+                                                            </span>
+                                                            {editUsers &&
+                                                                <span className="padding">
+                                                                    <a href={'/portal/edituser/' + user.id} >
+                                                                        <FontAwesomeIcon icon={faPen} color="#49bcd7"></FontAwesomeIcon>
+                                                                    </a>
+                                                                </span>
+                                                            }
+
+                                                            {disableUser && user.enabled && <span className="padding disableUser">
+                                                                <FontAwesomeIcon
+                                                                    icon={faToggleOff}
+                                                                    color="#49bcd7"
+                                                                    data-id={user.id}
+                                                                    data-name={user.userName}
+                                                                    className=""></FontAwesomeIcon>
+
+                                                            </span>}
+                                                            {enableUser && !user.enabled && <span className="padding enableUser">
+                                                                <FontAwesomeIcon icon={faToggleOn} color="#49bcd7"
+                                                                    data-id={user.id}
+                                                                    data-name={user.userName}
+                                                                    className=""></FontAwesomeIcon>
+                                                            </span>}
+
+                                                            {unlockUser && user.accountLocked && <span className="padding unlockUser">
+                                                                <FontAwesomeIcon icon={faLockOpen} color="#49bcd7"
+                                                                    data-id={user.id}
+                                                                    data-name={user.userName}
+                                                                    className=""></FontAwesomeIcon>
+                                                            </span>}
+
+
+                                                            {/* <div className="item-action dropdown">
                                                                 <a href="#" data-toggle="dropdown" className="text-muted"><i className="i-con i-con-more"><i></i></i></a>
 
-                                                                <div className="dropdown-menu dropdown-menu-right bg-dark" role="menu">
+                                                                <div className="dropdown-menu dropdown-menu-right" role="menu">
 
-                                                                    <Link className="dropdown-item" to={'/dashboard/viewuser/' + user.user.id}>
-                                                                        See detail
-                                                                        </Link>
+
 
                                                                     {editUsers &&
-                                                                        <Link className="dropdown-item" to={'/dashboard/edituser/' + user.user.id}>
+                                                                        <Link className="dropdown-item" to={'/portal/edituser/' + user.id}>
                                                                             Edit
                                                                         </Link>
                                                                     }
 
-                                                                    {enableUser && !user.user.enabled &&
-                                                                        <button data-name={user.user.userName}
+                                                                    {enableUser && !user.enabled &&
+                                                                        <button data-name={user.userName}
                                                                             className="dropdown-item enableUser"
-                                                                        >Enable {user.user.userName}</button>}
+                                                                        >Enable {user.userName}</button>}
 
-                                                                    {disableUser && user.user.enabled &&
-                                                                        <button data-id={user.user.id}
+                                                                    {disableUser && user.enabled &&
+                                                                        <button data-id={user.id}
                                                                             className="dropdown-item disableUser"
-                                                                            // onClickCapture={() =>
-                                                                            //     this.deactivateUser(user.user.id)
-                                                                            // }
-                                                                        >DeActivate {user.user.userName}</button>}
-                                                                    {unlockUser && user.user.accountLocked &&
-                                                                        <button data-id={user.user.id}
+                                                                        // onClickCapture={() =>
+                                                                        //     this.deactivateUser(user.user.id)
+                                                                        // }
+                                                                        >DeActivate {user.userName}</button>}
+                                                                    {unlockUser && user.accountLocked &&
+                                                                        <button data-id={user.id}
                                                                             className="dropdown-item unlockUser"
-                                                                            // onClickCapture={() =>
-                                                                            //     this.unlockUserAccount(user.user.id)
-                                                                            // }
-                                                                        >Unlock {user.user.userName}'s Account </button>}
+                                                                        // onClickCapture={() =>
+                                                                        //     this.unlockUserAccount(user.user.id)
+                                                                        // }
+                                                                        >Unlock {user.userName}'s Account </button>}
 
                                                                 </div>
 
-                                                            </div>
+                                                            </div> */}
                                                         </td>
 
                                                     </tr>
@@ -465,7 +512,7 @@ export default class AllUsers extends Component {
                         }
 
                         {loading &&
-                            <Loader type="dots"/>
+                            <Loader type="dots" />
                         }
 
 

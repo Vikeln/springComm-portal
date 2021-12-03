@@ -3,22 +3,22 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: TRENDYMEDIA-total-portal
-  name: TRENDYMEDIA-total-portal-deployment
-  namespace: TRENDYMEDIAs
+    app: TAARIFA_KENYA-total-portal
+  name: TAARIFA_KENYA-total-portal-deployment
+  namespace: TAARIFA_KENYAs
 spec:
   selector:
     matchLabels:
-      app: TRENDYMEDIA-total-portal
+      app: TAARIFA_KENYA-total-portal
   replicas: 1
   minReadySeconds: 30
   template:
     metadata:
       labels:
-        app: TRENDYMEDIA-total-portal
+        app: TAARIFA_KENYA-total-portal
     spec:
       containers:
-        - name: TRENDYMEDIA-total-portal
+        - name: TAARIFA_KENYA-total-portal
           image: ImageName
           ports:
             - containerPort: 80
@@ -33,16 +33,16 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: TRENDYMEDIA-total-portal-service
-  namespace: TRENDYMEDIAs
+  name: TAARIFA_KENYA-total-portal-service
+  namespace: TAARIFA_KENYAs
   labels:
-    run: TRENDYMEDIA-total-portal-service
+    run: TAARIFA_KENYA-total-portal-service
 spec:
   type: NodePort
   ports:
-    - name: TRENDYMEDIA-total-portal-port
+    - name: TAARIFA_KENYA-total-portal-port
       port: 80
       protocol: TCP
       nodePort: 30561
   selector:
-    app: TRENDYMEDIA-total-portal
+    app: TAARIFA_KENYA-total-portal

@@ -157,11 +157,9 @@ export default class ResetPassword extends Component {
                 <div className="authenticationBackground auth-wrapper">
 
                     <div className="auth-inner" >
-                        <div className="row authenticationBackgroundInner">
-
-                            <img src="/logo2.png" />
-                        </div>
+                        
                         <div className="formcontainer">
+                        <img className="avatar w-100" src="../logo.png" alt="SPRING" />  
 
                             <p>
                                 <small className="text-muted">Enter new password to reset your account</small>

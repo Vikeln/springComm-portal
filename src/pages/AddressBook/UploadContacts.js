@@ -198,7 +198,7 @@ export default class UploadContacts extends Component {
                     buttons: [
                         {
                           label: 'Yes',
-                          onClick: () => window.location.href ="/dashboard/addressBook"
+                          onClick: () => window.location.href ="/portal/addressBook"
                         }
                       ]
                 });

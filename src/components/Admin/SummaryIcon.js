@@ -39,12 +39,12 @@ export default class SummaryIcon extends Component{
                 {/* Summary Icon */}
                 <div className="card summaryIcon">
 
-                    <h2>{amount}</h2>
                     <h6>{title}</h6>
+                    <h2 className="text-center">{amount}</h2>
 
-                    <figure className="iconContainer">
+                    {/* <figure className="iconContainer">
                         <FontAwesomeIcon icon={icon} size="2x" className="icon"/>
-                    </figure>
+                    </figure> */}
 
                 </div>
                 {/* End Summary Icon*/}

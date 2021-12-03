@@ -302,7 +302,7 @@
         {
             "id": "14",
             "title": "Account confirmation",
-            "feed": "Welcome to new ui dashboard, you are almost there",
+            "feed": "Welcome to new ui portal, you are almost there",
             "except": "We’re building developer tools, too. We hope they help you work on projects of any size and share ideas with your friends and coworkers",
             "link": "item.detail.html",
             "thumb": "../assets/img/b14.jpg",

@@ -84,7 +84,7 @@ export default class MessageTemplates extends Component {
 
             } else {
                 confirmAlert({
-                    title: 'Error',
+                    // title: 'Error',
                     message: response.data.message,
                     buttons: [
                         {
@@ -339,7 +339,7 @@ export default class MessageTemplates extends Component {
 
                                                                 <div className="dropdown-menu dropdown-menu-right bg-dark" role="menu">
 {editTemplate && 
-                                                                    <Link className="dropdown-item" to={'/dashboard/editmessagetemplate/' + mes.id}>
+                                                                    <Link className="dropdown-item" to={'/portal/editmessagetemplate/' + mes.id}>
                                                                         Edit
                                                                         </Link>}
                                                                 </div>

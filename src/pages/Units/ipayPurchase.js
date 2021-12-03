@@ -21,6 +21,7 @@ import utils from '../../utils/utils';
 import { clientBaseUrl } from '../../API';
 
 import crypto from 'crypto';
+import authService from '../../services/auth.service';
 
 export default class IpayPurchase extends Component {
 
@@ -167,73 +168,34 @@ export default class IpayPurchase extends Component {
         const { iPayPurchaseUnitsBody, paymentOrderId } = this.state;
         if ($(".selectProductForm").parsley().isValid()) {
 
-            iPayPurchaseUnitsBody.oid = paymentOrderId.substring(0, paymentOrderId.length - 3);
-            iPayPurchaseUnitsBody.inv = paymentOrderId.substring(0, paymentOrderId.length - 3);
-            // let hash = "";
+            let prepareBillingModel = {
+                clientService: this.state.clientService,
+                units: this.state.prepareTransactionBody.units,
+                amount: this.state.prepareTransactionBody.amount,
+                paymentChannel: "MPESA",
+                customerTel: iPayPurchaseUnitsBody.tel,
+                callback: iPayPurchaseUnitsBody.cbk,
+                customerEmail: iPayPurchaseUnitsBody.eml,
+            }
 
-            // Build the request body string from the 
-            // var requestBody = iPayPurchaseUnitsBody.live+iPayPurchaseUnitsBody.oid+iPayPurchaseUnitsBody.inv+iPayPurchaseUnitsBody.ttl+iPayPurchaseUnitsBody.tel+iPayPurchaseUnitsBody.eml+iPayPurchaseUnitsBody.vid+iPayPurchaseUnitsBody.curr+iPayPurchaseUnitsBody.p1+iPayPurchaseUnitsBody.p2+iPayPurchaseUnitsBody.p3+iPayPurchaseUnitsBody.p4+iPayPurchaseUnitsBody.cbk+iPayPurchaseUnitsBody.cst+iPayPurchaseUnitsBody.crl;
-            var requestBody = iPayPurchaseUnitsBody.live +
-                iPayPurchaseUnitsBody.oid +
-                iPayPurchaseUnitsBody.inv +
-                iPayPurchaseUnitsBody.ttl +
-                iPayPurchaseUnitsBody.tel +
-                iPayPurchaseUnitsBody.eml +
-                iPayPurchaseUnitsBody.vid +
-                iPayPurchaseUnitsBody.curr +
-                iPayPurchaseUnitsBody.p1 +
-                iPayPurchaseUnitsBody.p2 +
-                iPayPurchaseUnitsBody.p3 +
-                iPayPurchaseUnitsBody.p4 +
-                iPayPurchaseUnitsBody.cbk +
-                iPayPurchaseUnitsBody.cst +
-                iPayPurchaseUnitsBody.crl;
+            console.log("submitting data to client => " + JSON.stringify(prepareBillingModel));
 
-            console.log("requestBody => " + requestBody);
+            TenantService.prepareBillingTransaction(authService.getCurrentClientId(), prepareBillingModel).then(response => {
 
-            var hashstring = crypto.createHmac('sha1', "demoCHANGED").update(requestBody).digest('hex');
-
-            iPayPurchaseUnitsBody.hsh = hashstring;
-            console.log("hashstring => " + iPayPurchaseUnitsBody.hsh);
-
-
-
-            console.log("submitting data to client => " + JSON.stringify(iPayPurchaseUnitsBody));
-
-            TenantService.prepareInvoice(this.state.clientService, this.state.prepareTransactionBody.units, iPayPurchaseUnitsBody).then(response => {
-
-                if (response.data.status != "error") {
-                    //open the new window and  write your HTML to it
-                    // this.handleModalShowHide();
-                    this.setState({
-                        redirectUrl: response.data
-                    })
-
-
-                    localStorage.setItem("redirectUrl", response.data);
-
-                    // this.handleModalShowHidePayment();
-
-                    // window.location.href = "/dashboard/checkout/"+this.state.clientService
-
-                    // var myWindow = window.open(response.data, 'location=yes,height=570,width=520,scrollbars=yes,status=yes',"response", "resizable=yes");
-
-                } else {
-                    confirmAlert({
-                        title: 'Error',
-                        message: response.data.message,
-                        buttons: [
-                            {
-                                label: 'ok',
-                            }
-                        ]
-                    });
-                }
-
+                this.handleModalShowHide();
+                confirmAlert({
+                    message: response.data.message,
+                    buttons: [
+                        {
+                            label: 'OK',
+                            onClick: () => window.location.reload()
+                        }
+                    ]
+                });
 
             }).catch(error => {
                 confirmAlert({
-                    title: 'Error occurred',
+                    // title: 'Error occurred',
                     message: error.message,
                     buttons: [
                         {
@@ -508,7 +470,6 @@ export default class IpayPurchase extends Component {
                                             <th>Amount</th>
                                             <th>Date Purchased</th>
                                             <th>Status</th>
-                                            <th></th>
                                         </tr>
                                     </thead>
 
@@ -542,16 +503,6 @@ export default class IpayPurchase extends Component {
 
                                                         <td>
                                                             <span className="text-muted">{mes.status}</span>
-                                                        </td>
-
-                                                        <td>
-                                                            {(mes.ipayCorrelator != undefined && mes.status === "NEW" && mes.ipayCorrelator.startsWith("http")) &&
-                                                                <a href={mes.ipayCorrelator} target='_blank'>
-                                                                    <button className="btn-primary" type="button">Complete Payment</button>
-                                                                    
-                                                                </a>
-
-                                                            }
                                                         </td>
 
                                                     </tr>

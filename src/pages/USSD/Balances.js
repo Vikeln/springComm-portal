@@ -205,7 +205,8 @@ export default class Balances extends Component {
                                                         </td>
 
                                                         <td>
-                                                            <Link to={"/dashboard/transactions/" + mes.service.id} className="dropdown-item Link">Transactions</Link>
+                                                            <a className="link" href={"/portal/transactions/" + mes.service.id} >Transactions</a>
+                                                            {/* <Link className="link" href={"/portal/transactions/" + mes.service.id} className="dropdown-item Link">Transactions</Link> */}
                                                         </td>
 
                                                     </tr>

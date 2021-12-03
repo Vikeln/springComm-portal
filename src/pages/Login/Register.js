@@ -157,7 +157,7 @@ export default class Register extends Component {
 
                                 <div className="formTitle">
                                     <article>
-                                        <h1>TRENDYMEDIA</h1>
+                                        <h1>TAARIFA_KENYA</h1>
                                     </article>
                                 </div>
 
@@ -168,7 +168,7 @@ export default class Register extends Component {
 
                                 <div className="formcontainer">
 
-                                    <h5>Create TRENDYMEDIA Account</h5>
+                                    <h5>Create TAARIFA_KENYA Account</h5>
                                     <p>
                                         <small className="text-muted">Create an account to access all our features</small>
                                     </p>

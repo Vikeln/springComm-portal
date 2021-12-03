@@ -36,7 +36,7 @@ export default class Checkout extends Component {
     }
 
     handleModalShowHidePayment() {
-        window.location.href = "/dashboard/transactions/" + this.state.clientService
+        window.location.href = "/portal/transactions/" + this.state.clientService
     }
     componentDidMount() {
 

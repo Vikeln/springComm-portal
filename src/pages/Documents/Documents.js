@@ -16,6 +16,8 @@ import Loader from '../../components/loaders/Loader';
 import authService from '../../services/auth.service';
 import tenantService from '../../services/tenant.service';
 import { baseUrl, clientBaseUrl } from '../../API';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faDownload } from '@fortawesome/free-solid-svg-icons';
 
 export default class Documents extends Component {
 
@@ -350,7 +352,10 @@ export default class Documents extends Component {
                                                         </td> */}
 
                                                         <td>
-                                                            <a href={clientBaseUrl + "documents/download?docName=" + mes.documentName}>Download</a>
+
+                                                            <a href={clientBaseUrl + "documents/download?docName=" + mes.documentName}>
+                                                            <FontAwesomeIcon icon={faDownload} color="#49bcd7"></FontAwesomeIcon>
+                                                            </a>
 
                                                         </td>
 

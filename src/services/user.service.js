@@ -24,7 +24,7 @@ class UserService {
     }
     unlockUserAccount(id){
 
-        return axiosInstance.get(baseUrl+"auth/unlockUserAccount/"+id);
+        return axiosInstance.get(baseUrl+"accounts/unlockUserAccount/"+id);
 
     }
 
@@ -37,7 +37,7 @@ class UserService {
     // DeActivate a disable user
     deactivate(id){
 
-        return axiosInstance.get(baseUrl+"auth/deactivateUser/"+id);
+        return axiosInstance.get(baseUrl+"users/deactivateUser/"+id);
 
     }
 

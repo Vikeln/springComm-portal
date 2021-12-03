@@ -111,7 +111,7 @@ export default class SendCustomMessages extends Component {
                         buttons: [
                             {
                                 label: 'ok',
-                                onClick: () => window.location.href = "/dashboard/mysenderIds"
+                                onClick: () => window.location.href = "/portal/mysenderIds"
                             }
                         ]
                     });
@@ -617,7 +617,7 @@ export default class SendCustomMessages extends Component {
                         buttons: [
                             {
                                 label: 'ok',
-                                onClick: () => window.location.href = "/dashboard/mysenderIds"
+                                onClick: () => window.location.href = "/portal/mysenderIds"
                             }
                         ]
                     });

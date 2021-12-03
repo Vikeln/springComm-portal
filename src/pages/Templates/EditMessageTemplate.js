@@ -118,7 +118,7 @@ export default class EditMessageTemplate extends Component {
                         buttons: [
                             {
                                 label: 'Yes',
-                                onClick: () => window.location.href = "/dashboard/messagetemplates"
+                                onClick: () => window.location.href = "/portal/messagetemplates"
                             }
                         ]
                     });

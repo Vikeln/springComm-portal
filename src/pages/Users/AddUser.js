@@ -3,7 +3,6 @@
 import React, { Component } from 'react';
 
 import UserService from '../../services/user.service';
-import Notification from '../../components/notifications/Notifications';
 
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
@@ -164,7 +163,7 @@ export default class AddUser extends Component {
             if (response.data.successMessage == "success") {
               let stateCopy = Object.assign({}, this.state);
               // console.log("Role data => " + JSON.stringify(response.data.data));
-              stateCopy.formData.userPermissions = response.data.data.permissions
+              stateCopy.formData.userPermissions = response.data.data.permissions.map(x=>x.name);
                
             this.setState(stateCopy);
     
@@ -279,7 +278,7 @@ export default class AddUser extends Component {
                         buttons: [
                             {
                                 label: 'ok',
-                                onClick: () => window.location.href = "/dashboard/users"
+                                onClick: () => window.location.href = "/portal/users"
                             }
                         ]
                     });
@@ -452,7 +451,7 @@ export default class AddUser extends Component {
                                         onChange={this.handleChange}>
                                         <option value=""></option>
                                         <option value="true">Api User</option>
-                                        <option value="false">Dashboard User</option>
+                                        <option value="false">portal User</option>
                                     </select>
                                 </div>
 

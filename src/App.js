@@ -157,13 +157,13 @@ export default class App extends Component {
 
           {parseInt(authService.getCurrentClientId()) === 1 ? <>
 
-            <AdminDashboard />
+            <Adminportal />
           </>
             :
             <>
               {authenticated == true ?
                 <Route path='/' >
-                  <Dashboard
+                  <Portal
                     createUsers={this.state.createUsers}
                     viewUsers={this.state.viewUsers}
                     viewUserDetails={this.state.viewUserDetails}
@@ -175,7 +175,6 @@ export default class App extends Component {
                     editUser={this.state.editUser}
                     editRoles={this.state.editRoles} />
                 </Route>
-
 
                 :
 
@@ -202,17 +201,17 @@ export default class App extends Component {
   }
 }
 
-function AdminDashboard() {
+function Adminportal() {
 
   return (
     <>
       <Header />
-      <div id="main" className="layout-row flex">
+      <div id="main" className="layout-row">
 
-        <SideBar />
+        {/* <SideBar /> */}
         <Switch>
 
-          <Route exact path="/dashboard/adminprofile">
+          <Route exact path="/portal/adminprofile">
             <AdminAdminProfile />
           </Route>
 
@@ -220,73 +219,81 @@ function AdminDashboard() {
             <Logout />
           </Route>
 
-          <Route exact path="/dashboard/admin/sources">
+          <Route exact path="/portal/admin/sources">
             <Senders />
           </Route>
 
-          <Route exact path="/dashboard/admin/clients">
+          <Route exact path="/portal/admin/clients">
             <Clients />
           </Route>
 
-          <Route exact path="/dashboard/admin/viewclients/:id" component={SingleClient} />
+          <Route exact path="/portal/admin/viewclients/:id" component={SingleClient} />
 
-          <Route exact path="/dashboard/admin/clients/new">
+          <Route exact path="/portal/admin/clients/new">
             <AddClient />
           </Route>
 
-          <Route exact path="/dashboard/admin/ussd-codes">
+          <Route exact path="/portal/admin/ussd-codes">
             <ViewCodes />
           </Route>
 
-          <Route exact path="/dashboard/admin/ussd-codes/new">
+          <Route exact path="/portal/admin/ussd-codes/new">
             <NewCodes />
           </Route>
 
-          <Route exact path="/dashboard/admin/pricing">
+          <Route exact path="/portal/admin/pricing">
             <Pricing />
           </Route>
 
-          <Route exact path="/dashboard/admin/countries">
+          <Route exact path="/portal/admin/countries">
             <Countries />
           </Route>
 
-          <Route exact path="/dashboard/admin/documentTypes">
+          <Route exact path="/portal/admin/documentTypes">
             <DocumentTypes />
           </Route>
 
-          <Route exact path="/dashboard/sendmessages">
+          <Route exact path="/portal/sendmessages">
             <SendMessages />
           </Route>
+          
+          <Route exact path="/portal/addressBook/upload">
+            <UploadContacts />
+          </Route>
 
-          <Route exact path="/dashboard/users">
+          <Route exact path="/portal/addressBook">
+            <ManageContacts />
+          </Route>
+
+          <Route exact path="/portal/users">
             <AllUsers />
           </Route>
 
 
-          <Route exact path="/dashboard/addusers">
+          <Route exact path="/portal/addusers">
             <AddUser />
           </Route>
 
 
-          <Route exact path="/dashboard/edituser/:id" component={EditUser} ></Route>
+          <Route exact path="/portal/edituser/:id" component={EditUser} ></Route>
 
-          <Route exact path="/dashboard/viewuser/:id" component={ViewUser} />
+          <Route exact path="/portal/viewuser/:id" component={ViewUser} />
 
-          <Route exact path="/dashboard/sendmessages">
+          <Route exact path="/portal/sendmessages">
             <SendMessages />
           </Route>
-          <Route exact path="/dashboard/messages">
+          <Route exact path="/portal/messages">
             <Messages />
           </Route>
-          <Route exact path="/dashboard/inbox">
+          <Route exact path="/portal/inbox">
             <InboxMessages />
           </Route>
 
-          <Redirect exact from='/auth/login' to='/dashboard/adminProfile' />
+          <Redirect exact from='/auth/login' to='/portal/adminProfile' />
 
 
-          <Redirect exact from='/auth/forgotpassword' to='/dashboard/adminProfile' />
-          <Redirect exact from='/auth/resetpassword' to='/dashboardadminProfile' />
+          <Redirect exact from='/auth/forgotpassword' to='/portal/adminProfile' />
+          <Redirect exact from='/auth/resetpassword' to='/portaladminProfile' />
 
           <Route>
             <PageNotFound />
@@ -303,7 +310,7 @@ function AdminDashboard() {
 
 }
 
-function Dashboard(props) {
+function Portal(props) {
 
 
   const { createUsers, editUser, viewUsers, viewUserDetails, editRoles, viewRole, createRoles, viewOutbox, viewTrends, viewMessageTemplates } = props;
@@ -312,12 +319,11 @@ function Dashboard(props) {
   return (
     <>
       <Header />
-      <div id="main" className="layout-row flex">
+      <div id="main" className="layout-row">
 
-        <SideBar />
         <Switch>
 
-          <Route exact path="/dashboard/adminprofile">
+          <Route exact path="/portal/adminprofile">
               <>
                 {viewTrends == true ?
                   <AdminProfile />
@@ -328,7 +334,7 @@ function Dashboard(props) {
           </Route>
 
 
-          <Route exact path="/dashboard/welcome">
+          <Route exact path="/portal/welcome">
             <Welcome />
           </Route>
 
@@ -336,120 +342,120 @@ function Dashboard(props) {
             <Logout />
           </Route>
 
-          <Route exact path="/dashboard/addressBook/upload">
+          <Route exact path="/portal/addressBook/upload">
             <UploadContacts />
           </Route>
 
-          <Route exact path="/dashboard/addressBook">
+          <Route exact path="/portal/addressBook">
             <ManageContacts />
           </Route>
 
-          <Route exact path="/dashboard/mysenderIds">
+          <Route exact path="/portal/mysenderIds">
             <ManageSenders />
           </Route>
 
-          <Route exact path="/dashboard/transactions/:id" component={IpayPurchase} />
+          <Route exact path="/portal/transactions/:id" component={IpayPurchase} />
 
-          <Route exact path="/dashboard/checkout/:id" component={Checkout} />
+          <Route exact path="/portal/checkout/:id" component={Checkout} />
 
-          <Route exact path="/dashboard/purchase-units/:id" component={Purchase} />
+          <Route exact path="/portal/purchase-units/:id" component={Purchase} />
           
-          <Route exact path="/dashboard/ipay-purchase-units/:id" component={IpayPurchase} />
+          <Route exact path="/portal/ipay-purchase-units/:id" component={IpayPurchase} />
 
-          <Route exact path="/dashboard/my-codes">
+          <Route exact path="/portal/my-codes">
             <Codes />
           </Route>
 
-          <Route exact path="/dashboard/my-balances">
+          <Route exact path="/portal/my-balances">
             <Balances />
           </Route>
 
-          <Route exact path="/dashboard/new-code">
+          <Route exact path="/portal/new-code">
             <NewCode />
           </Route>
 
-          <Route exact path="/dashboard/my-documents">
+          <Route exact path="/portal/my-documents">
             <Documents />
           </Route>
 
           {viewUsers == true &&
-            <Route exact path="/dashboard/users">
+            <Route exact path="/portal/users">
               <AllUsers />
             </Route>
           }
 
           {createUsers == true &&
-            <Route exact path="/dashboard/addusers">
+            <Route exact path="/portal/addusers">
               <AddUser />
             </Route>
           }
 
 
-          {editUser == true && <Route exact path="/dashboard/edituser/:id" component={EditUser} ></Route>}
+          {editUser == true && <Route exact path="/portal/edituser/:id" component={EditUser} ></Route>}
 
-          {viewUserDetails == true && <Route exact path="/dashboard/viewuser/:id" component={ViewUser} />}
+          {viewUserDetails == true && <Route exact path="/portal/viewuser/:id" component={ViewUser} />}
 
-          {createRoles == true && <Route exact path="/dashboard/addroles">
+          {createRoles == true && <Route exact path="/portal/addroles">
             <CreateRole />
           </Route>}
 
-          {viewRole == true && <Route exact path="/dashboard/viewroles">
+          {viewRole == true && <Route exact path="/portal/viewroles">
             <ViewRoles />
           </Route>}
 
-          {editRoles == true && <Route exact path="/dashboard/editrole/:id" component={EditRole} ></Route>}
+          {editRoles == true && <Route exact path="/portal/editrole/:id" component={EditRole} ></Route>}
 
-          {viewRole == true && <Route exact path="/dashboard/singlerole/:id" component={SingleRole}></Route>}
+          {viewRole == true && <Route exact path="/portal/singlerole/:id" component={SingleRole}></Route>}
 
-          <Route exact path="/dashboard/integration">
+          <Route exact path="/portal/integration">
             <Integration />
           </Route>
 
-          {viewOutbox == true && <Route exact path="/dashboard/messages">
+          {viewOutbox == true && <Route exact path="/portal/messages">
             <Messages />
           </Route>}
 
-          {viewOutbox == true && <Route exact path="/dashboard/scheduled-messages">
+          {viewOutbox == true && <Route exact path="/portal/scheduled-messages">
             <ScheduledMessages />
           </Route>}
 
 
-          {viewMessageTemplates == true && <Route exact path="/dashboard/messagetemplates">
+          {viewMessageTemplates == true && <Route exact path="/portal/messagetemplates">
             <MessageTemplates />
           </Route>}
 
           {viewMessageTemplates == true &&
-            <Route exact path="/dashboard/viewmessagetemplate/:id" component={ViewMessageTemplate}>
+            <Route exact path="/portal/viewmessagetemplate/:id" component={ViewMessageTemplate}>
 
             </Route>
           }
 
           {viewMessageTemplates == true &&
-            <Route exact path="/dashboard/editmessagetemplate/:id" component={EditMessageTemplate}>
+            <Route exact path="/portal/editmessagetemplate/:id" component={EditMessageTemplate}>
 
             </Route>
           }
 
           {viewOutbox == true &&
-            <Route exact path="/dashboard/sendmessages">
+            <Route exact path="/portal/sendmessages">
               <SendMessages />
             </Route>
           }
           {viewOutbox == true &&
-            <Route exact path="/dashboard/custommessages">
+            <Route exact path="/portal/custommessages">
               <SendCustomMessages />
             </Route>
           }
-          <Route exact path="/dashboard/inbox">
+          <Route exact path="/portal/inbox">
             <InboxMessages />
           </Route>
 
 
-          <Redirect exact from='/auth/login' to='/dashboard/adminProfile' />
+          <Redirect exact from='/auth/login' to='/portal/adminProfile' />
 
 
-          <Redirect exact from='/auth/forgotpassword' to='/dashboard/adminProfile' />
-          <Redirect exact from='/auth/resetpassword' to='/dashboardadminProfile' />
+          <Redirect exact from='/auth/forgotpassword' to='/portal/adminProfile' />
+          <Redirect exact from='/auth/resetpassword' to='/portaladminProfile' />
 
           <Route>
             <PageNotFound />

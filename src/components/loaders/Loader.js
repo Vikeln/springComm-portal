@@ -36,7 +36,7 @@ export default class Loaders extends Component{
                     <div className="loader mr-auto">
                         <Loader
                              type="Oval"
-                             color="#846FA9"
+                             color="#49bcd7"
                              height={65}
                              width={65}
                          />
@@ -51,7 +51,7 @@ export default class Loaders extends Component{
                             <h5>Loading</h5>
                             <Loader
                                  type="ThreeDots"
-                                 color="#204066"
+                                 color="#49bcd7"
                                  height={40}
                                  width={40}
                              />
@@ -65,7 +65,7 @@ export default class Loaders extends Component{
                     <div className="loader">
                         <Loader
                              type="Rings"
-                             color="#204066"
+                             color="#49bcd7"
                              height={65}
                              width={65}
                          />
@@ -78,7 +78,7 @@ export default class Loaders extends Component{
                     <div className="loader">
                         <Loader
                              type="Puff"
-                             color="#204066"
+                             color="#49bcd7"
                              height={65}
                              width={65}
                          />
@@ -90,7 +90,7 @@ export default class Loaders extends Component{
                     <div className="loader overlay">
                         <Loader
                              type="Oval"
-                             color="#204066"
+                             color="#49bcd7"
                              height={65}
                              width={65}
                          />
@@ -102,7 +102,7 @@ export default class Loaders extends Component{
                     <div className="loader overlay">
                         <Loader
                              type="Puff"
-                             color="#204066"
+                             color="#49bcd7"
                              height={75}
                              width={75}
                          />
@@ -115,7 +115,7 @@ export default class Loaders extends Component{
                         
                         <Loader
                              type="Puff"
-                             color="#204066"
+                             color="#49bcd7"
                              height={65}
                              width={65}
                          />

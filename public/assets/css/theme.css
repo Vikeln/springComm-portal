@@ -74,7 +74,7 @@ h5,
 .h5,
 h6,
 .h6 {
-  color: #2b3035; }
+  color: #49bcd7; }
 
 /*
 Alert
@@ -253,7 +253,7 @@ Card
   background: #fff;
   border-width: 0;
   border-radius: 0.25rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 -1px 0px rgba(0, 0, 0, 0.015);
+  box-shadow: 0 3px 3px rgba(0, 0, 0, 0.05), 0 3px 0px rgba(0, 0, 0, 0.015);
   margin-bottom: 1.5rem; }
 
 .card-header,
@@ -1694,30 +1694,30 @@ Dark theme
 .bg-dark .ui-switch i:before,
 .bg-dark .table-theme tbody td {
   color: inherit;
-  background-color: #31363c !important; }
+  background-color: #ffffff !important; }
 
 .bg-dark .bg-body,
 .bg-dark .form-control {
   background: transparent; }
 
 .bg-dark .input-group-btn .btn {
-  background-color: rgba(135, 150, 165, 0.075); }
+  background-color: #49bcd7 }
 
 /*
 Colors
 */
 .bg-primary {
 
-  color: #ffffff !important;
-  background-color: #204066 !important;
+  color: #49bcd7 !important;
+  background-color: #ffffff !important;
 
 }
 
 .bg-primary-lt {
-  color: #0065df !important;
+  color: #fff !important;
   background-color: #d9eaff !important; }
   .bg-primary-lt:hover, .bg-primary-lt:focus, .bg-primary-lt.active {
-    color: #fff !important;
+    color: #49bcd7 !important;
     background-color: #4d4d4d !important; }
 
 .bg-primary--lt {
@@ -2194,13 +2194,13 @@ Layout
 .page-header {
   position: relative;
   z-index: 1020;
-  background-color: #204066 !important;
-  color: white;
+  background-color: #fff !important;
+  color: #49bcd7;
   transition: background-color 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .page-header .nav-item a{
-    color: #ffffff;
+    color: #49bcd7;
 }
   .page-header.sticky ~ * .page-sidenav.sticky {
     top: 3.75rem;
@@ -2269,7 +2269,7 @@ Layout
     .page-sidenav > * {
       position: fixed;
       height: 100%;
-      background-color: inherit;
+      background-color: "#49bcd7";
       transition: 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
       transform: translate3d(-100%, 0, 0);
       width: 17.5rem; }

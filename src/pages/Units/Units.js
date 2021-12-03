@@ -55,15 +55,15 @@ export default class Units extends Component {
     purchase(){
 
         
-        // window.location.href="/dashboard/ipay-purchase-units/"+this.state.clientService
-        window.location.href="/dashboard/purchase-units/"+this.state.clientService
+        // window.location.href="/portal/ipay-purchase-units/"+this.state.clientService
+        window.location.href="/portal/purchase-units/"+this.state.clientService
     }
 
    ipayPurchase(){
 
         
-        window.location.href="/dashboard/ipay-purchase-units/"+this.state.clientService
-        // window.location.href="/dashboard/purchase-units/"+this.state.clientService
+        window.location.href="/portal/ipay-purchase-units/"+this.state.clientService
+        // window.location.href="/portal/purchase-units/"+this.state.clientService
     }
     componentDidMount() {
 

@@ -127,7 +127,7 @@ export default class AddClient extends Component {
                     buttons: [
                         {
                             label: 'OK',
-                            onClick: () => window.location.href = "/dashboard/admin/clients"
+                            onClick: () => window.location.href = "/portal/admin/clients"
                         }
                     ]
                 });

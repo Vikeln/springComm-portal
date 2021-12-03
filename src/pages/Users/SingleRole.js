@@ -60,10 +60,13 @@ export default class SingleRole extends Component {
         UserService.getUserRole(roleId).then(response => {
 
             if (response.data.status == "success") {
+                let permissions = response.data.data.permissions.map(x=>x.name);
 
-                this.setState({
-                    formData: response.data.data
-                });
+                let stateCopy = Object.assign({},this.state);
+                stateCopy.formData = response.data.data;
+                stateCopy.formData.permissions = permissions;
+
+                this.setState(stateCopy);
 
             } else {
                 confirmAlert({
@@ -179,7 +182,7 @@ export default class SingleRole extends Component {
                         buttons: [
                             {
                                 label: 'Yes',
-                                onClick: () => window.location.href = "/dashboard/roles"
+                                onClick: () => window.location.href = "/portal/roles"
                             }
                         ]
                     });
@@ -335,7 +338,7 @@ export default class SingleRole extends Component {
                                     <Link
                                         className="btn-primary"
                                         type="submit"
-                                        to="/dashboard/viewroles">Back to Roles</Link>
+                                        to="/portal/viewroles">Back to Roles</Link>
 
                                     <button className="btn-primary" type="reset">Cancel</button>
 

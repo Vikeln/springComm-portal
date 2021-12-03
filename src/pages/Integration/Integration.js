@@ -84,7 +84,7 @@ export default class Integration extends Component {
 
                                 <div className="card">
                                     <div className="card-title page-title padding pb-0 ">
-                                        TRENDYMEDIA API INTEGRATION</div>
+                                        API INTEGRATION</div>
                                     <div className="card-body">
                                         <div className="row advancedSearchOptions ">
 
@@ -114,7 +114,7 @@ export default class Integration extends Component {
                                                 </div>
 
                                                 <a
-                                                    className="btn-rounded upload-download" href="/assets/files/TRENDYMEDIADocumentation.pdf"
+                                                    className="btn-rounded upload-download" href="/assets/files/TAARIFA_KENYADocumentation.pdf"
 
                                                     download>
 
@@ -126,7 +126,7 @@ export default class Integration extends Component {
                                             </div>
 
                                         </div>
-                                        Wanna try the apis out?   <a target="_blank" href="https://TRENDYMEDIA-api.mfs.co.ke/swagger-ui.html">
+                                        Wanna try the apis out?   <a target="_blank" href="https://TAARIFA_KENYA-api.mfs.co.ke/swagger-ui.html">
                                             Open Playground.</a>
                                     </div>
                                 </div>
