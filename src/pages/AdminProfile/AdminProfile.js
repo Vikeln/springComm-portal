@@ -689,7 +689,11 @@ export default class AdminProfile extends Component {
                                                 {loading == true &&
                                                     <Loader type="dots" />
                                                 }
-                                {(!loading && this.state.chartdata != "") &&
+                               
+
+                                            </div>
+                                        }
+                                         {(!loading && this.state.chartdata != "") &&
                                     <div className="row">
 
                                         <div className="col-sm-12 col-lg-12">
@@ -701,9 +705,6 @@ export default class AdminProfile extends Component {
                                         </div>
                                     </div>
                                 }
-
-                                            </div>
-                                        }
 
                                     </div>
                                 </div>

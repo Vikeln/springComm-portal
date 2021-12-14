@@ -141,6 +141,22 @@ body {
   background: #fffdfd url("../logo3.png") repeat;
 }
 
+.bootomText {
+  color: #080808 !important;
+}
+
+.footerContainer {
+  width: 100%;
+  color: #080808 !important;
+  display: flex;
+  text-align: center;
+  padding: 20px;
+  background: #49bcd7;
+  vertical-align: middle;
+  position: sticky;
+  bottom: 0;
+}
+
 button {
   cursor: pointer;
   outline: none;

@@ -91,6 +91,7 @@ import SideBar from './components/SideBar/SideBar';
 
 import AuthService from './services/auth.service';
 import authService from './services/auth.service';
+import Footer from './components/Header/Footer';
 
 export default class App extends Component {
 
@@ -308,6 +309,7 @@ function Adminportal() {
         </Switch>
 
       </div>
+      <Footer />
     </>
   )
 
@@ -470,6 +472,7 @@ function Portal(props) {
         </Switch>
 
       </div>
+      <Footer />
     </>
   )
 
@@ -481,6 +484,9 @@ function Authentication() {
   return (
 
     <>
+    
+    <div id="main">
+
       <Switch>
 
 
@@ -507,6 +513,8 @@ function Authentication() {
 
 
       </Switch>
+      </div>
+      <Footer />
     </>
 
   )
