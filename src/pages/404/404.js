@@ -20,7 +20,7 @@ export default class PageNotFound extends Component{
 
         setTimeout(() => {
 
-          window.location.href="/portal/adminProfile";
+          window.location.href="/";
 
       }, 2000);
     }

@@ -20,7 +20,7 @@ export default class LoginRedirect extends Component{
 
         if(AuthService.getCurrentUser() == null){
 
-            window.location.href = '/auth/login';
+            window.location.href = '/';
 
         }
 

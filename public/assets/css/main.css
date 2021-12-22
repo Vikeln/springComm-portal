@@ -177,6 +177,16 @@ button {
   padding-bottom: 5px;
 }
 
+.btn-login {
+  color: #ffffff;
+  padding-left: 20px;
+  background: #49bcd7;
+  padding-right: 20px;
+  margin-right: 20px;
+  padding-top: 7px;
+  padding-bottom: 5px;
+}
+
 .nav-link {
   color: #49bcd7 !important;
 }
@@ -397,13 +407,35 @@ form textarea {
   transition: all 0.3s;
 }
 
-.authenticationBackgroundInner {
-  background: #49bcd7;
+.landingTop {
+  background: #baebf7;
+  width: 100%;
+  background-size: cover;
+  border-bottom-left-radius: 50%;
+  border-bottom-right-radius: 50%;
+  margin-top: 30px;
+  padding-top: 50px;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.bottom-right {
+  position: absolute;
+  bottom: 8px;
+  right: 16px;
+}
+
+/* Centered text */
+.centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .authenticationBackground {
-  background: #49bcd7 center center fixed;
-  height: 100vh;
+  background: #baebf7 center center fixed;
+  width: 100%;
   background-size: 70%;
   -webkit-background-size: cover;
   -moz-background-size: cover;

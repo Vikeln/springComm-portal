@@ -24,7 +24,9 @@ export const axiosInstance = axios.create({
 
 
 
-export const baseUrl = "http://localhost:8080/";
-export const clientBaseUrl = "http://localhost:8081/";
+// export const baseUrl = "http://localhost:8080/";
+export const baseUrl = "http://bridge-api.taarifaflykenya.co.ke:8080/";
+// export const clientBaseUrl = "http://localhost:8081/";
+export const clientBaseUrl = "http://client-api.taarifaflykenya.co.ke:8081/";
 export const ipayKeyString = "demoCHANGED";
 export const appKey = process.env.REACT_APP_KEY;

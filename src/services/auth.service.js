@@ -64,7 +64,7 @@ class AuthService {
         localStorage.removeItem("clientName");
         localStorage.removeItem("name");
         localStorage.removeItem("accessToken");
-        window.location.href="/auth/login";
+        window.location.href="/";
         window.location.reload();
 
     }

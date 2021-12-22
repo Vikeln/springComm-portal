@@ -92,6 +92,9 @@ import SideBar from './components/SideBar/SideBar';
 import AuthService from './services/auth.service';
 import authService from './services/auth.service';
 import Footer from './components/Header/Footer';
+import Home from './pages/Home';
+import Case from './pages/Cases';
+import Contacts from './pages/Contacts';
 
 export default class App extends Component {
 
@@ -156,10 +159,12 @@ export default class App extends Component {
 
         <Router>
 
-          {parseInt(authService.getCurrentClientId()) === 1 ? <>
+          {parseInt(authService.getCurrentClientId()) === 1 ?
 
-            <Adminportal />
-          </>
+            <>
+
+              <Adminportal />
+            </>
             :
             <>
               {authenticated == true ?
@@ -212,6 +217,7 @@ function Adminportal() {
         {/* <SideBar /> */}
         <Switch>
 
+
           <Route exact path="/portal/adminprofile">
             <AdminAdminProfile />
           </Route>
@@ -257,7 +263,7 @@ function Adminportal() {
           <Route exact path="/portal/sendmessages">
             <SendMessages />
           </Route>
-          
+
           <Route exact path="/portal/addressBook/upload">
             <UploadContacts />
           </Route>
@@ -291,6 +297,10 @@ function Adminportal() {
           </Route>
           <Route exact path="/portal/inbox">
             <InboxMessages />
+          </Route>
+
+          <Route path='/' >
+            <Home />
           </Route>
 
           <Redirect exact from='/auth/login' to='/portal/adminProfile' />
@@ -329,13 +339,13 @@ function Portal(props) {
         <Switch>
 
           <Route exact path="/portal/adminprofile">
-              <>
-                {viewTrends == true ?
-                  <AdminProfile />
-                  :
-                  <Welcome />
-                }
-              </>
+            <>
+              {viewTrends == true ?
+                <AdminProfile />
+                :
+                <Welcome />
+              }
+            </>
           </Route>
 
 
@@ -364,7 +374,7 @@ function Portal(props) {
           <Route exact path="/portal/checkout/:id" component={Checkout} />
 
           <Route exact path="/portal/purchase-units/:id" component={Purchase} />
-          
+
           <Route exact path="/portal/ipay-purchase-units/:id" component={IpayPurchase} />
 
           <Route exact path="/portal/my-codes">
@@ -455,6 +465,9 @@ function Portal(props) {
             <InboxMessages />
           </Route>
 
+          <Route path='/' >
+            <Home />
+          </Route>
 
           <Redirect exact from='/auth/login' to='/portal/adminProfile' />
 
@@ -478,41 +491,53 @@ function Portal(props) {
 
 }
 
+
 function Authentication() {
 
 
   return (
 
     <>
-    
-    <div id="main">
 
-      <Switch>
+      <Header />
+      <div id="main" className="layout-row">
 
-
-
-        <Route path='/auth/login' >
-          <Login />
-        </Route>
-
-        <Route path='/auth/resetpassword/:userID' component={ResetPassword} />
-
-        <Route path='/auth/forgotpassword'>
-          <ForgotPassword />
-        </Route>
-
-        <Route path='/auth/register'>
-          <Register />
-        </Route>
-
-        <Route>
-          <LoginRedirect />
-        </Route>
+        <Switch>
 
 
+          <Route path='/contacts' >
+            <Contacts />
+          </Route>
+
+          <Route path='/industries' >
+            <Case />
+          </Route>
+
+          <Route path='/auth/login' >
+            <Login />
+          </Route>
+
+          <Route path='/auth/resetpassword/:userID' component={ResetPassword} />
+
+          <Route path='/auth/forgotpassword'>
+            <ForgotPassword />
+          </Route>
+
+          <Route path='/auth/register'>
+            <Register />
+          </Route>
 
 
-      </Switch>
+          <Route path='/' >
+            <Home />
+          </Route>
+
+          <Route>
+            <LoginRedirect />
+          </Route>
+
+
+        </Switch>
       </div>
       <Footer />
     </>

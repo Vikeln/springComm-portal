@@ -2,13 +2,6 @@
 
 import React, { Component } from 'react';
 
-import {
-    Link,
-} from "react-router-dom";
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleDown, faBars } from '@fortawesome/free-solid-svg-icons';
-
 import AuthService from '../../services/auth.service';
 import authService from '../../services/auth.service';
 
@@ -47,14 +40,25 @@ export default class Header extends Component {
             editTemplate: authService.checkIfRoleExists("CAN_EDIT_MESSAGE_TEMPLATE"),
             createTemplate: authService.checkIfRoleExists("CAN_CREATE_MESSAGE_TEMPLATE"),
             sendMessages: authService.checkIfRoleExists("CAN_SEND_MESSAGE"),
-            value: this.props.value
+            value: this.props.value,
+            authenticated: false,
         }
 
         this.logoutUser = this.logoutUser.bind(this);
-
     }
 
     componentDidMount() {
+        if (AuthService.getCurrentUser() == null) {
+            this.setState({
+                authenticated: false,
+            });
+
+        } else {
+
+            this.setState({
+                authenticated: true,
+            });
+        }
 
         if ($(window).width() < 1024) {
 
@@ -81,7 +85,7 @@ export default class Header extends Component {
 
     render() {
 
-        const { createUsers, adminPanel } = this.state;
+        const { authenticated, adminPanel } = this.state;
 
 
         return (
@@ -89,11 +93,11 @@ export default class Header extends Component {
             <>
                 <header id="header" className="page-header bg-white box-shadow animate fadeInDown  ">
                     <nav class="navbar navbar-expand-lg ml-auto navbar-light " >
-                        
-                            <a href={adminPanel == true ? "/portal/adminprofile": "/portal/welcome"} className="navbar-brand">
-                                <img className="navbar-brand avatar" src="../logo.png" alt="TAARIFA." /> 
-                                {/* TAARIFASMS */}
-                            </a>
+
+                        <a href="/" className="navbar-brand">
+                            <img className="navbar-brand avatar" src="../logo.png" alt="TAARIFA." />
+
+                        </a>
 
                         {/* <a class="navbar-brand" href="/portal">
                             {authService.getCurrentClientName() != undefined ? authService.getCurrentClientName().toUpperCase() : "SPRING"}
@@ -104,94 +108,135 @@ export default class Header extends Component {
 
                         <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
 
-                            <ul class="navbar-nav">
-                                <li class="nav-item ml-auto">
-                                    <a class="nav-link" href="/portal/integration">API</a>
-                                </li>
-                            </ul>
-                            <ul class="navbar-nav">
-
-
-
-                                {authService.getCurrentClientId() === "1" &&
-                                    <>
-                                        <li class="nav-item dropdown ml-auto">
-                                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <span>Clients</span>
+                            {authenticated ?
+                                <>
+                                    <ul class="navbar-nav">
+                                        <li class="nav-item ml-auto">
+                                            <a href="/" className="nav-link">
+                                                Home
                                             </a>
-                                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                                <a class="dropdown-item" href="/portal/admin/clients">View Clients</a>
-                                                <a class="dropdown-item" href="/portal/admin/clients/new">New Client</a>
-                                            </div>
                                         </li>
-                                    </>
-                                }
-                                <li class="nav-item dropdown ml-auto">
-                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <span>Address Book</span>
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <li class="nav-item ml-auto">
+                                            <a href={adminPanel == true ? "/portal/adminprofile" : "/portal/welcome"} className="nav-link">
+                                                Dashboard
+                                            </a>
+                                        </li>
+                                        <li class="nav-item ml-auto">
+                                            <a class="nav-link" href="/portal/integration">API</a>
+                                        </li>
+                                    </ul>
+                                    <ul class="navbar-nav">
 
-                                        <a class="dropdown-item" href="/portal/addressBook/upload">Upload New</a>
-                                        <a class="dropdown-item" href="/portal/addressBook">List</a>
-                                    </div>
-                                </li>
 
-                                <li class="nav-item dropdown ml-auto">
-                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <span>SMS</span>
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
 
-                                        <a class="dropdown-item" href="/portal/sendmessages">New</a>
-                                        <a class="dropdown-item" href="/portal/inbox">Inbox</a>
-                                        <a class="dropdown-item" href="/portal/messages">Outbox</a>
-                                        {authService.getCurrentClientId() != "1" &&
+                                        {authService.getCurrentClientId() === "1" &&
                                             <>
-                                                <a class="dropdown-item" href="/portal/custommessages">Custom</a>
-                                                <a class="dropdown-item" href="/portal/scheduled-messages">Scheduled</a>
-                                                <a class="dropdown-item" href="/portal/messagetemplates">Templates</a>
+                                                <li class="nav-item dropdown ml-auto">
+                                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        <span>Clients</span>
+                                                    </a>
+                                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                                        <a class="dropdown-item" href="/portal/admin/clients">View Clients</a>
+                                                        <a class="dropdown-item" href="/portal/admin/clients/new">New Client</a>
+                                                    </div>
+                                                </li>
                                             </>
                                         }
-                                    </div>
-                                </li>
+                                        <li class="nav-item dropdown ml-auto">
+                                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <span>Address Book</span>
+                                            </a>
+                                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+                                                <a class="dropdown-item" href="/portal/addressBook/upload">Upload New</a>
+                                                <a class="dropdown-item" href="/portal/addressBook">List</a>
+                                            </div>
+                                        </li>
+
+                                        <li class="nav-item dropdown ml-auto">
+                                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <span>SMS</span>
+                                            </a>
+                                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+                                                <a class="dropdown-item" href="/portal/sendmessages">New</a>
+                                                <a class="dropdown-item" href="/portal/inbox">Inbox</a>
+                                                <a class="dropdown-item" href="/portal/messages">Outbox</a>
+                                                {authService.getCurrentClientId() != "1" &&
+                                                    <>
+                                                        <a class="dropdown-item" href="/portal/custommessages">Custom</a>
+                                                        <a class="dropdown-item" href="/portal/scheduled-messages">Scheduled</a>
+                                                        <a class="dropdown-item" href="/portal/messagetemplates">Templates</a>
+                                                    </>
+                                                }
+                                            </div>
+                                        </li>
 
 
-                                <li class="nav-item ml-auto">
-                                    <a class="nav-link" href={authService.getCurrentClientId() === "1" ? "/portal/admin/sources" : "/portal/mysenderIds"}>Sender IDs</a>
-                                </li>
-                                <li class="nav-item dropdown ml-auto">
-                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <span>Settings</span>
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <li class="nav-item ml-auto">
+                                            <a class="nav-link" href={authService.getCurrentClientId() === "1" ? "/portal/admin/sources" : "/portal/mysenderIds"}>Sender IDs</a>
+                                        </li>
+                                        <li class="nav-item dropdown ml-auto">
+                                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <span>Settings</span>
+                                            </a>
+                                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
 
-                                        {authService.getCurrentClientId() === "1" ?
-                                            <>
-                                                <a class="dropdown-item" href="/portal/admin/countries">Countries</a>
-                                                <a class="dropdown-item" href="/portal/admin/documentTypes">Document Types</a>
-                                                <a class="dropdown-item" href="/portal/admin/pricing">Pricing</a>
-                                                <div class="dropdown-divider"></div>
-                                                <a class="dropdown-item" href="/portal/users">All Admin Users</a>
-                                                <a class="dropdown-item" href="/portal/addusers">New Admin</a>
-                                            </> : <>
-                                                <a class="dropdown-item" href="/portal/my-documents">My Documents</a>
-                                                <a class="dropdown-item" href="/portal/my-balances">My Balances</a>
-                                                <div class="dropdown-divider"></div>
-                                                <a class="dropdown-item" href="/portal/users">Users</a>
-                                                <a class="dropdown-item" href="/portal/viewroles">Roles</a>
-                                            </>}
-                                    </div>
-                                </li>
-                                <li class="nav-item dropdown ml-auto">
-                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <span>{this.state.user}</span>
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item" href="/logout">Sign Out</a>
-                                    </div>
-                                </li>
-                            </ul>
+                                                {authService.getCurrentClientId() === "1" ?
+                                                    <>
+                                                        <a class="dropdown-item" href="/portal/admin/countries">Countries</a>
+                                                        <a class="dropdown-item" href="/portal/admin/documentTypes">Document Types</a>
+                                                        <a class="dropdown-item" href="/portal/admin/pricing">Pricing</a>
+                                                        <div class="dropdown-divider"></div>
+                                                        <a class="dropdown-item" href="/portal/users">All Admin Users</a>
+                                                        <a class="dropdown-item" href="/portal/addusers">New Admin</a>
+                                                    </> : <>
+                                                        <a class="dropdown-item" href="/portal/my-documents">My Documents</a>
+                                                        <a class="dropdown-item" href="/portal/my-balances">My Balances</a>
+                                                        <div class="dropdown-divider"></div>
+                                                        <a class="dropdown-item" href="/portal/users">Users</a>
+                                                        <a class="dropdown-item" href="/portal/viewroles">Roles</a>
+                                                    </>}
+                                            </div>
+                                        </li>
+                                        <li class="nav-item dropdown ml-auto">
+                                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <span>{this.state.user}</span>
+                                            </a>
+                                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                                <a class="dropdown-item" href="/logout">Sign Out</a>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </>
+                                :
+
+                                <ul class="navbar-nav ml-auto">
+
+
+                                    <li class="nav-item ml-auto">
+                                        <a href="/" className="nav-link">
+                                            Home
+                                        </a>
+                                    </li>
+                                    <li class="nav-item ml-auto">
+                                        <a href="/industries" className="nav-link">Industries</a>
+                                    </li>
+
+                                    <li class="nav-item ml-auto">
+                                        <a href="/contacts" className="nav-link">Contact Us</a>
+                                    </li>
+
+                                    {/* <li class="nav-item ml-auto">
+                                        <a href="/auth/login" className="nav-link">
+                                            <button className="btn btn-rounded">
+                                                Login
+                                                </button>
+                                        </a>
+                                    </li> */}
+                                </ul>
+
+                            }
                         </div>
                     </nav>
 
